@@ -20,3 +20,4 @@ repos:
     hooks:
     -   id: flake8
         exclude: test_*
+        args: [--max-line-length=88]
