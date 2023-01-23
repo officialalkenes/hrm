@@ -39,4 +39,7 @@ class Booking(models.Model):
     )
     start_date = models.DateField()
     end_date = models.DateField()
+    preferred_entry_time = models.TimeField()
+    default_exit_time = models.TimeField()
     status = models.CharField(max_length=255)
+    has_checked_out = models.BooleanField(default=False)
