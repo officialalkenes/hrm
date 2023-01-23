@@ -1,7 +1,9 @@
 from django.shortcuts import get_object_or_404, redirect, render
 
 from django.views.generic import CreateView, FormView, ListView, UpdateView, DetailView
+from apps.hotel.availability import check_availability
 
+from apps.hotel.forms import AvailabilityForm
 
 from .models import Room, Booking
 
@@ -39,3 +41,17 @@ def room_detail(request, slug):
 class CreateRoom(CreateView):
     model = Room
     fields = ""
+
+
+class BookingView(FormView):
+    form_class = AvailabilityForm
+    template_name = ""
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        category = data["room_category"]
+        room_list = Room.objects.filter(room_type=category)
+        check_in = data["check_in"]
+        check_out = data["check_out"]
+        check_availability(room_list, check_in, check_out)
+        return super().form_valid(form)
