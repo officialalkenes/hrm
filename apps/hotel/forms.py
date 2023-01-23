@@ -15,3 +15,19 @@ class AvailabilityForm(forms.Form):
             "check_in": forms.TextInput(attrs={"type": "date"}),
             "check_out": forms.TextInput(attrs={"type": "date"}),
         }
+
+
+class RoomForm(forms.ModelForm):
+    class Meta:
+        model = Room
+        fields = (
+            "room_name",
+            "room_number",
+            "room_type",
+            "price",
+            "capacity",
+            "beds",
+            "image",
+            "description",
+            "is_available",
+        )
