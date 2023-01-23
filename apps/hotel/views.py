@@ -1,10 +1,11 @@
 from django.shortcuts import get_object_or_404, redirect, render
 
+from django.urls import reverse_lazy
+
 from django.views.generic import CreateView, FormView, ListView, UpdateView, DetailView
 from apps.hotel.availability import check_availability
 
-from apps.hotel.forms import AvailabilityForm
-from apps.hotel.utils import get_room
+from apps.hotel.forms import AvailabilityForm, RoomForm, RoomImageFormset
 
 from .models import Room, Booking
 
@@ -64,3 +65,33 @@ class BookingSelectionView(FormView):
         if len(available_rooms) == 0:
             return redirect("hotels:no-room-found")
         return super().form_valid(form)
+
+
+class RoomCreateView(CreateView):
+    model = Room
+    form_class = RoomForm
+    success_url = reverse_lazy("products")
+    template_name = ""
+
+    def get_context_data(self, **kwargs):
+        context = super(RoomCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context["formset"] = RoomImageFormset(self.request.POST, self.request.FILES)
+        else:
+            context["formset"] = RoomImageFormset()
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        form.instance.user = self.request.user
+        formset = context["formset"]
+        if formset.is_valid():
+            self.object = form.save()
+            formset.instance = self.object
+            formset.save()
+            return super(RoomCreateView, self).form_valid(form)
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+
+create_room = RoomCreateView.as_view()

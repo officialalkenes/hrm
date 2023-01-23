@@ -1,6 +1,8 @@
 from django import forms
 
-from .models import Room, Booking
+from django.forms import inlineformset_factory
+
+from .models import Room, Booking, RoomImage
 
 
 class AvailabilityForm(forms.Form):
@@ -15,6 +17,15 @@ class AvailabilityForm(forms.Form):
             "check_in": forms.TextInput(attrs={"type": "date"}),
             "check_out": forms.TextInput(attrs={"type": "date"}),
         }
+
+
+RoomImageFormset = inlineformset_factory(
+    Room,
+    RoomImage,
+    fields=[
+        "image",
+    ],
+)
 
 
 class RoomForm(forms.ModelForm):
