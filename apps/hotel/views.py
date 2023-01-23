@@ -4,5 +4,8 @@ from .models import Room, Booking
 
 
 def homepage(request):
-    context = {}
+    rooms = Room.objects.all()[:5]
+    context = {
+        "rooms": rooms,
+    }
     return render(request, "", context)

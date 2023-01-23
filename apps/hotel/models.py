@@ -7,10 +7,16 @@ from django.utils.translation import gettext_lazy as _
 User = get_user_model()
 
 
+class RoomType(models.Model):
+    types = models.CharField(max_length=100)
+
+
 class Room(models.Model):
     room_name = models.CharField(max_length=255, unique=True)
     room_number = models.CharField(max_length=255, unique=True)
-    room_type = models.CharField(max_length=255)
+    room_type = models.ForeignKey(
+        RoomType, on_delete=models.CASCADE, related_name=_("+")
+    )
     price = models.DecimalField(max_digits=8, decimal_places=2)
     capacity = models.PositiveIntegerField(verbose_name=_("Maximum People per room"))
     beds = models.PositiveIntegerField(verbose_name=_("Number of Beds"))
