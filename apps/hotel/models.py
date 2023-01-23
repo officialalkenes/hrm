@@ -50,8 +50,9 @@ class Booking(models.Model):
     status = models.CharField(max_length=255)
     has_checked_out = models.BooleanField(default=False)
 
+    @property
     def days_difference(self):
-        return (self.end_date - self.start_date).days
+        return (self.checked_out - self.check_in).days
 
     @property
     def get_price_per_difference(self):
