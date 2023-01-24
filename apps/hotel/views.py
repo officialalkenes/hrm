@@ -19,8 +19,10 @@ from .models import Event, Room, Booking, RoomType
 
 def homepage(request):
     specials = Room.objects.all()[:5]
+    room_cats = RoomType.objects.all()
     context = {
         "specials": specials,
+        "room_cats": room_cats,
     }
     return render(request, "", context)
 
@@ -66,6 +68,26 @@ class CreateRoom(CreateView):
 def room_categories(request):
     room_cat = RoomType.objects.all()
     context = {"cats": room_cat}
+    return render(request, "", context)
+
+
+def category_details(request, slug):
+    try:
+        room_cat = RoomType.objects.filter(slug=slug).first()
+    except RoomType.DoesNotExist:
+        pass
+    rooms = Room.objects.filter(room_type=room_cat)
+    available_rooms = []
+    booked_rooms = []
+    for room in rooms:
+        if check_availability(room, room.checkin, room.checkout):
+            available_rooms.append(room)
+        else:
+            booked_rooms.append(room)
+    context = {
+        "available_rooms": available_rooms,
+        "booked_rooms": booked_rooms,
+    }
     return render(request, "", context)
 
 

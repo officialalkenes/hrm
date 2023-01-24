@@ -8,9 +8,18 @@ from django.utils.translation import gettext_lazy as _
 User = get_user_model()
 
 
+def room_type_image_path(instance, filename):
+    return f"rooms/{instance.types}/{filename}"
+
+
+def room_image_path(instance, filename):
+    return f"rooms/{instance.room_number}/{instance.room_type.types}/{filename}"
+
+
 class RoomType(models.Model):
     types = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, blank=True)
+    image_repr = models.ImageField(upload_to=room_type_image_path)
 
     def __str__(self):
         return f"{self.name}"
@@ -21,7 +30,6 @@ class RoomType(models.Model):
 
 
 class Room(models.Model):
-    room_name = models.CharField(max_length=255, unique=True)
     room_number = models.CharField(max_length=255, unique=True)
     room_type = models.ForeignKey(
         RoomType, on_delete=models.CASCADE, related_name=_("+")
@@ -29,7 +37,7 @@ class Room(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
     capacity = models.PositiveIntegerField(verbose_name=_("Maximum People per room"))
     beds = models.PositiveIntegerField(verbose_name=_("Number of Beds"))
-    image = models.ImageField(upload_to="rooms/")
+    image = models.ImageField(upload_to=room_image_path)
     description = models.TextField()
     is_available = models.BooleanField(default=True)
 
@@ -98,3 +106,23 @@ class EventBooking(models.Model):
         if (self.check_out - self.check_in).days() == 0:
             return 1
         return (self.check_out - self.check_in).days()
+
+
+class BookingRefund(models.Model):
+    guest = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    reservation = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    reason = models.TextField()
+
+    def __str__(self):
+        return str(self.guest)
+
+
+class RoomServices(models.Model):
+    # service = models.()
+    current_booking = models.ForeignKey(
+        Booking, on_delete=models.CASCADE, related_name=_("+")
+    )
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name=_("+"))
+
+    def __str__(self) -> str:
+        return f"{self.room}"
