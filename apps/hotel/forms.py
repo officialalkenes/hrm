@@ -25,6 +25,7 @@ RoomImageFormset = inlineformset_factory(
     fields=[
         "image",
     ],
+    extra=2,
 )
 
 

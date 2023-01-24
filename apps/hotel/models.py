@@ -60,8 +60,20 @@ class Booking(models.Model):
         return total
 
 
+class Event(models.Model):
+    customer = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name=_("event_user")
+    )
+    name = models.CharField(
+        max_length=100, verbose_name=_("Event"), help_text=_("event: bridal shower")
+    )
+    slug = models.SlugField(max_length=300, blank=True)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    capacity = models.PositiveIntegerField(verbose_name=_("Maximum People per room"))
+
+
 class HallBooking(models.Model):
-    hall = ""
+    hall = models.ForeignKey(Event, on_delete=models.CASCADE, related_name=_("+"))
     customer = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name=_("client")
     )
@@ -71,3 +83,9 @@ class HallBooking(models.Model):
     default_exit_time = models.TimeField()
     status = models.CharField(max_length=255)
     has_checked_out = models.BooleanField(default=False)
+
+    @property
+    def get_days(self):
+        if (self.check_out - self.check_in).days() == 0:
+            return 1
+        return (self.check_out - self.check_in).days()

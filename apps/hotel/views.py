@@ -95,3 +95,39 @@ class RoomCreateView(CreateView):
 
 
 create_room = RoomCreateView.as_view()
+
+
+class UpdateRoomView(UpdateView):
+    model = Room
+    form_class = RoomForm
+    template_name = ".html"
+    success_url = reverse_lazy("my_model_list")
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        inline_formset = RoomImageFormset(instance=self.object)
+        return self.render_to_response(
+            self.get_context_data(form=form, inline_formset=inline_formset)
+        )
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        inline_formset = RoomImageFormset(request.POST, instance=self.object)
+        if form.is_valid() and inline_formset.is_valid():
+            return self.form_valid(form, inline_formset)
+        else:
+            return self.form_invalid(form, inline_formset)
+
+    def form_valid(self, form, inline_formset):
+        self.object = form.save()
+        inline_formset.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form, inline_formset):
+        return self.render_to_response(
+            self.get_context_data(form=form, inline_formset=inline_formset)
+        )
