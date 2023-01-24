@@ -2,12 +2,19 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from django.urls import reverse_lazy
 
-from django.views.generic import CreateView, FormView, ListView, UpdateView, DetailView
+from django.views.generic import (
+    CreateView,
+    FormView,
+    ListView,
+    UpdateView,
+    DetailView,
+    View,
+)
 from apps.hotel.availability import check_availability
 
-from apps.hotel.forms import AvailabilityForm, RoomForm, RoomImageFormset
+from apps.hotel.forms import AvailabilityForm, EventForm, RoomForm, RoomImageFormset
 
-from .models import Room, Booking
+from .models import Event, Room, Booking, RoomType
 
 
 def homepage(request):
@@ -16,6 +23,14 @@ def homepage(request):
         "specials": specials,
     }
     return render(request, "", context)
+
+
+def events(request):
+    events = Event.objects.all()
+    context = {
+        "events": events,
+    }
+    return render(request, "events.html", context)
 
 
 def all_rooms(request):
@@ -48,8 +63,54 @@ class CreateRoom(CreateView):
     fields = ""
 
 
-class BookingSelectionView(FormView):
+def room_categories(request):
+    room_cat = RoomType.objects.all()
+    context = {"cats": room_cat}
+    return render(request, "", context)
+
+
+# class CategoryDetailView(View):
+#     def get(self, request, *args, **kwargs):
+#         category = self.kwargs.get('slug', None)
+#         form = AvailabilityForm()
+#         rooms = Room.objects.filter(category=category)
+#         if len(rooms) > 0:
+#             room_category = rooms[0].room_type.name
+#             context = {
+#                 'category': room_category,
+#                 'form': form}
+#             return render(request, '', context)
+#         return redirect("cat-error")
+
+#     def post(self, request, *args, **kwargs):
+#         category = self.kwargs.get('slug', None)
+#         rooms = Room.objects.filter(category=category)
+#         rooms_available = []
+#         for room in rooms:
+#             ...
+
+
+class BookingRoomView(FormView):
     form_class = AvailabilityForm
+    template_name = ""
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        category = data["room_category"]
+        room_list = Room.objects.filter(room_type=category)
+        available_rooms = []
+        checkin = data["check_in"]
+        checkout = data["check_out"]
+        for room in room_list:
+            if check_availability(room, checkin, checkout):
+                available_rooms.append(room)
+        if len(available_rooms) == 0:
+            return redirect("hotels:no-room-found")
+        return super().form_valid(form)
+
+
+class BookingEventView(FormView):
+    form_class = EventForm
     template_name = ""
 
     def form_valid(self, form):

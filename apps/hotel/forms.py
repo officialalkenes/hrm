@@ -43,3 +43,7 @@ class RoomForm(forms.ModelForm):
             "description",
             "is_available",
         )
+
+
+class EventForm(forms.ModelForm):
+    pass

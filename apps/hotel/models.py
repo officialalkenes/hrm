@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 
 from django.db import models
 
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
@@ -9,6 +10,14 @@ User = get_user_model()
 
 class RoomType(models.Model):
     types = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, blank=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.types)
+        return super().save(self, *args, **kwargs)
 
 
 class Room(models.Model):
@@ -72,7 +81,7 @@ class Event(models.Model):
     capacity = models.PositiveIntegerField(verbose_name=_("Maximum People per room"))
 
 
-class HallBooking(models.Model):
+class EventBooking(models.Model):
     hall = models.ForeignKey(Event, on_delete=models.CASCADE, related_name=_("+"))
     customer = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name=_("client")
