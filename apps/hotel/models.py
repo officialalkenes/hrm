@@ -58,3 +58,16 @@ class Booking(models.Model):
     def get_price_per_difference(self):
         total = self.days_difference * self.room.price
         return total
+
+
+class HallBooking(models.Model):
+    hall = ""
+    customer = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name=_("client")
+    )
+    check_in = models.DateField()
+    check_out = models.DateField()
+    preferred_entry_time = models.TimeField()
+    default_exit_time = models.TimeField()
+    status = models.CharField(max_length=255)
+    has_checked_out = models.BooleanField(default=False)

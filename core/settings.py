@@ -3,6 +3,7 @@ from pathlib import Path
 
 from decouple import config
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,7 +27,9 @@ LOCAL_APPS = [
     "django.contrib.staticfiles",
 ]
 
-CUSTOM_APPS = []
+CUSTOM_APPS = [
+    "apps.user",
+]
 
 THIRD_PARTY_APPS = []
 
