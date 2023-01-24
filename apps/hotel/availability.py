@@ -11,5 +11,5 @@ def check_availability(room, checkin, checkout):
         if booking.check_in > checkout or booking.check_out < checkin:
             available_list.append(True)
         available_list.append(False)
-
+    print(all(available_list))
     return all(available_list)
