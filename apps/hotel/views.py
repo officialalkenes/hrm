@@ -17,6 +17,10 @@ from apps.hotel.forms import AvailabilityForm, EventForm, RoomForm, RoomImageFor
 from .models import Event, Room, Booking, RoomType
 
 
+def test(request):
+    return render(request, "hotel/index.html")
+
+
 def homepage(request):
     specials = Room.objects.all()[:5]
     room_cats = RoomType.objects.all()
@@ -24,7 +28,7 @@ def homepage(request):
         "specials": specials,
         "room_cats": room_cats,
     }
-    return render(request, "", context)
+    return render(request, "hotel/home.html", context)
 
 
 def events(request):
