@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 
+from django.contrib import messages
+
 from django.urls import reverse_lazy
 
 from django.views.generic import (
@@ -12,7 +14,13 @@ from django.views.generic import (
 )
 from apps.hotel.availability import check_availability
 
-from apps.hotel.forms import AvailabilityForm, EventForm, RoomForm, RoomImageFormset
+from apps.hotel.forms import (
+    AvailabilityForm,
+    EventForm,
+    RoomDetailAvailabilityForm,
+    RoomForm,
+    RoomImageFormset,
+)
 
 from .models import Event, Room, Booking, RoomType
 
@@ -32,7 +40,7 @@ def events(request):
     context = {
         "events": events,
     }
-    return render(request, "events.html", context)
+    return render(request, "hotel/events.html", context)
 
 
 def all_rooms(request):
@@ -58,6 +66,39 @@ def room_detail(request, slug):
         "related_room": related_room,
     }
     return render(request, "", context)
+
+
+class RoomDetailView(View):
+    def get(self, request, slug):
+        try:
+            room = get_object_or_404(Room, self.slug)
+            types = room.type
+            # if check_availability(room, checkin, checkout):
+            #     availablity = True
+            # availablity = False
+        except Room.DoesNotExist:
+            pass
+        related_room = Room.objects.filter(room_type=types)[:4]
+        context = {
+            "room": room,
+            "related_room": related_room,
+        }
+        return render(request, "", context)
+
+    def post(self, request, slug):
+        room = Room.objects.get(slug=slug)
+        form = RoomDetailAvailabilityForm()
+        if request.method == "POST":
+            form = RoomDetailAvailabilityForm(request.POST)
+            if form.is_valid():
+                checkin = form.get("check_in", None)
+                checkout = form.get("check_out", None)
+                if check_availability(room, checkin, checkout):
+                    messages.success("Room is Available. You can book now")
+                else:
+                    messages.info("Room is Booked. Check back next time")
+        context = {}
+        return render(request, "", context)
 
 
 class CreateRoom(CreateView):

@@ -19,6 +19,12 @@ class AvailabilityForm(forms.Form):
         }
 
 
+class RoomDetailAvailabilityForm(forms.Form):
+    room = forms.CharField(max_length=100)
+    check_in = forms.DateField()
+    check_out = forms.DateField()
+
+
 RoomImageFormset = inlineformset_factory(
     Room,
     RoomImage,
