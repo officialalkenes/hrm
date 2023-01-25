@@ -39,7 +39,6 @@ class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
         fields = (
-            "room_name",
             "room_number",
             "room_type",
             "price",

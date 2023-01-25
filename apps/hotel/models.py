@@ -57,9 +57,7 @@ class RoomImage(models.Model):
 
 class Booking(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    customer = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name=_("client")
-    )
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name=_("+"))
     check_in = models.DateField()
     check_out = models.DateField()
     preferred_entry_time = models.TimeField()
@@ -78,9 +76,7 @@ class Booking(models.Model):
 
 
 class Event(models.Model):
-    customer = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name=_("event_user")
-    )
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name=_("+"))
     name = models.CharField(
         max_length=100, verbose_name=_("Event"), help_text=_("event: bridal shower")
     )
@@ -91,9 +87,7 @@ class Event(models.Model):
 
 class EventBooking(models.Model):
     hall = models.ForeignKey(Event, on_delete=models.CASCADE, related_name=_("+"))
-    customer = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name=_("client")
-    )
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name=_("+"))
     check_in = models.DateField()
     check_out = models.DateField()
     preferred_entry_time = models.TimeField()
