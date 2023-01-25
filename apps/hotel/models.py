@@ -126,3 +126,15 @@ class RoomServices(models.Model):
 
     def __str__(self) -> str:
         return f"{self.room}"
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    subject = models.CharField(max_length=100)
+    message = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"{self.name} - {self.subject}"

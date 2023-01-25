@@ -2,7 +2,7 @@ from django import forms
 
 from django.forms import inlineformset_factory
 
-from .models import Room, Booking, RoomImage
+from .models import Contact, Room, Booking, RoomImage
 
 
 class AvailabilityForm(forms.Form):
@@ -49,6 +49,12 @@ class RoomForm(forms.ModelForm):
             "description",
             "is_available",
         )
+
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ("name", "email", "subject", "message")
 
 
 class EventForm(forms.ModelForm):

@@ -16,6 +16,7 @@ from apps.hotel.availability import check_availability
 
 from apps.hotel.forms import (
     AvailabilityForm,
+    ContactForm,
     EventForm,
     RoomDetailAvailabilityForm,
     RoomForm,
@@ -25,9 +26,31 @@ from apps.hotel.forms import (
 from .models import Event, Room, Booking, RoomType
 
 
+def contact(request):
+    form = ContactForm()
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            messages.success(
+                "We've Received Your message. Please check your email for replies"
+            )
+            form.save()
+            return redirect("")
+    context = {
+        "form": form,
+    }
+    return render(request, "hotel/contact.html", context)
+
+
 def homepage(request):
     specials = Room.objects.all()[:5]
     room_cats = RoomType.objects.all()
+    form = RoomDetailAvailabilityForm()
+    if request.method == "POST":
+        form = RoomDetailAvailabilityForm(request.POST)
+        if form.is_valid():
+            ...
+            return redirect("")
     context = {
         "specials": specials,
         "room_cats": room_cats,
