@@ -31,9 +31,7 @@ def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
-            messages.success(
-                "We've Received Your message. Please check your email for replies"
-            )
+            messages.success("Thank you for your message. It has been sent.")
             form.save()
             return redirect("")
     context = {
