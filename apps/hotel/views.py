@@ -92,10 +92,10 @@ def all_rooms(request):
 
 def room_detail(request, slug):
     try:
-        room = get_object_or_404(Room, slug)
+        room = Room.objects.get(slug=slug)
         types = room.room_type
         # if check_availability(room, checkin, checkout):
-        #     availablity = True
+        # availablity = True
         # availablity = False
     except Room.DoesNotExist:
         pass

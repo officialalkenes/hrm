@@ -40,6 +40,7 @@ class Room(models.Model):
     room_type = models.ForeignKey(
         RoomType, on_delete=models.CASCADE, related_name=_("+")
     )
+    slug = models.SlugField(max_length=300, blank=True)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     capacity = models.PositiveIntegerField(verbose_name=_("Maximum People per room"))
     beds = models.PositiveIntegerField(verbose_name=_("Number of Beds"))
@@ -49,6 +50,10 @@ class Room(models.Model):
 
     def __str__(self):
         return f"{self.room_number} - {self.room_type}"
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(f"{self.room_type.types}-{self.room_number}")
+        return super().save(self, *args, **kwargs)
 
 
 class RoomImage(models.Model):
