@@ -189,6 +189,12 @@ def category_details(request, slug):
     return render(request, "", context)
 
 
+def available_rooms(request):
+
+    context = {}
+    return render(request, "hotel/available-room.html", context)
+
+
 # class CategoryDetailView(View):
 #     def get(self, request, *args, **kwargs):
 #         category = self.kwargs.get('slug', None)
@@ -231,7 +237,7 @@ class BookingRoomView(FormView):
 
 class BookingEventView(FormView):
     form_class = EventForm
-    template_name = ""
+    template_name = "hotel/booking.html"
 
     def form_valid(self, form):
         data = form.cleaned_data
