@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 
+from django.core.paginator import Paginator
 from django.contrib import messages
 
 from django.forms import inlineformset_factory
@@ -84,10 +85,15 @@ def events(request):
 
 def all_rooms(request):
     rooms = Room.objects.all()
-    context = {
-        "rooms": rooms,
-    }
-    return render(request, "", context)
+    paginator = Paginator(rooms, 2)
+    page_number = request.GET.get("page")
+    page_number = page_number if page_number else 1
+    try:
+        current_page = paginator.page(page_number)
+    except current_page.DoesNotExist:
+        current_page = paginator.page(1)
+    context = {"rooms": rooms, "page_obj": current_page}
+    return render(request, "hotel/rooms.html", context)
 
 
 def room_detail(request, slug):
