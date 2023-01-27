@@ -37,17 +37,21 @@
                     </div>
                 </div>
                 <div class="col-lg-7 offset-lg-1">
+                    {% include 'hotel/messages.html' %}
                     <form action="#" class="contact-form" method='POST'>
                         {% csrf_token  %}
                         <div class="row">
                             <div class="col-lg-6">
-                                <input type="text" placeholder="Your Name">
+                                <input type="text" name="name" id="id_name" placeholder="Your Name">
                             </div>
                             <div class="col-lg-6">
-                                <input type="text" placeholder="Your Email">
+                                <input type="email" name="email" id='id_email' placeholder="Your Email">
                             </div>
                             <div class="col-lg-12">
-                                <textarea placeholder="Your Message"></textarea>
+                                <input type="text" name="subject" id='id_subject' placeholder="Your Subject">
+                            </div>
+                            <div class="col-lg-12">
+                                <textarea placeholder="Your Message" name="message" id="id_message"></textarea>
                                 <button type="submit">Submit Now</button>
                             </div>
                         </div>
@@ -64,5 +68,5 @@
     <!-- Contact Section End -->
 
 
-{% include 'hotel/footer.html' %}
-    {% block content %}
+    {% include 'hotel/footer.html' %}
+{% endblock content %}

@@ -36,16 +36,16 @@ def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
-            messages.success("Thank you for your message. It has been sent.")
-            email = form.get("email")
-            subject = form.get("subject")
-            name = form.get("name")
-            content = form.get("message")
+            email = form.cleaned_data.get("email")
+            subject = form.cleaned_data.get("subject")
+            name = form.cleaned_data.get("name")
+            content = form.cleaned_data.get("message")
             send_contact_email(
-                name, email, subject, content, "hotel/contact_email.html"
+                name, email, subject, content, "hotel/contact-email.html"
             )
+            messages.success(request, "Thank you for your message. It has been sent.")
             form.save()
-            return redirect("")
+            return redirect("hotel:contact-us")
     context = {
         "form": form,
     }
