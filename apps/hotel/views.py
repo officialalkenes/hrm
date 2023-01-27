@@ -60,12 +60,9 @@ def homepage(request):
     if request.method == "POST":
         form = RoomDetailAvailabilityForm(request.POST)
         if form.is_valid():
-            ...
+            check_availability()
             return redirect("")
-    context = {
-        "specials": specials,
-        "room_cats": room_cats,
-    }
+    context = {"specials": specials, "room_cats": room_cats, "form": form}
     return render(request, "hotel/index.html", context)
 
 

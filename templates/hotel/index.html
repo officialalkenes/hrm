@@ -24,27 +24,22 @@
                             {% csrf_token %}
                             <div class="check-date">
                                 <label for="date-in">Check In:</label>
-                                <input type="text" class="date-input" id="date-in">
+                                {% comment %} <input type="text" class="date-input" id="date-in"> {% endcomment %}
+                                {{form.check_in}}
                                 <i class="icon_calendar"></i>
                             </div>
                             <div class="check-date">
                                 <label for="date-out">Check Out:</label>
-                                <input type="text" class="date-input" id="date-out">
+                                {{form.check_out}}
                                 <i class="icon_calendar"></i>
                             </div>
                             <div class="select-option">
                                 <label for="guest">Guests:</label>
-                                <select id="guest">
-                                    <option value="">2 Adults</option>
-                                    <option value="">3 Adults</option>
-                                </select>
+                                {{form.people}}
                             </div>
-                            <div class="select-option">
-                                <label for="room">Room:</label>
-                                <select id="room">
-                                    <option value="">1 Room</option>
-                                    <option value="">2 Room</option>
-                                </select>
+                            <div class="select-option" id="id_room_number" >
+                                <label for="id_room_number">Room:</label>
+                                {{form.room_number}}
                             </div>
                             <button type="submit">Check Availability</button>
                         </form>
