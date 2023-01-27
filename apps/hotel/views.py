@@ -60,8 +60,16 @@ def homepage(request):
     if request.method == "POST":
         form = RoomDetailAvailabilityForm(request.POST)
         if form.is_valid():
-            check_availability()
-            return redirect("")
+            guest = form.cleaned_data.get("guest")
+            capacity = form.cleaned_data.get("capacity")
+            check_in = form.cleaned_data.get("check_in")
+            check_out = form.cleaned_data.get("check_out")
+            rooms = Room.objects.filter(guest=guest, capacity__gte=capacity)
+            available_rooms = []
+            for room in rooms:
+                if check_availability(room, check_in, check_out):
+                    available_rooms.append(room)
+                return redirect("")
     context = {"specials": specials, "room_cats": room_cats, "form": form}
     return render(request, "hotel/index.html", context)
 
@@ -96,7 +104,7 @@ def room_detail(request, slug):
         "room": room,
         "related_room": related_room,
     }
-    return render(request, "", context)
+    return render(request, "hotel/room-detail.html", context)
 
 
 def create_new_room(request, room_id=None):
