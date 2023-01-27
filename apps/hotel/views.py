@@ -21,6 +21,7 @@ from apps.hotel.forms import (
     AvailabilityForm,
     ContactForm,
     EventForm,
+    RoomAvailabilityForm,
     RoomDetailAvailabilityForm,
     RoomForm,
     RoomImageForm,
@@ -53,9 +54,9 @@ def contact(request):
 
 
 def homepage(request):
-    specials = Room.objects.all()[:5]
+    specials = Room.objects.all()[:4]
     room_cats = RoomType.objects.all()
-    form = RoomDetailAvailabilityForm()
+    form = RoomAvailabilityForm()
     if request.method == "POST":
         form = RoomDetailAvailabilityForm(request.POST)
         if form.is_valid():
@@ -65,7 +66,7 @@ def homepage(request):
         "specials": specials,
         "room_cats": room_cats,
     }
-    return render(request, "hotel/home.html", context)
+    return render(request, "hotel/index.html", context)
 
 
 def events(request):

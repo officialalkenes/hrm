@@ -56,6 +56,23 @@ class RoomImageForm(forms.ModelForm):
         fields = ("image",)
 
 
+class RoomAvailabilityForm(forms.ModelForm):
+    ROOM_NUMBER = (
+        (1, 1),
+        (2, 2),
+        (3, 3),
+    )
+    PEOPLE = (
+        (1, 1),
+        (2, 2),
+    )
+    # room = forms.InlineForeignKeyField(RoomForm)
+    room_number = forms.ChoiceField(choices=ROOM_NUMBER, required=True)
+    people = forms.ChoiceField(choices=PEOPLE, required=True)
+    check_in = forms.DateField()
+    check_out = forms.DateField()
+
+
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact

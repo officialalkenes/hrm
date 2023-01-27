@@ -28,7 +28,7 @@ class RoomType(models.Model):
     image_repr = models.ImageField(upload_to=room_type_image_path)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.types}"
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.types)
@@ -48,7 +48,7 @@ class Room(models.Model):
     is_available = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.room_name
+        return f"{self.room_number} - {self.room_type}"
 
 
 class RoomImage(models.Model):
