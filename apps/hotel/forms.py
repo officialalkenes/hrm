@@ -2,7 +2,7 @@ from django import forms
 
 from django.forms import inlineformset_factory
 
-from .models import Contact, Room, Booking, RoomImage
+from .models import Contact, Room, Booking
 
 
 class AvailabilityForm(forms.Form):
@@ -25,14 +25,14 @@ class RoomDetailAvailabilityForm(forms.Form):
     check_out = forms.DateField()
 
 
-RoomImageFormset = inlineformset_factory(
-    Room,
-    RoomImage,
-    fields=[
-        "image",
-    ],
-    extra=2,
-)
+# RoomImageFormset = inlineformset_factory(
+#     Room,
+#     RoomImage,
+#     fields=[
+#         "image",
+#     ],
+#     extra=2,
+# )
 
 
 class RoomForm(forms.ModelForm):
@@ -50,10 +50,10 @@ class RoomForm(forms.ModelForm):
         )
 
 
-class RoomImageForm(forms.ModelForm):
-    class Meta:
-        model = RoomImage
-        fields = ("image",)
+# class RoomImageForm(forms.ModelForm):
+#     class Meta:
+#         model = RoomImage
+#         fields = ("image",)
 
 
 class RoomAvailabilityForm(forms.Form):

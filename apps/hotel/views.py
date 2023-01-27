@@ -25,12 +25,10 @@ from apps.hotel.forms import (
     RoomAvailabilityForm,
     RoomDetailAvailabilityForm,
     RoomForm,
-    RoomImageForm,
-    RoomImageFormset,
 )
 from apps.hotel.utils import send_contact_email
 
-from .models import Event, Room, Booking, RoomImage, RoomType
+from .models import Event, Room, Booking, RoomType
 
 
 def contact(request):
@@ -90,7 +88,7 @@ def all_rooms(request):
     page_number = page_number if page_number else 1
     try:
         current_page = paginator.page(page_number)
-    except current_page.DoesNotExist:
+    except page_number.DoesNotExist:
         current_page = paginator.page(1)
     context = {"rooms": rooms, "page_obj": current_page}
     return render(request, "hotel/rooms.html", context)
@@ -113,18 +111,12 @@ def room_detail(request, slug):
     return render(request, "hotel/room-detail.html", context)
 
 
-def create_new_room(request, room_id=None):
-    room = None
+def create_new_room(request):
     form = RoomForm()
-    RoomImgFormset = inlineformset_factory(Room, RoomImage, form=RoomImageForm, extra=1)
-    formset = RoomImgFormset()
     if request.method == "POST":
         form = RoomForm(request.POST)
-        formset = RoomImageFormset(request.POST or None, instance=room)
-        if form.is_valid() and formset.is_valid():
-            room = form.save()
-            formset.instance = room
-            formset.save()
+        if form.is_valid():
+            form.save()
             messages.success(request, "New Room Created Successfully.")
             return redirect("")
     context = {
@@ -264,10 +256,6 @@ class RoomCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(RoomCreateView, self).get_context_data(**kwargs)
-        if self.request.POST:
-            context["formset"] = RoomImageFormset(self.request.POST, self.request.FILES)
-        else:
-            context["formset"] = RoomImageFormset()
         return context
 
     def form_valid(self, form):
@@ -296,27 +284,23 @@ class UpdateRoomView(UpdateView):
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        inline_formset = RoomImageFormset(instance=self.object)
-        return self.render_to_response(
-            self.get_context_data(form=form, inline_formset=inline_formset)
-        )
+        # inline_formset = RoomImageFormset(instance=self.object)
+        return self.render_to_response(self.get_context_data(form=form))
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        inline_formset = RoomImageFormset(request.POST, instance=self.object)
-        if form.is_valid() and inline_formset.is_valid():
-            return self.form_valid(form, inline_formset)
+        # inline_formset = RoomImageFormset(request.POST, instance=self.object)
+        if form.is_valid():
+            return self.form_valid(form)
         else:
-            return self.form_invalid(form, inline_formset)
+            return self.form_invalid(form)
 
     def form_valid(self, form, inline_formset):
         self.object = form.save()
         inline_formset.save()
         return super().form_valid(form)
 
-    def form_invalid(self, form, inline_formset):
-        return self.render_to_response(
-            self.get_context_data(form=form, inline_formset=inline_formset)
-        )
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))

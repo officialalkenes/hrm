@@ -56,16 +56,6 @@ class Room(models.Model):
         return super().save(self, *args, **kwargs)
 
 
-class RoomImage(models.Model):
-    room = models.ForeignKey(
-        Room, on_delete=models.CASCADE, related_name=_("room_image")
-    )
-    image = models.ImageField(blank=True)
-
-    def __str__(self) -> str:
-        return f"{self.room.room_name}"
-
-
 class Booking(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name=_("+"))

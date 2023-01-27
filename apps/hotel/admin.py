@@ -1,13 +1,13 @@
 from django.contrib import admin
 
-from .models import Room, RoomImage, Booking, RoomType
+from .models import Room, Booking, RoomType
 
 # Register your models here.
 
 
-class RoomImageInline(admin.TabularInline):
-    model = RoomImage
-    extra = 2
+# class RoomImageInline(admin.TabularInline):
+#     model = RoomImage
+#     extra = 2
 
 
 @admin.register(Room)
