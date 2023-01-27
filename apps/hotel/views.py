@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from django.contrib import messages
 
+from django.forms import inlineformset_factory
+
 from django.urls import reverse_lazy
 
 from django.views.generic import (
@@ -12,6 +14,7 @@ from django.views.generic import (
     DetailView,
     View,
 )
+
 from apps.hotel.availability import check_availability
 
 from apps.hotel.forms import (
@@ -20,10 +23,12 @@ from apps.hotel.forms import (
     EventForm,
     RoomDetailAvailabilityForm,
     RoomForm,
+    RoomImageForm,
     RoomImageFormset,
 )
+from apps.hotel.utils import send_contact_email
 
-from .models import Event, Room, Booking, RoomType
+from .models import Event, Room, Booking, RoomImage, RoomType
 
 
 def contact(request):
@@ -32,6 +37,13 @@ def contact(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             messages.success("Thank you for your message. It has been sent.")
+            email = form.get("email")
+            subject = form.get("subject")
+            name = form.get("name")
+            content = form.get("message")
+            send_contact_email(
+                name, email, subject, content, "hotel/contact_email.html"
+            )
             form.save()
             return redirect("")
     context = {
@@ -85,6 +97,26 @@ def room_detail(request, slug):
     context = {
         "room": room,
         "related_room": related_room,
+    }
+    return render(request, "", context)
+
+
+def create_new_room(request, room_id=None):
+    room = None
+    form = RoomForm()
+    RoomImgFormset = inlineformset_factory(Room, RoomImage, form=RoomImageForm, extra=1)
+    formset = RoomImgFormset()
+    if request.method == "POST":
+        form = RoomForm(request.POST)
+        formset = RoomImageFormset(request.POST or None, instance=room)
+        if form.is_valid() and formset.is_valid():
+            room = form.save()
+            formset.instance = room
+            formset.save()
+            messages.success(request, "New Room Created Successfully.")
+            return redirect("")
+    context = {
+        "form": form,
     }
     return render(request, "", context)
 

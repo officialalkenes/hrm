@@ -50,6 +50,12 @@ class RoomForm(forms.ModelForm):
         )
 
 
+class RoomImageForm(forms.ModelForm):
+    class Meta:
+        model = RoomImage
+        fields = ("image",)
+
+
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact

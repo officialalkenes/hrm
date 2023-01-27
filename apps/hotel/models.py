@@ -1,9 +1,15 @@
+import random
+import string
+
+
 from django.contrib.auth import get_user_model
 
 from django.db import models
 
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+
+from .utils import generate_unique_reference
 
 User = get_user_model()
 
@@ -62,6 +68,8 @@ class Booking(models.Model):
     check_out = models.DateField()
     preferred_entry_time = models.TimeField()
     default_exit_time = models.TimeField()
+    has_paid = models.BooleanField(default=False)
+    reference_id = models.CharField(max_length=100, unique=True, blank=True)
     status = models.CharField(max_length=255)
     has_checked_out = models.BooleanField(default=False)
 
@@ -73,6 +81,11 @@ class Booking(models.Model):
     def get_price_per_difference(self):
         total = self.days_difference * self.room.price
         return total
+
+    def save(self, *args, **kwargs):
+        if self.reference_id == "":
+            self.reference_id = generate_unique_reference()
+        return super().save(self, *args, **kwargs)
 
 
 class Event(models.Model):
