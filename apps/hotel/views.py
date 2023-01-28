@@ -57,20 +57,24 @@ def homepage(request):
     room_cats = RoomType.objects.all()
     form = RoomAvailabilityForm()
     if request.method == "POST":
-        form = RoomDetailAvailabilityForm(request.POST)
+        form = RoomAvailabilityForm(request.POST)
         if form.is_valid():
-            guest = form.cleaned_data.get("guest")
-            capacity = form.cleaned_data.get("capacity")
+            guest = form.cleaned_data.get("people")
+            capacity = form.cleaned_data.get("room_number")
             check_in = form.cleaned_data.get("check_in")
             check_out = form.cleaned_data.get("check_out")
-            rooms = Room.objects.filter(guest=guest, capacity__gte=capacity)
+            rooms = Room.objects.filter(capacity=guest, capacity__gte=capacity)
             available_rooms = []
             for room in rooms:
                 if check_availability(room, check_in, check_out):
                     available_rooms.append(room)
-                return redirect("")
+                    return redirect("hotel:available-rooms", rooms=available_rooms)
     context = {"specials": specials, "room_cats": room_cats, "form": form}
     return render(request, "hotel/index.html", context)
+
+
+def available_rooms(request, rooms):
+    return render(request, "hotel/available-rooms.html")
 
 
 def events(request):
@@ -199,12 +203,6 @@ def category_details(request, slug):
         "booked_rooms": booked_rooms,
     }
     return render(request, "", context)
-
-
-def available_rooms(request):
-
-    context = {}
-    return render(request, "hotel/available-room.html", context)
 
 
 # class CategoryDetailView(View):
