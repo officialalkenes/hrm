@@ -114,7 +114,7 @@ def room_detail(request, slug):
 def create_new_room(request):
     form = RoomForm()
     if request.method == "POST":
-        form = RoomForm(request.POST)
+        form = RoomForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "New Room Created Successfully.")
@@ -123,6 +123,18 @@ def create_new_room(request):
         "form": form,
     }
     return render(request, "", context)
+
+
+def update_room(request, slug):
+    room = get_object_or_404(Room, slug=slug)
+    if request.method == "POST":
+        form = RoomForm(request.POST, instance=room)
+        if form.is_valid():
+            form.save()
+            return redirect("success_url")
+    else:
+        form = RoomForm(instance=room)
+    return render(request, "update_template.html", {"form": form})
 
 
 class RoomDetailView(View):
