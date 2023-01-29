@@ -63,23 +63,24 @@ def homepage(request):
             beds = form.cleaned_data.get("beds")
             checkin = form.cleaned_data.get("check_in")
             checkout = form.cleaned_data.get("check_out")
-            rooms = Room.objects.filter(capacity__gte=guest, beds__gte=beds)
+            all_rooms = Room.objects.filter(capacity__gte=guest, beds__gte=beds)
             available_rooms = []
-            for room in rooms:
+            for room in all_rooms:
                 if availability_checker(room, checkin, checkout):
-                    available_rooms.append(room.slug)
-            return redirect("hotel:available-rooms", rooms=available_rooms)
+                    available_rooms.append(room)
+            context = {"rooms": available_rooms}
+            return render(request, "hotel/available-rooms.html", context)
     context = {"specials": specials, "room_cats": room_cats, "form": form}
     return render(request, "hotel/index.html", context)
 
 
 def available_rooms(request, rooms):
-    # available_rooms = []
-    print(f"{len(rooms)} rooms found in rooms")
-    # for room in rooms:
-    #     print(room)
-    #     available = Room.objects.get(slug=room)
-    #     available_rooms.append(room)
+    available_rooms = []
+    print(rooms)
+    for room in rooms:
+        print(room)
+        # available = Room.objects.get(slug=room)
+        available_rooms.append(room)
     # available = available_rooms
     context = {
         # 'rooms': available

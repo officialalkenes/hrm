@@ -69,7 +69,7 @@ class Booking(models.Model):
     has_checked_out = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return f"{self.room} - {self.reference_id}"
+        return f"{self.room} - {self.check_in} to {self.check_out}"
 
     @property
     def days_difference(self):

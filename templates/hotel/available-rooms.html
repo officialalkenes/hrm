@@ -27,6 +27,7 @@
     <section class="rooms-section spad">
         <div class="container">
             <div class="row">
+                {% if rooms %}
                 {% for room in rooms %}
                 <div class="col-lg-4 col-md-6">
                     <div class="room-item">
@@ -60,6 +61,38 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% else %}
+                <h3 class='text-danger'>No Room Available. Check Other Dates</h3>
+                <div class="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
+                    <div class="booking-form">
+                        <h3>Booking Your Hotel</h3>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="check-date">
+                                <label for="date-in">Check In:</label>
+                                {% comment %} <input type="text" class="date-input" id="date-in"> {% endcomment %}
+                                {{form.check_in}}
+                                <i class="icon_calendar"></i>
+                            </div>
+                            <div class="check-date">
+                                <label for="date-out">Check Out:</label>
+                                {{form.check_out}}
+                                <i class="icon_calendar"></i>
+                            </div>
+                            <div class="select-option">
+                                <label for="guest">Guests:</label>
+                                {{form.people}}
+                            </div>
+                            <div class="select-option" id="id_room_number" >
+                                <label for="id_room_number">Beds:</label>
+                                {{form.beds}}
+                            </div>
+                            <button type="submit">Check Availability</button>
+                        </form>
+                    </div>
+                </div>
+
+                {% endif %}
             </div>
         </div>
     </section>
