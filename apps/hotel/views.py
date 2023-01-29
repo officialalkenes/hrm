@@ -16,7 +16,7 @@ from django.views.generic import (
     View,
 )
 
-from apps.hotel.availability import check_availability
+from apps.hotel.availability import availability_checker, check_availability
 
 from apps.hotel.forms import (
     AvailabilityForm,
@@ -66,7 +66,7 @@ def homepage(request):
             rooms = Room.objects.filter(capacity__gte=guest, beds__gte=beds)
             available_rooms = []
             for room in rooms:
-                if check_availability(room, checkin, checkout):
+                if availability_checker(room, checkin, checkout):
                     available_rooms.append(room.slug)
             return redirect("hotel:available-rooms", rooms=available_rooms)
     context = {"specials": specials, "room_cats": room_cats, "form": form}
@@ -85,6 +85,12 @@ def available_rooms(request, rooms):
         # 'rooms': available
     }
     return render(request, "hotel/available-rooms.html", context)
+
+
+def dashboard(request):
+    # rooms = Room.objects.all()
+    context = {}
+    return render(request, "", context)
 
 
 def events(request):
