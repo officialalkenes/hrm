@@ -1,5 +1,6 @@
 import random
 import string
+import secrets
 
 from smtplib import SMTPException
 from socket import gaierror
@@ -14,7 +15,7 @@ import apps.hotel.models as models
 
 
 def generate_unique_pass():
-    return "".join(random.choices(string.ascii_letters + string.digits, 8))
+    return secrets.token_hex(4)
 
 
 def generate_unique_reference():

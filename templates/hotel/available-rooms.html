@@ -14,7 +14,7 @@
                         <h2>Our Rooms</h2>
                         <div class="bt-option">
                             <a href="">Home</a>
-                            <span>Rooms</span>
+                            <span>Available Rooms</span>
                         </div>
                     </div>
                 </div>
@@ -27,12 +27,13 @@
     <section class="rooms-section spad">
         <div class="container">
             <div class="row">
+                {% for room in rooms %}
                 <div class="col-lg-4 col-md-6">
                     <div class="room-item">
-                        <img src="img/room/room-1.jpg" alt="">
+                        <img src="{{room.image.url}}" alt="">
                         <div class="ri-text">
-                            <h4>Premium King Room</h4>
-                            <h3>159$<span>/Pernight</span></h3>
+                            <h4>{{room.room_type.types}}</h4>
+                            <h3>{{room.price}}<span>/Per Night</span></h3>
                             <table>
                                 <tbody>
                                     <tr>
@@ -41,11 +42,11 @@
                                     </tr>
                                     <tr>
                                         <td class="r-o">Capacity:</td>
-                                        <td>Max persion 3</td>
+                                        <td>Max Persion {{room.capacity}}</td>
                                     </tr>
                                     <tr>
                                         <td class="r-o">Bed:</td>
-                                        <td>King Beds</td>
+                                        <td>{{room.beds}} Beds</td>
                                     </tr>
                                     <tr>
                                         <td class="r-o">Services:</td>
@@ -54,10 +55,11 @@
                                 </tbody>
                             </table>
                             <a href="#">Booking Now</a>
-                            <a href="#" class="primary-btn">More Details</a>
+                            <a href="" class="primary-btn">More Details</a>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </section>

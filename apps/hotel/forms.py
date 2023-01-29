@@ -67,7 +67,7 @@ class RoomAvailabilityForm(forms.Form):
         (2, 2),
     )
     # room = forms.InlineForeignKeyField(RoomForm)
-    room_number = forms.ChoiceField(choices=ROOM_NUMBER, required=True)
+    beds = forms.ChoiceField(choices=ROOM_NUMBER, required=True)
     people = forms.ChoiceField(choices=PEOPLE, required=True)
     check_in = forms.DateField(
         widget=forms.DateInput(attrs={"class": "date-input", "id": "date-in"})

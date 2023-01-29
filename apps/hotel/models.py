@@ -9,7 +9,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
-from .utils import generate_unique_reference
+from .utils import generate_unique_pass, generate_unique_reference
 
 User = get_user_model()
 
@@ -59,14 +59,17 @@ class Room(models.Model):
 class Booking(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name=_("+"))
+    reference_id = models.CharField(max_length=100, unique=True, blank=True)
     check_in = models.DateField()
     check_out = models.DateField()
     preferred_entry_time = models.TimeField()
     default_exit_time = models.TimeField()
     has_paid = models.BooleanField(default=False)
-    reference_id = models.CharField(max_length=100, unique=True, blank=True)
     status = models.CharField(max_length=255)
     has_checked_out = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return f"{self.room} - {self.reference_id}"
 
     @property
     def days_difference(self):
@@ -79,7 +82,7 @@ class Booking(models.Model):
 
     def save(self, *args, **kwargs):
         if self.reference_id == "":
-            self.reference_id = generate_unique_reference()
+            self.reference_id = generate_unique_pass()
         return super().save(self, *args, **kwargs)
 
 

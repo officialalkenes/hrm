@@ -10,7 +10,7 @@ def check_availability(room, checkin, checkout):
     bookings = Booking.objects.filter(room=room)
 
     for booking in bookings:
-        if booking.check_in > checkout or booking.check_out < checkin:
+        if booking.check_in > checkout and booking.check_out < checkin:
             available_list.append(True)
         available_list.append(False)
     return all(available_list)
