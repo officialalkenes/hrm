@@ -25,6 +25,9 @@ class Payment(models.Model):
                 self.ref = ref
         return super().save(*args, **kwargs)
 
+    def amount_value(self) -> float:
+        return self.amount * 100
+
 
 # class HallType(models.Model):
 #     name = models.CharField(max_length=100)
