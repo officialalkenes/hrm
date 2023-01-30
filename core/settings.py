@@ -30,6 +30,7 @@ LOCAL_APPS = [
 CUSTOM_APPS = [
     "apps.user",
     "apps.hotel",
+    "apps.invoice",
 ]
 
 THIRD_PARTY_APPS = []
