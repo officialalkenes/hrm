@@ -1,0 +1,23 @@
+{% extends 'hotel/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'hotel/header.html' %}
+    <div class='container'>
+        <div class="d-flex row justify-content-center align-items-center py-md-5 py-3" style="min-height: 90vh">
+            <div class="col-12">
+                <form action="" method='POST'>
+                    <h4> Enter Amount</h4>
+                    {% csrf_token %}
+                    {{payment}}
+                    <div class='text-center'>
+                        <a class="btn btn-primary" href="{% url 'hotel:all-rooms' %}" role="button">Proceed</a>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+{% include 'hotel/footer.html' %}
+
+{% endblock content %}
