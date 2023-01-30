@@ -14,4 +14,4 @@ def initiate_payment(request: HttpResponse) -> HttpResponse:
             return render(request, "hotel/make-payment.html", {"payment": payment})
     payment = PaymentForm()
     context = {"payment": payment}
-    return render(request, "hotel/initiate-payment.html", context)
+    return render(request, "hotel/initiate_payment.html", context)

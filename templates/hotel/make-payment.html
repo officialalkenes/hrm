@@ -4,6 +4,44 @@
 {% block content %}
 
 {% include 'hotel/header.html' %}
+    <div class='container'>
+        <div class="d-flex row justify-content-center align-items-center py-md-5 py-3" style="min-height: 90vh">
+            <div class="col-12">
+                    <h4> Make Payment for {{payment.amount}}</h4>
+                    <form>
+                        <div class="form-submit">
+                            <button type="submit" onclick="payWithPaystack()"> Pay Now</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    <script src="https://js.paystack.co/v2/inline.js"></script>
+    <script>
+        const paymentForm = document.getElementById('paymentForm');
+        paymentForm.addEventListener("submit", payWithPaystack, false);
+        function payWithPaystack(e) {
+        e.preventDefault();
+
+        let handler = PaystackPop.setup({
+            key: '{{paystack_public_key}}', // Replace with your public key
+            email: document.getElementById("{{payment.email}}").value,
+            amount: document.getElementById("amount").value * 100,
+            ref: "{{payment.ref}}", // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+            // label: "Optional string that replaces customer email"
+            onClose: function(){
+            alert('Window closed.');
+            },
+            callback: function(response){
+                window.location.href = "{% url 'verify-payment' payment.ref %}"
+                let message = 'Payment complete! Reference: ' + response.reference;
+                alert(message);
+            }
+        });
+        handler.openIframe();
+        }
+    </script>
 
 
 {% include 'hotel/footer.html' %}

@@ -11,10 +11,8 @@
                     <h4> Enter Amount</h4>
                     {% csrf_token %}
                     {{payment}}
-                    <div class='text-center'>
-                        <a class="btn btn-primary" href="{% url 'hotel:all-rooms' %}" role="button">Proceed</a>
-                    </div>
-            </div>
+                    <button type="submit">Check Availability</button>
+                </div>
         </div>
     </div>
 

@@ -90,6 +90,7 @@ def available_rooms(request, rooms):
 
 def dashboard(request):
     # rooms = Room.objects.all()
+
     context = {}
     return render(request, "", context)
 
