@@ -83,7 +83,7 @@ class Booking(models.Model):
     def save(self, *args, **kwargs):
         if self.reference_id == "":
             self.reference_id = generate_unique_pass()
-        return super().save(self, *args, **kwargs)
+        return super().save(*args, **kwargs)
 
 
 class Event(models.Model):

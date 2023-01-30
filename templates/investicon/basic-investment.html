@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">Basic Investment</h4>
+
+    <div class="row">
+      <div class="col-md-12 col-xl-8">
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Choose A Plan Now</h5>
+            <small class="text-muted float-end">It Doesn't take too much trouble</small>
+          </div>
+          <div class="card-body">
+            {% include 'messages.html' %}
+            <form action="" method="POST">
+              <div class="col-md-6 col-lg-4 text-white">
+                <h6 class="mt-2 text-center fw-bolder">Basic Plan</h6>
+                <div class="card mb-4 bg-primary">
+                  <div class="card-body">
+                  <ul class="">
+                    <li class="fw-bold">
+                        <div data-i18n="Unlimited Investment">15% ROI in 7 days</div>
+                    </li>
+                    <li class="fw-bold">
+                        <div data-i18n="Unlimited Investment">Daily Investment Update</div>
+                    </li>
+                    <li class="fw-bold">
+                        <div data-i18n="Unlimited Investment">Anti Fraud Protection</div>
+                    </li>
+                    <li class="fw-bold">
+                        <div data-i18n="Unlimited Investment">24/7 Customer Care Support </div>
+                    </li>
+                  </ul>
+                  </div>
+                </div>
+              </div>
+
+                {% csrf_token %}
+              {{form|crispy}}
+              <button type="submit" class="btn btn-primary">Invest Now</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

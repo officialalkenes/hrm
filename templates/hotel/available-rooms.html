@@ -13,7 +13,7 @@
                     <div class="breadcrumb-text">
                         <h2>Our Rooms</h2>
                         <div class="bt-option">
-                            <a href="">Home</a>
+                            <a href="{% url 'hotel:homepage' %}">Home</a>
                             <span>Available Rooms</span>
                         </div>
                     </div>
@@ -62,36 +62,12 @@
                 </div>
                 {% endfor %}
                 {% else %}
-                <h3 class='text-danger'>No Room Available. Check Other Dates</h3>
-                <div class="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
-                    <div class="booking-form">
-                        <h3>Booking Your Hotel</h3>
-                        <form action="" method="POST">
-                            {% csrf_token %}
-                            <div class="check-date">
-                                <label for="date-in">Check In:</label>
-                                {% comment %} <input type="text" class="date-input" id="date-in"> {% endcomment %}
-                                {{form.check_in}}
-                                <i class="icon_calendar"></i>
-                            </div>
-                            <div class="check-date">
-                                <label for="date-out">Check Out:</label>
-                                {{form.check_out}}
-                                <i class="icon_calendar"></i>
-                            </div>
-                            <div class="select-option">
-                                <label for="guest">Guests:</label>
-                                {{form.people}}
-                            </div>
-                            <div class="select-option" id="id_room_number" >
-                                <label for="id_room_number">Beds:</label>
-                                {{form.beds}}
-                            </div>
-                            <button type="submit">Check Availability</button>
-                        </form>
-                    </div>
-                </div>
-
+                    <div class="mx-auto" style="width: 500px;">
+                        <p class='text-center'>No Room Available. Check Other Dates</p>
+                        <div class='text-center'>
+                            <a class="btn btn-primary" href="{% url 'hotel:all-rooms' %}" role="button">Explore Hotels</a>
+                        </div>
+                        </div>
                 {% endif %}
             </div>
         </div>
