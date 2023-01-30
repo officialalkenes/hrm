@@ -20,6 +20,7 @@ from apps.hotel.availability import availability_checker, check_availability
 
 from apps.hotel.forms import (
     AvailabilityForm,
+    BookingForm,
     ContactForm,
     EventForm,
     RoomAvailabilityForm,
@@ -338,3 +339,28 @@ class UpdateRoomView(UpdateView):
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+
+
+# views.py
+def book_room(request, slug):
+    room = Room.objects.get(slug=slug)
+    if request.method == "POST":
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            checkin = form.cleaned_data["check_in"]
+            checkout = form.cleaned_data["check_out"]
+            if Room.objects.check_availability(room, checkin, checkout):
+                booking = form.save(commit=False)
+                booking.room = room
+                booking.customer = request.user
+                booking.save()
+                return redirect("hotel:confirm_booking", booking.id)
+            else:
+                return render(
+                    request,
+                    "hotel/book_room.html",
+                    {"room": room, "form": form, "error_message": "Room not available"},
+                )
+    else:
+        form = BookingForm()
+    return render(request, "hotel/book_room.html", {"room": room, "form": form})

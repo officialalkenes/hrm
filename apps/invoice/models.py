@@ -20,11 +20,12 @@ class Payment(models.Model):
     def save(self, *args, **kwargs):
         while not self.ref:
             ref = secrets.token_urlsafe(50)
-            object_with_same_ref = self.objects.filter(ref=ref)
+            object_with_same_ref = Payment.objects.filter(ref=ref)
             if not object_with_same_ref:
                 self.ref = ref
         return super().save(*args, **kwargs)
 
+    @property
     def amount_value(self) -> float:
         return self.amount * 100
 

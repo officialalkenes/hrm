@@ -77,6 +77,12 @@ class RoomAvailabilityForm(forms.Form):
     )
 
 
+class BookingForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ("check_in", "check_out")
+
+
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
