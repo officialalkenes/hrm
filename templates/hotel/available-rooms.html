@@ -55,8 +55,8 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <a href="#">Booking Now</a>
-                            <a href="" class="primary-btn">More Details</a>
+                            <a href="{% url 'hotel:book-room' room.slug %}" class="btn btn-outline-success">Book Room</a>
+                            <a href="{% url 'hotel:room-detail' room.slug %}" class="btn btn-outline-primary">More Details</a>
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                     <div class="mx-auto" style="width: 500px;">
                         <p class='text-center'>No Room Available. Check Other Dates</p>
                         <div class='text-center'>
-                            <a class="btn btn-primary" href="{% url 'hotel:all-rooms' %}" role="button">Explore Hotels</a>
+                            <a class="btn btn-outline-primary" href="{% url 'hotel:all-rooms' %}" role="button">Explore Hotels</a>
                         </div>
                         </div>
                 {% endif %}

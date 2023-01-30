@@ -80,7 +80,7 @@ class RoomAvailabilityForm(forms.Form):
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ("check_in", "check_out")
+        fields = ("check_in", "check_out", "preferred_entry_time")
 
 
 class ContactForm(forms.ModelForm):

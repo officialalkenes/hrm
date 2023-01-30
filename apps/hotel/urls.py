@@ -12,4 +12,5 @@ urlpatterns = [
     path("available-rooms/<rooms>/", views.available_rooms, name="available-rooms"),
     path("room-detail/<slug>/", views.room_detail, name="room-detail"),
     path("create-room/", views.CreateRoom.as_view(), name="create-room"),
+    path("book-room/<slug>/", views.book_room, name="book-room"),
 ]

@@ -63,7 +63,6 @@ class Booking(models.Model):
     check_in = models.DateField()
     check_out = models.DateField()
     preferred_entry_time = models.TimeField()
-    default_exit_time = models.TimeField()
     has_paid = models.BooleanField(default=False)
     status = models.CharField(max_length=255)
     has_checked_out = models.BooleanField(default=False)

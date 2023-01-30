@@ -39,7 +39,7 @@
                                         <i class="icon_star"></i>
                                         <i class="icon_star-half_alt"></i>
                                     </div>
-                                    <a href="#">Booking Now</a>
+                                    <a href="{% url 'hotel:book-room' room.slug %}">Book Room</a>
                                 </div>
                             </div>
                             <h2>₦{{room.price}}<span>/Per Night</span></h2>

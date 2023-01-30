@@ -28,7 +28,7 @@
             key: '{{paystack_public_key}}', // Replace with your public key
             email: document.getElementById("{{payment.email}}").value,
             amount: document.getElementById("amount").value * 100,
-            amount: {{payment.amount}} * 100,
+            amount: "{{payment.amount_value}}",
             ref: "{{payment.ref}}", // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
             // label: "Optional string that replaces customer email"
             onClose: function(){
