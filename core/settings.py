@@ -33,7 +33,9 @@ CUSTOM_APPS = [
     "apps.invoice",
 ]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    "crispy_forms",
+]
 
 INSTALLED_APPS = LOCAL_APPS + CUSTOM_APPS + THIRD_PARTY_APPS
 

@@ -7,7 +7,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("auth/", include("apps.user.urls", namespace="user")),
+    path("accounts/", include("apps.user.urls", namespace="accounts")),
     path("", include("apps.hotel.urls", namespace="hotel")),
     path("invoice/", include("apps.invoice.urls", namespace="invoice")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

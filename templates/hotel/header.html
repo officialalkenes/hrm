@@ -51,7 +51,6 @@
                                 <ul>
                                     <li class="active"><a href="{% url 'hotel:homepage' %}">Home</a></li>
                                     <li><a href="{% url 'hotel:all-rooms' %}">Rooms</a></li>
-                                    <li><a href="">About Us</a></li>
                                     <li><a href="">Pages</a>
                                         <ul class="dropdown">
                                             <li><a href="./room-details.html">Room Details</a></li>
@@ -62,6 +61,9 @@
                                     </li>
                                     <li><a href="">News</a></li>
                                     <li><a href="{% url 'hotel:contact-us' %}">Contact</a></li>
+                                    <li>
+                                        <a href="{% url 'hotel:all-rooms' %}" class="">Signup</a>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
