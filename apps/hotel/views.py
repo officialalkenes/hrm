@@ -354,7 +354,10 @@ def book_room(request, slug):
                 booking.room = room
                 booking.customer = request.user
                 booking.save()
-                return redirect("hotel:confirm_booking", booking.id)
+                context = {
+                    "room": room,
+                }
+                return render(request, "hotel:initiate_payment.html", context)
             else:
                 return render(
                     request,

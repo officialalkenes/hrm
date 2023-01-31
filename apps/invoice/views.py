@@ -2,10 +2,11 @@ from django.conf import settings
 
 from django.http import HttpResponse
 
-
 from django.shortcuts import render
 
 from apps.invoice.forms import PaymentForm
+
+from pypaystack import Transaction, Customer, Plan
 
 
 # Create your views here.
@@ -25,3 +26,9 @@ def initiate_payment(request: HttpResponse) -> HttpResponse:
     payment = PaymentForm()
     context = {"payment": payment}
     return render(request, "hotel/initiate_payment.html", context)
+
+
+# def verify(request, id):
+#     transaction = Transaction(
+#         authorization_key=settings.PAYSTACK_SECRET_KEY,
+#     )

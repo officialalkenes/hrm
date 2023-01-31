@@ -78,6 +78,15 @@ class RoomAvailabilityForm(forms.Form):
 
 
 class BookingForm(forms.ModelForm):
+    check_in = forms.DateField(
+        widget=forms.DateInput(
+            attrs={"class": "date-input input--style-1", "id": "date-in"}
+        )
+    )
+    check_out = forms.DateField(
+        widget=forms.DateInput(attrs={"class": "date-input", "id": "date-out"})
+    )
+
     class Meta:
         model = Booking
         fields = ("check_in", "check_out", "preferred_entry_time")

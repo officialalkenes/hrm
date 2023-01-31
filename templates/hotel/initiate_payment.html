@@ -65,15 +65,15 @@
           </a>
         </div>
         <!-- /Logo -->
-        <h4 class="mb-2 text-center">! 👋</h4>
-        <p class="mb-4 text-center">Please sign-in to your account and View your Dashboard</p>
+        <h4 class="mb-2 text-center">Book Room! 👋</h4>
+        <p class="mb-4 text-center"></p>
 
         <form id="formAuthentication" class="mb-3" action="" method="POST">
           {% csrf_token %}
           {% include 'messages.html' %}
 
           <div class="mb-3">
-            {{payment.amount}}
+            {{form}}
         </div>
         <div class="mb-3">
             {{payment.email}}
