@@ -9,11 +9,13 @@
       <div class="row">
           <div class="col-lg-6">
           </div>
-          <div class="col-xl-6 col-lg-6 offset-xl-3 offset-lg-1">
+          <div class="col-xl-4 col-lg-4 offset-xl-4 offset-lg-1">
               <div class="booking-form">
-                  <h3>Booking Your Hotel</h3>
+                  <h3 class="">Book Room</h3>
                   <form action="" method="POST">
                       {% csrf_token %}
+                      {% include 'messages.html' %}
+                      {% include 'errors.html' %}
                       <div class="check-date">
                           <label for="date-in">Check In:</label>
                           {% comment %} <input type="text" class="date-input" id="date-in"> {% endcomment %}
@@ -25,15 +27,7 @@
                           {{form.check_out}}
                           <i class="icon_calendar"></i>
                       </div>
-                      <div class="select-option">
-                          <label for="guest">Guests:</label>
-                          {{form.people}}
-                      </div>
-                      <div class="select-option" id="id_room_number" >
-                          <label for="id_room_number">Beds:</label>
-                          {{form.beds}}
-                      </div>
-                      <button type="submit">Check Availability</button>
+                      <button type="submit">Book Room</button>
                   </form>
               </div>
           </div>
@@ -45,6 +39,4 @@
       <div class="hs-item set-bg" data-setbg="{% static 'img/hero/hero-3.jpg' %}"></div>
   </div>
 </section>
-
-
 {% endblock content %}

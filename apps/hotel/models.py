@@ -62,7 +62,7 @@ class Booking(models.Model):
     reference_id = models.CharField(max_length=100, unique=True, blank=True)
     check_in = models.DateField()
     check_out = models.DateField()
-    preferred_entry_time = models.TimeField()
+    preferred_entry_time = models.TimeField(null=True)
     has_paid = models.BooleanField(default=False)
     status = models.CharField(max_length=255)
     has_checked_out = models.BooleanField(default=False)

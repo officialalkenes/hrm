@@ -89,7 +89,7 @@ class BookingForm(forms.ModelForm):
 
     class Meta:
         model = Booking
-        fields = ("check_in", "check_out", "preferred_entry_time")
+        fields = ("check_in", "check_out")
 
 
 class ContactForm(forms.ModelForm):

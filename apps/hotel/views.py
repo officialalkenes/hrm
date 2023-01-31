@@ -79,7 +79,7 @@ def available_rooms(request, rooms):
     available_rooms = []
     print(rooms)
     for room in rooms:
-        print(room)
+        # if availability_checker(room, checkin, checkout):
         # available = Room.objects.get(slug=room)
         available_rooms.append(room)
     # available = available_rooms
@@ -344,26 +344,32 @@ class UpdateRoomView(UpdateView):
 # views.py
 def book_room(request, slug):
     room = Room.objects.get(slug=slug)
+    form = BookingForm()
     if request.method == "POST":
         form = BookingForm(request.POST)
         if form.is_valid():
             checkin = form.cleaned_data["check_in"]
             checkout = form.cleaned_data["check_out"]
-            if Room.objects.check_availability(room, checkin, checkout):
+            if availability_checker(room, checkin, checkout):
                 booking = form.save(commit=False)
                 booking.room = room
                 booking.customer = request.user
                 booking.save()
                 context = {
                     "room": room,
+                    "booking": booking,
                 }
-                return render(request, "hotel:initiate_payment.html", context)
+                return render(request, "hotel/make-payment.html", context)
             else:
                 return render(
                     request,
-                    "hotel/book_room.html",
-                    {"room": room, "form": form, "error_message": "Room not available"},
+                    "hotel/available-rooms.html",
+                    {
+                        "room": room,
+                        "checkin": checkin,
+                        "checkout": checkout,
+                        "form": form,
+                        "error_message": "Room not available",
+                    },
                 )
-    else:
-        form = BookingForm()
     return render(request, "hotel/book_room.html", {"room": room, "form": form})
