@@ -1,0 +1,13 @@
+{% autoescape off %}
+
+Hello {{ user.username }},
+
+Your Investment has just reach maturity.
+Your balance has been withdrawn to the Available Balance
+
+To withdraw your profit or re-invest Please Visit the Dashboard.
+
+Click the link below to check your account.
+https://www.chasebitcointrading.com/{% url 'investicon:dashboard' %}
+
+{% endautoescape %}
