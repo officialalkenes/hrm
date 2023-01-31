@@ -1,60 +1,50 @@
-{% extends 'reg.html' %}
+{% extends 'hotel/base.html' %}
 
 {% load static %}
 
 {% block content %}
-<div class="card card-1">
-  <div class="card-heading"></div>
-  <div class="card-body">
-      <h2 class="title">Registration Info</h2>
-      <form method="POST">
-        {% csrf_token %}
-          <div class="input-group">
-              <input class="input--style-1" type="text" placeholder="NAME" name="name">
+
+<section class="hero-section">
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-6">
           </div>
-          <div class="row row-space">
-              <div class="col-2">
-                  <div class="input-group check-date">
-                    {{form.check_in}}
-                    <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
-                  </div>
-              </div>
-              <div class="col-2">
-                  <div class="input-group">
-                      <div class="rs-select2 js-select-simple select--no-search">
-                          <select name="gender">
-                              <option disabled="disabled" selected="selected">GENDER</option>
-                              <option>Male</option>
-                              <option>Female</option>
-                              <option>Other</option>
-                          </select>
-                          <div class="select-dropdown"></div>
+          <div class="col-xl-6 col-lg-6 offset-xl-3 offset-lg-1">
+              <div class="booking-form">
+                  <h3>Booking Your Hotel</h3>
+                  <form action="" method="POST">
+                      {% csrf_token %}
+                      <div class="check-date">
+                          <label for="date-in">Check In:</label>
+                          {% comment %} <input type="text" class="date-input" id="date-in"> {% endcomment %}
+                          {{form.check_in}}
+                          <i class="icon_calendar"></i>
                       </div>
-                  </div>
+                      <div class="check-date">
+                          <label for="date-out">Check Out:</label>
+                          {{form.check_out}}
+                          <i class="icon_calendar"></i>
+                      </div>
+                      <div class="select-option">
+                          <label for="guest">Guests:</label>
+                          {{form.people}}
+                      </div>
+                      <div class="select-option" id="id_room_number" >
+                          <label for="id_room_number">Beds:</label>
+                          {{form.beds}}
+                      </div>
+                      <button type="submit">Check Availability</button>
+                  </form>
               </div>
           </div>
-          <div class="input-group">
-              <div class="rs-select2 js-select-simple select--no-search">
-                  <select name="class">
-                      <option disabled="disabled" selected="selected">CLASS</option>
-                      <option>Class 1</option>
-                      <option>Class 2</option>
-                      <option>Class 3</option>
-                  </select>
-                  <div class="select-dropdown"></div>
-              </div>
-          </div>
-          <div class="row row-space">
-              <div class="col-2">
-                  <div class="input-group">
-                      <input class="input--style-1" type="text" placeholder="REGISTRATION CODE" name="res_code">
-                  </div>
-              </div>
-          </div>
-          <div class="p-t-20">
-              <button class="btn btn--radius btn--green" type="submit">Submit</button>
-          </div>
-      </form>
+      </div>
   </div>
-</div>
+  <div class="hero-slider owl-carousel">
+      <div class="hs-item set-bg" data-setbg="{% static 'img/hero/hero-1.jpg' %}"></div>
+      <div class="hs-item set-bg" data-setbg="{% static 'img/hero/hero-2.jpg' %}"></div>
+      <div class="hs-item set-bg" data-setbg="{% static 'img/hero/hero-3.jpg' %}"></div>
+  </div>
+</section>
+
+
 {% endblock content %}

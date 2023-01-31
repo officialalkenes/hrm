@@ -26,9 +26,3 @@ def initiate_payment(request: HttpResponse) -> HttpResponse:
     payment = PaymentForm()
     context = {"payment": payment}
     return render(request, "hotel/initiate_payment.html", context)
-
-
-# def verify(request, id):
-#     transaction = Transaction(
-#         authorization_key=settings.PAYSTACK_SECRET_KEY,
-#     )
