@@ -3,9 +3,9 @@
 {% load static %}
 
 {% block content %}
-
-<section class="hero-section">
-  <div class="container">
+{% comment %}
+<section class="hero-section"> {% endcomment %}
+  <div class="container d-flex justify-content-center">
       <div class="row">
           <div class="col-lg-6">
           </div>
@@ -23,12 +23,7 @@
           </div>
       </div>
   </div>
-  <div class="hero-slider owl-carousel">
-      <div class="hs-item set-bg" data-setbg="{% static 'img/hero/hero-1.jpg' %}"></div>
-      <div class="hs-item set-bg" data-setbg="{% static 'img/hero/hero-2.jpg' %}"></div>
-      <div class="hs-item set-bg" data-setbg="{% static 'img/hero/hero-3.jpg' %}"></div>
-  </div>
-</section>
+{% comment %} </section> {% endcomment %}
 
 
 <script src="https://js.paystack.co/v2/inline.js"></script>
@@ -40,9 +35,9 @@
     e.preventDefault();
 
     let handler = PaystackPop.setup({
-        key: 'pk_test_2eea4b413e9d47d759615e5dafc0d2c98c6e6eac', // Replace with your public key
-        email: "belloabdulhakeemolamide@gmail.com",
-        amount: 500000,
+        key: '{{paystack_public_key}}', // Replace with your public key
+        email: "{{request.user.email}}",
+        amount: {{booking.get_total_amount}} * 100,
         ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
         // label: "Optional string that replaces customer email"
         onClose: function(){

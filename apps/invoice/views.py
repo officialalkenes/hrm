@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.conf import settings
 
 from django.http import HttpResponse
@@ -8,13 +9,13 @@ from apps.invoice.forms import PaymentForm
 
 from pypaystack import Transaction, Customer, Plan
 
+from apps.invoice.models import Payment
+
 
 # Create your views here.
 def initiate_payment(request: HttpResponse) -> HttpResponse:
-    if request.method == "POST":
-        payment = PaymentForm(request.POST)
-        if payment.is_valid():
-            payment = payment.save()
-    payment = PaymentForm()
-    context = {"payment": payment}
+    amount = Decimal(request.session["amount"])
+    email = request.user.email
+    Payment.objects.create(amount=amount, email=email)
+    context = {"amount": amount}
     return render(request, "hotel/initiate_payment.html", context)
