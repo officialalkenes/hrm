@@ -81,7 +81,8 @@ def homepage(request):
 
 
 def available_rooms(request, rooms):
-    context = {"rooms": rooms}
+    available = Room.objects.filter(is_available=True)
+    context = {"available": available}
     return render(request, "hotel/available-rooms.html", context)
 
 
@@ -102,7 +103,7 @@ def events(request):
 
 def all_rooms(request):
     rooms = Room.objects.all()
-    paginator = Paginator(rooms, 2)
+    paginator = Paginator(rooms, 6)
     page_number = request.GET.get("page")
     page_number = page_number if page_number else 1
     try:
@@ -141,7 +142,7 @@ def create_new_room(request):
     context = {
         "form": form,
     }
-    return render(request, "", context)
+    return render(request, "dashboard/", context)
 
 
 def update_room(request, slug):
@@ -220,27 +221,6 @@ def category_details(request, slug):
     return render(request, "", context)
 
 
-# class CategoryDetailView(View):
-#     def get(self, request, *args, **kwargs):
-#         category = self.kwargs.get('slug', None)
-#         form = AvailabilityForm()
-#         rooms = Room.objects.filter(category=category)
-#         if len(rooms) > 0:
-#             room_category = rooms[0].room_type.name
-#             context = {
-#                 'category': room_category,
-#                 'form': form}
-#             return render(request, '', context)
-#         return redirect("cat-error")
-
-#     def post(self, request, *args, **kwargs):
-#         category = self.kwargs.get('slug', None)
-#         rooms = Room.objects.filter(category=category)
-#         rooms_available = []
-#         for room in rooms:
-#             ...
-
-
 class BookingRoomView(FormView):
     form_class = AvailabilityForm
     template_name = ""
@@ -279,30 +259,15 @@ class BookingEventView(FormView):
         return super().form_valid(form)
 
 
-class RoomCreateView(CreateView):
-    model = Room
-    form_class = RoomForm
-    success_url = reverse_lazy("products")
-    template_name = ""
-
-    def get_context_data(self, **kwargs):
-        context = super(RoomCreateView, self).get_context_data(**kwargs)
-        return context
-
-    def form_valid(self, form):
-        context = self.get_context_data()
-        form.instance.user = self.request.user
-        formset = context["formset"]
-        if formset.is_valid():
-            self.object = form.save()
-            formset.instance = self.object
-            formset.save()
-            return super(RoomCreateView, self).form_valid(form)
-        else:
-            return self.render_to_response(self.get_context_data(form=form))
-
-
-create_room = RoomCreateView.as_view()
+def create_room(request):
+    form = RoomForm()
+    if request.method == "POST":
+        form = RoomForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("hotel:homepage")
+    context = {"form": form}
+    return render(request, "dashboard/create-room.html", context)
 
 
 class UpdateRoomView(UpdateView):
@@ -351,23 +316,19 @@ def book_room(request, slug):
                 booking.room = room
                 booking.customer = request.user
                 booking.save()
+                room.is_available = False
+                room.save()
                 context = {
                     "booking": booking,
                     "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
                 }
+                messages.success(request, "Room has been Booked Successfully.")
                 return render(request, "hotel/initiate_payment.html", context)
             else:
-                return render(
-                    request,
-                    "hotel/available-rooms.html",
-                    {
-                        "room": room,
-                        "checkin": checkin,
-                        "checkout": checkout,
-                        "form": form,
-                        "error_message": "Room not available",
-                    },
+                messages.error(
+                    request, "Sorry! Room has already been booked for selected date."
                 )
+                return redirect("hotel:book-room", slug)
     return render(request, "hotel/book_room.html", {"room": room, "form": form})
 
 
@@ -375,9 +336,25 @@ def hotel_dashboard(request):
     hotels = Room.objects.all()
     bookings = Booking.objects.all()
     users = User.objects.all()
+    rooms_available = []
+    for room in hotels:
+        if availability_checker(room):
+            rooms_available.append(room)
     context = {
         "hotels": hotels,
         "bookings": bookings,
         "users": users,
+        "rooms_available": rooms_available,
+        "visitors": len(users),
     }
     return render(request, "hotel/dashboard.html", context)
+
+
+def guest_list(request):
+    context = {}
+    return render(request, "", context)
+
+
+def guest_detail(request, ref):
+    context = {}
+    return render(request, "", context)

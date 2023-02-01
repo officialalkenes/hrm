@@ -38,16 +38,7 @@ class RoomDetailAvailabilityForm(forms.Form):
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
-        fields = (
-            "room_number",
-            "room_type",
-            "price",
-            "capacity",
-            "beds",
-            "image",
-            "description",
-            "is_available",
-        )
+        exclude = ("slug",)
 
 
 # class RoomImageForm(forms.ModelForm):

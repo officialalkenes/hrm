@@ -32,7 +32,7 @@ class RoomType(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.types)
-        return super().save(self, *args, **kwargs)
+        return super().save(*args, **kwargs)
 
 
 class Room(models.Model):
@@ -53,7 +53,7 @@ class Room(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(f"{self.room_type.types}-{self.room_number}")
-        return super().save(self, *args, **kwargs)
+        return super().save(*args, **kwargs)
 
 
 class Booking(models.Model):

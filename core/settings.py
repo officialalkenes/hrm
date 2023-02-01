@@ -1,6 +1,9 @@
 import os
 from pathlib import Path
 
+from django.contrib.messages import constants as message_constants
+
+
 from decouple import config
 
 
@@ -142,4 +145,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_ATTEMPTS_TIME_LIMIT = 3
-SESSION_COOKIE_AGE = 300
+
+MESSAGE_TAGS = {
+    message_constants.DEBUG: "debug",
+    message_constants.INFO: "info",
+    message_constants.SUCCESS: "success",
+    message_constants.WARNING: "warning",
+    message_constants.ERROR: "danger",
+}
