@@ -6,10 +6,10 @@
     <div class='container'>
         <div class="d-flex row justify-content-center align-items-center py-md-5 py-3" style="min-height: 90vh">
             <div class="col-12">
-                    <h4> Make Payment for {{payment.amount}}</h4>
+                    <h4> Make Payment for {{booking.days_difference}}</h4>
                     <form id="paymentForm">
                         <div class="form-submit">
-                            <button type="submit" onclick="payWithPaystack()"> Pay ₦500
+                            <button type="submit" onclick="payWithPaystack()"> Pay ₦{{booking.get_total_amount}}
                                 {% comment %} <i class="bi-credit-card"></i> {% endcomment %}
                                 <span class="" style="display: inline-block; width:90px">
                                     <img src="{% static 'img/paystack.svg'  %} height='100px'">

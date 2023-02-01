@@ -1,7 +1,9 @@
 from django.shortcuts import get_object_or_404, redirect, render
 
-from django.core.paginator import Paginator
+from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator
 
 from django.forms import inlineformset_factory
 
@@ -30,6 +32,8 @@ from apps.hotel.forms import (
 from apps.hotel.utils import send_contact_email
 
 from .models import Event, Room, Booking, RoomType
+
+User = get_user_model()
 
 
 def contact(request):
@@ -69,23 +73,15 @@ def homepage(request):
             for room in all_rooms:
                 if availability_checker(room, checkin, checkout):
                     available_rooms.append(room)
-            context = {"rooms": available_rooms}
-            return render(request, "hotel/available-rooms.html", context)
+            return render(
+                request, "hotel/available-rooms.html", {"rooms": available_rooms}
+            )
     context = {"specials": specials, "room_cats": room_cats, "form": form}
     return render(request, "hotel/index.html", context)
 
 
 def available_rooms(request, rooms):
-    available_rooms = []
-    print(rooms)
-    for room in rooms:
-        # if availability_checker(room, checkin, checkout):
-        # available = Room.objects.get(slug=room)
-        available_rooms.append(room)
-    # available = available_rooms
-    context = {
-        # 'rooms': available
-    }
+    context = {"rooms": rooms}
     return render(request, "hotel/available-rooms.html", context)
 
 
@@ -358,8 +354,11 @@ def book_room(request, slug):
                 context = {
                     "room": room,
                     "booking": booking,
+                    "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
                 }
-                return render(request, "hotel/make-payment.html", context)
+                return redirect(
+                    "http://127.0.0.1:8000/invoice/initiate-payment/", context
+                )
             else:
                 return render(
                     request,
@@ -373,3 +372,15 @@ def book_room(request, slug):
                     },
                 )
     return render(request, "hotel/book_room.html", {"room": room, "form": form})
+
+
+def hotel_dashboard(request):
+    hotels = Room.objects.all()
+    bookings = Booking.objects.all()
+    users = User.objects.all()
+    context = {
+        "hotels": hotels,
+        "bookings": bookings,
+        "users": users,
+    }
+    return render(request, "hotel/dashboard.html", context)

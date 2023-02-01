@@ -72,7 +72,7 @@ class Booking(models.Model):
 
     @property
     def days_difference(self):
-        return (self.checked_out - self.check_in).days + 1
+        return (self.check_out - self.check_in).days + 1
 
     @property
     def get_total_amount(self):
