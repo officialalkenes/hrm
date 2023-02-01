@@ -336,10 +336,7 @@ def hotel_dashboard(request):
     hotels = Room.objects.all()
     bookings = Booking.objects.all()
     users = User.objects.all()
-    rooms_available = []
-    for room in hotels:
-        if availability_checker(room):
-            rooms_available.append(room)
+    rooms_available = hotels.filter(is_available=True)
     context = {
         "hotels": hotels,
         "bookings": bookings,
@@ -351,6 +348,7 @@ def hotel_dashboard(request):
 
 
 def guest_list(request):
+    # guests = Booking.objects.all()
     context = {}
     return render(request, "", context)
 

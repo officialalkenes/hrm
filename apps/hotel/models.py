@@ -66,6 +66,7 @@ class Booking(models.Model):
     has_paid = models.BooleanField(default=False)
     status = models.CharField(max_length=255)
     has_checked_out = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return f"{self.room} - {self.check_in} to {self.check_out}"
@@ -83,6 +84,10 @@ class Booking(models.Model):
         if self.reference_id == "":
             self.reference_id = generate_unique_pass()
         return super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ["-created"]
+        verbose_name_plural = "Bookings"
 
 
 class Event(models.Model):
