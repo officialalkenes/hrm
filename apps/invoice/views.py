@@ -15,14 +15,6 @@ def initiate_payment(request: HttpResponse) -> HttpResponse:
         payment = PaymentForm(request.POST)
         if payment.is_valid():
             payment = payment.save()
-            return render(
-                request,
-                "hotel/make-payment.html",
-                {
-                    "payment": payment,
-                    "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
-                },
-            )
     payment = PaymentForm()
     context = {"payment": payment}
     return render(request, "hotel/initiate_payment.html", context)

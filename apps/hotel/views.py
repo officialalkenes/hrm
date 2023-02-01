@@ -351,14 +351,9 @@ def book_room(request, slug):
                 booking.room = room
                 booking.customer = request.user
                 booking.save()
-                context = {
-                    "room": room,
-                    "booking": booking,
-                    "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
-                }
-                return redirect(
-                    "http://127.0.0.1:8000/invoice/initiate-payment/", context
-                )
+                request.session["payment"] = booking
+                request.session["paystack_public_key"] = settings.PAYSTACK_PUBLIC_KEY
+                return redirect("invoice:initiate-payment")
             else:
                 return render(
                     request,
