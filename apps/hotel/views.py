@@ -333,18 +333,18 @@ def book_room(request, slug):
 
 
 def hotel_dashboard(request):
-    hotels = Room.objects.all()
+    rooms = Room.objects.all()
     bookings = Booking.objects.all()
     users = User.objects.all()
-    rooms_available = hotels.filter(is_available=True)
+    rooms_available = rooms.filter(is_available=True)
     context = {
-        "hotels": hotels,
+        "rooms": rooms,
         "bookings": bookings,
         "users": users,
         "rooms_available": rooms_available,
         "visitors": len(users),
     }
-    return render(request, "hotel/dashboard.html", context)
+    return render(request, "dashboard/dashboard.html", context)
 
 
 def guest_list(request):

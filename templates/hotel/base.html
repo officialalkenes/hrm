@@ -48,8 +48,8 @@
         </div>
         <nav class="mainmenu mobile-menu">
             <ul>
-                <li class="active"><a href="">Home</a></li>
-                <li><a href="">Rooms</a></li>
+                <li class="active"><a href="{% url 'hotel:homepage' %}">Home</a></li>
+                <li><a href="{% url 'hotel:all-rooms' %}">Rooms</a></li>
                 <li><a href="">About Us</a></li>
                 <li><a href="">Pages</a>
                     <ul class="dropdown">
@@ -59,8 +59,8 @@
                         <li><a href="#">Premium Room</a></li>
                     </ul>
                 </li>
-                <li><a href="">News</a></li>
-                <li><a href="">Contact</a></li>
+                <li><a class='text-danger' href="{% url 'accounts:login' %}">Login</a></li>
+                <li><a class='text-primary' href="{% url 'accounts:signup' %}">Signup</a></li>
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -72,7 +72,7 @@
         </div>
         <ul class="top-widget">
             <li><i class="fa fa-phone"></i> +(234) 70 4997 4214</li>
-            <li><i class="fa fa-envelope"></i> info.colorlib@gmail.com</li>
+            <li><i class="fa fa-envelope"></i> info.freshkom4t.com</li>
         </ul>
     </div>
     <!-- Offcanvas Menu Section End -->

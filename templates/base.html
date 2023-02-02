@@ -399,7 +399,7 @@
                           <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="avatar flex-shrink-0">
                               <img
-                                src="{% static 'assets/img/icons/unicons/chart-success.png' %}"
+                                src="{% static 'assets/img/icons/unicons/wallet-info.png' %}"
                                 alt="chart success"
                                 class="rounded"
                               />
@@ -416,13 +416,12 @@
                                 <i class="bx bx-dots-vertical-rounded"></i>
                               </button>
                               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                                <a class="dropdown-item" href="">Deposit</a>
-                                <a class="dropdown-item" href="">Withdraw</a>
+                                <a class="dropdown-item" href="">View Guest Records</a>
                               </div>
                             </div>
                           </div>
                           <span class="fw-semibold d-block mb-1">Total Guests</span>
-                          <h3 class="card-title mb-2">${{balance}}</h3>
+                          <h3 class="card-title mb-2">{{total_guests}}</h3>
                           {% comment %} <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small> {% endcomment %}
                         </div>
                       </div>
@@ -456,7 +455,7 @@
                             </div>
                           </div>
                           <span>Rooms</span>
-                          <h3 class="card-title text-nowrap mb-1">${{amount}}</h3>
+                          <h3 class="card-title text-nowrap mb-1">{{all_rooms}}</h3>
                           {% comment %} <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small> {% endcomment %}
                         </div>
                       </div>
@@ -468,7 +467,7 @@
                           <div class="card-title d-flex align-items-start justify-content-between">
                             <div class="avatar flex-shrink-0">
                               <img
-                                src="{% static 'assets/img/icons/unicons/chart-success.png' %}"
+                                src="{% static 'assets/img/icons/unicons/wallet-info.png' %}"
                                 alt="chart success"
                                 class="rounded"
                               />
@@ -485,13 +484,12 @@
                                 <i class="bx bx-dots-vertical-rounded"></i>
                               </button>
                               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                                <a class="dropdown-item" href="">Deposit</a>
-                                <a class="dropdown-item" href="">Withdraw</a>
+                                <a class="dropdown-item" href="">View Available Rooms</a>
                               </div>
                             </div>
                           </div>
                           <span class="fw-semibold d-block mb-1">Available Rooms</span>
-                          <h3 class="card-title mb-2">${{balance}}</h3>
+                          <h3 class="card-title mb-2">{{available_rooms_count}}</h3>
                           {% comment %} <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small> {% endcomment %}
                         </div>
                       </div>
@@ -525,7 +523,7 @@
                             </div>
                           </div>
                           <span>Booked Rooms</span>
-                          <h3 class="card-title text-nowrap mb-1">${{amount}}</h3>
+                          <h3 class="card-title text-nowrap mb-1">{{booked_rooms_count}}</h3>
                           {% comment %} <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small> {% endcomment %}
                         </div>
                       </div>
@@ -565,7 +563,7 @@
                     document.write(new Date().getFullYear());
                   </script>
                   , made with ❤️ by
-                  <a href="https://themeselection.com" target="" class="footer-link fw-bolder">Chase Bank Developers</a>
+                  <a href="" target="" class="footer-link fw-bolder">7th Tech Info</a>
                 </div>
             </footer>
             <!-- / Footer -->

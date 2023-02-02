@@ -51,7 +51,8 @@
                                 <ul>
                                     <li class="active"><a href="{% url 'hotel:homepage' %}">Home</a></li>
                                     <li><a href="{% url 'hotel:all-rooms' %}">Rooms</a></li>
-                                    <li><a href="">Pages</a>
+                                    {% if request.user.is_authenticated %}
+                                    <li><a href="">View My Bookings</a>
                                         <ul class="dropdown">
                                             <li><a href="./room-details.html">Room Details</a></li>
                                             <li><a href="./blog-details.html">Blog Details</a></li>
@@ -59,10 +60,14 @@
                                             <li><a href="#">Premium Room</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="">News</a></li>
+                                    {% endif %}
+
                                     <li><a href="{% url 'hotel:contact-us' %}">Contact</a></li>
                                     <li>
-                                        <a href="{% url 'hotel:all-rooms' %}" class="">Signup</a>
+                                        <a href="{% url 'accounts:signup' %}" class="text-danger">Signup</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'accounts:signup' %}" class="text-primary">Login</a>
                                     </li>
                                 </ul>
                             </nav>
