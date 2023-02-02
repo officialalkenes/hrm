@@ -15,7 +15,7 @@ class Payment(models.Model):
         ordering = ["-created"]
 
     def __str__(self) -> str:
-        return f"Payment Ref: {self.ref}"
+        return f"Payment Ref: {self.ref} - {self.amount}"
 
     def save(self, *args, **kwargs):
         while not self.ref:

@@ -26,4 +26,4 @@ def payment_records(request):
     context = {
         "payments": payments,
     }
-    return render(request, "dashboard/payment-history.html", context)
+    return render(request, "dashboard/payment-records.html", context)

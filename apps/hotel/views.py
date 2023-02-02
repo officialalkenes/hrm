@@ -339,6 +339,7 @@ def guest_list(request):
     context = {
         "guests": guests,
     }
+
     return render(request, "dashboard/guest-list.html", context)
 
 

@@ -207,11 +207,11 @@ def change_password(request):
 
 
 def handler404(request, exception):
-    return render(request, "users/404.html")
+    return render(request, "404.html")
 
 
 def handle_server_error(request):
-    return render(request, "users/500.html")
+    return render(request, "500.html")
 
 
 @unauthenticated_user
