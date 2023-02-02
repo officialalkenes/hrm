@@ -12,13 +12,12 @@ User = get_user_model()
 
 
 def dashboard_context(request):
-    current_site = get_current_site(request)
 
     if request.user.is_authenticated:
         user = User.objects.all()
         all_rooms = Room.objects.all()
         return {
-            "current_site": current_site,
+            "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
             "all_rooms": len(all_rooms),
             "total_guests": len(user),
             "available_rooms_count": len(all_rooms.filter(is_available=True)),

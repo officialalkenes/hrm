@@ -3,11 +3,12 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator
 
 from django.forms import inlineformset_factory
 
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from django.views.generic import (
     CreateView,
@@ -18,6 +19,7 @@ from django.views.generic import (
     View,
 )
 
+from .mixins import AdminRequiredMixin
 from apps.hotel.availability import availability_checker, check_availability
 
 from apps.hotel.forms import (
@@ -270,36 +272,21 @@ def create_room(request):
     return render(request, "dashboard/create-room.html", context)
 
 
-class UpdateRoomView(UpdateView):
+class UpdateRoomView(AdminRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Room
-    form_class = RoomForm
-    template_name = ".html"
-    success_url = reverse_lazy("my_model_list")
+    fields = [
+        "amount",
+        "payment",
+    ]
+    template_name = "dashboard/update-room.html"
+    success_message = "Room has been updated successfully!"
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        # inline_formset = RoomImageFormset(instance=self.object)
-        return self.render_to_response(self.get_context_data(form=form))
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        # inline_formset = RoomImageFormset(request.POST, instance=self.object)
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-    def form_valid(self, form, inline_formset):
-        self.object = form.save()
-        inline_formset.save()
+    def form_valid(self, form):
+        form.instance.user = self.request.user
         return super().form_valid(form)
 
-    def form_invalid(self, form):
-        return self.render_to_response(self.get_context_data(form=form))
+    def get_success_url(self):
+        return reverse("investicon:deposit-records")
 
 
 # views.py
@@ -348,9 +335,11 @@ def hotel_dashboard(request):
 
 
 def guest_list(request):
-    # guests = Booking.objects.all()
-    context = {}
-    return render(request, "", context)
+    guests = Booking.objects.all()
+    context = {
+        "guests": guests,
+    }
+    return render(request, "dashboard/guest-list.html", context)
 
 
 def guest_detail(request, ref):

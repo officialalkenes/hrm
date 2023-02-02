@@ -152,7 +152,7 @@
               <ul class="menu-sub">
 
                 <li class="menu-item">
-                  <a href="" class="menu-link">
+                  <a href="{% url 'hotel:guest-list' %}" class="menu-link">
                     <div data-i18n="Notifications">Guest Lists</div>
                   </a>
                 </li>
@@ -416,7 +416,7 @@
                                 <i class="bx bx-dots-vertical-rounded"></i>
                               </button>
                               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                                <a class="dropdown-item" href="">View Guest Records</a>
+                                <a class="dropdown-item" href="{% url 'hotel:guest-list' %}">View Guest Records</a>
                               </div>
                             </div>
                           </div>

@@ -19,3 +19,11 @@ def initiate_payment(request: HttpResponse) -> HttpResponse:
     Payment.objects.create(amount=amount, email=email)
     context = {"amount": amount}
     return render(request, "hotel/initiate_payment.html", context)
+
+
+def payment_records(request):
+    payments = Payment.objects.all()
+    context = {
+        "payments": payments,
+    }
+    return render(request, "dashboard/payment-history.html", context)
