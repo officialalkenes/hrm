@@ -88,6 +88,8 @@ class Booking(models.Model):
     def save(self, *args, **kwargs):
         if self.reference_id == "":
             self.reference_id = generate_unique_pass()
+        if self.has_checked_out is True:
+            self.room.is_available = True
         return super().save(*args, **kwargs)
 
     class Meta:

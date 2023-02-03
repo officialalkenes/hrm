@@ -5,7 +5,14 @@ from django.db import models
 
 
 class Payment(models.Model):
+    PAYMENT_TYPE = (
+        ("CASH PAYMENT", "CASH PAYMENT"),
+        ("Transfer", "Transfer"),
+        ("Online Payment", "Online Payment"),
+        ("Invoice", "Invoice"),
+    )
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_type = models.CharField(max_length=100, choices=PAYMENT_TYPE)
     ref = models.CharField(max_length=200)
     email = models.EmailField()
     verified = models.BooleanField(default=False)
@@ -48,3 +55,13 @@ class Payment(models.Model):
 
 #     def __str__(self):
 #         return self.name
+
+
+class Event(models.Model):
+    ...
+
+
+class Schedule(models.Model):
+    # event=models.ForeignKey(Event)
+    open = models.TimeField()
+    close = models.TimeField()

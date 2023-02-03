@@ -39,10 +39,10 @@
                   <i class="bx bx-dots-vertical-rounded"></i>
                 </button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href=""
+                  <a class="dropdown-item" href="{% url 'hotel:update-booking' guest.reference_id %}"
                     ><i class="bx bx-edit-alt me-1"></i> Update Booking</a
                   >
-                  <a class="dropdown-item" href="javascript:void(0);"
+                  <a class="dropdown-item" href="{% url 'hotel:guest-detail' guest.reference_id %}"
                     ><i class="bx bx-trash me-1"></i> View Room Record</a
                   >
                 </div>

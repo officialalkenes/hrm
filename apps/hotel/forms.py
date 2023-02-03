@@ -83,6 +83,21 @@ class BookingForm(forms.ModelForm):
         fields = ("check_in", "check_out")
 
 
+class AdminBookingForm(forms.ModelForm):
+    check_in = forms.DateField(
+        widget=forms.DateInput(
+            attrs={"class": "date-input input--style-1", "id": "date-in"}
+        )
+    )
+    check_out = forms.DateField(
+        widget=forms.DateInput(attrs={"class": "date-input", "id": "date-out"})
+    )
+
+    class Meta:
+        model = Booking
+        fields = "__all__"
+
+
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact

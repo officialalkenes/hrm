@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import get_object_or_404, redirect, render
 
 from django.conf import settings
@@ -8,6 +9,7 @@ from django.core.paginator import Paginator
 
 from django.forms import inlineformset_factory
 
+from django.utils import timezone
 from django.urls import reverse_lazy, reverse
 
 from django.views.generic import (
@@ -23,6 +25,7 @@ from .mixins import AdminRequiredMixin
 from apps.hotel.availability import availability_checker, check_availability
 
 from apps.hotel.forms import (
+    AdminBookingForm,
     AvailabilityForm,
     BookingForm,
     ContactForm,
@@ -339,10 +342,46 @@ def guest_list(request):
     context = {
         "guests": guests,
     }
-
     return render(request, "dashboard/guest-list.html", context)
 
 
+def update_booking(request, ref):
+    booking = Booking.objects.get(reference_id=ref)
+    if request.method == "POST":
+        form = AdminBookingForm(request.POST, instance=booking)
+        if form.is_valid():
+            form.save()
+            return redirect("hotel:guest-list")
+    else:
+        form = AdminBookingForm(instance=booking)
+    return render(request, "dashboard/create-booking.html", {"form": form})
+
+
+def admin_booking(request):
+    form = AdminBookingForm()
+    if request.method == "POST":
+        form = AdminBookingForm(request.POST)
+        if form.is_valid():
+            room = form.cleaned_data.get("room")
+            checkin = form.cleaned_data.get("check_in")
+            checkout = form.cleaned_data.get("check_out")
+            form.save()
+            messages.success(
+                request, f"{room} has been booked from {checkin} to {checkout}"
+            )
+            return redirect("hotel:guest-list")
+    else:
+        form = AdminBookingForm()
+    return render(request, "dashboard/create-booking.html", {"form": form})
+
+
 def guest_detail(request, ref):
-    context = {}
-    return render(request, "", context)
+    guest = Booking.objects.get(reference_id=ref)
+    room = guest.room
+    user = guest.customer
+    records = Booking.objects.filter(room=room, customer=user)
+    context = {
+        "guest": guest,
+        "records": records,
+    }
+    return render(request, "dashboard/guest-detail.html", context)

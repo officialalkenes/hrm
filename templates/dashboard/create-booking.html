@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">Create New Room</h4>
+
+    <div class="row">
+      <div class="col-md-12 col-xl-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            {% include 'messages.html' %}
+            {% include 'errors.html' %}
+            <form action="" method="POST">
+                {% include 'messages.html' %}
+                {% csrf_token %}
+                {{form|crispy}}
+              <button type="submit" class="btn btn-primary">Save Room</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="my-5" />
+
+  <!-- Responsive Table -->
+  <div class="card">
+    <h5 class="card-header">Responsive Table</h5>
+    <div class="table-responsive text-nowrap">
+      <table class="table">
+        <thead>
+          <tr class="text-nowrap">
+            <th>#</th>
+            <th>Table heading</th>
+            <th>Table heading</th>
+            <th>Table heading</th>
+            <th>Table heading</th>
+            <th>Table heading</th>
+            <th>Table heading</th>
+            <th>Table heading</th>
+            <th>Table heading</th>
+            <th>Table heading</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+            <td>Table cell</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+{% endblock content %}

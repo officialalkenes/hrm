@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h5 class="pb-1 mb-4">Guest Detail</h5>
+<div class="row mb-5">
+  <div class="col-md">
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img class="card-img card-img-left" src="{{guest.room.image.url}}" height="100%" alt="Card image" />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{guest.customer.firstname|title}} {{guest.customer.lastname|title}}</h5>
+            <p class="card-text">
+              {{guest.room.description|truncatewords:20}}
+            </p>
+            <p class="card-text"><small class="text-danger">Checked in {{guest.check_in}}</small></p>
+            {% if guest.has_paid == True %}
+              <button type="submit" class="btn btn-success">Paid</button>
+            {% else %}
+              <button type="submit" class="btn btn-danger">Not Paid</button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md">
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{guest.room.room_type}} {{guest.room.room_number}}</h5>
+            <p class="card-text">
+              Bed Capacity: {{guest.room.capacity}}
+              <br>
+              Number of Bed: {{guest.room.beds}}
+              <br>
+              Balance: ₦{{guest.get_total_amount}}
+            </p>
+            <p class="card-text"><small class="text-success">Checkout {{guest.check_out}}</small></p>
+            {% if guest.has_checked_out == True %}
+              <button type="submit" class="btn btn-primary">Still Available</button>
+            {% else %}
+              <button type="submit" class="btn btn-primary">Has Checked Out</button>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img class="card-img card-img-left" src="{{guest.room.image.url}}" height="100%" alt="Card image" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="my-5" />
+
+{% if records %}
+<!-- Responsive Table -->
+<div class="card">
+  <h5 class="card-header">Responsive Table</h5>
+  <div class="table-responsive text-nowrap">
+    <table class="table">
+      <thead>
+        <tr class="text-nowrap">
+          <th>#</th>
+          <th>Customer</th>
+          <th>Bed Type</th>
+          <th>Booked Date</th>
+          <th>Check Out Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for data in records %}
+        <tr>
+          <th scope="row">3</th>
+          <td>Table cell</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+          <td>Table cell</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+<div class="row" data-masonry='{"percentPosition": true }'>
+  <div class="col-sm-6 col-lg-4 mb-4">
+  </div>
+  <div class="col-sm-6 col-lg-4 mb-4">
+  </div>
+  <div class="col-sm-6 col-lg-4 mb-4">
+  </div>
+  <div class="col-sm-6 col-lg-4 mb-4">
+    <div class="card bg-danger text-white text-center p-3">
+      <figure class="mb-0">
+        <blockquote class="blockquote">
+          <p>A well-known quote, contained in a blockquote element.</p>
+        </blockquote>
+        <figcaption class="blockquote-footer mb-0 text-white">
+          Someone famous in <cite title="Source Title">Source Title</cite>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+  <div class="col-sm-6 col-lg-4 mb-4">
+  </div>
+  <div class="col-sm-6 col-lg-4 mb-4">
+  </div>
+  <div class="col-sm-6 col-lg-4 mb-4">
+  </div>
+  <div class="col-sm-6 col-lg-4 mb-4">
+  </div>
+</div>
+
+{% endif %}
+
+{% endblock content %}
