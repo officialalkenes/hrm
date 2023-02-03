@@ -24,6 +24,7 @@
     <!-- Room Details Section Begin -->
     <section class="room-details-section spad">
         <div class="container">
+            {% include 'messages.html' %}
             <div class="row">
                 <div class="col-lg-8">
                     <div class="room-details-item">
@@ -70,28 +71,25 @@
                 <div class="col-lg-4">
                     <div class="room-booking">
                         <h3>Your Reservation</h3>
-                        <form action="#">
+                        <form action="" method='POST'>
+                            {% csrf_token %}
                             <div class="check-date">
                                 <label for="date-in">Check In:</label>
-                                <input type="text" class="date-input" id="date-in">
+                                <input type="text" class="date-input" id="date-in" name='checkin'>
                                 <i class="icon_calendar"></i>
                             </div>
                             <div class="check-date">
                                 <label for="date-out">Check Out:</label>
-                                <input type="text" class="date-input" id="date-out">
+                                <input type="text" class="date-input" id="date-out" name='checkout'>
                                 <i class="icon_calendar"></i>
                             </div>
                             <div class="select-option">
-                                <label for="guest">Guests:</label>
-                                <select id="guest">
-                                    <option value="">3 Adults</option>
-                                </select>
+                                <label for="guest">Max Guest:</label>
+                                <input class="form-control mb-3"  type="text" placeholder="{{room.capacity}}" disabled>
                             </div>
                             <div class="select-option">
-                                <label for="room">Room:</label>
-                                <select id="room">
-                                    <option value="">1 Room</option>
-                                </select>
+                                <label for="room">No of Rooms:</label>
+                                <input class="form-control mb-3"  type="text" placeholder="{{room.beds}}" disabled>
                             </div>
                             <button type="submit">Check Availability</button>
                         </form>

@@ -24,6 +24,12 @@ class RoomDetailAvailabilityForm(forms.Form):
     check_in = forms.DateField()
     check_out = forms.DateField()
 
+    class Meta:
+        widgets = {
+            "check_in": forms.TextInput(attrs={"type": "date"}),
+            "check_out": forms.TextInput(attrs={"type": "date"}),
+        }
+
 
 # RoomImageFormset = inlineformset_factory(
 #     Room,

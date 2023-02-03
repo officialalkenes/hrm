@@ -1,0 +1,42 @@
+{% extends 'hotel/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<section class="hero-section">
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-6">
+          </div>
+          <div class="col-xl-4 col-lg-4 offset-xl-4 offset-lg-1">
+              <div class="booking-form">
+                  <h3 class="">Book Room</h3>
+                  <form action="" method="POST">
+                      {% csrf_token %}
+                      {% include 'messages.html' %}
+                      {% include 'errors.html' %}
+                      <div class="check-date">
+                          <label for="date-in">Check In:</label>
+                          {% comment %} <input type="text" class="date-input" id="date-in"> {% endcomment %}
+                          {{form.check_in}}
+                          <i class="icon_calendar"></i>
+                      </div>
+                      <div class="check-date">
+                          <label for="date-out">Check Out:</label>
+                          {{form.check_out}}
+                          <i class="icon_calendar"></i>
+                      </div>
+                      <button type="submit">Book and Pay Room</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="hero-slider owl-carousel">
+      <div class="hs-item set-bg" data-setbg="{% static 'img/hero/hero-1.jpg' %}"></div>
+      <div class="hs-item set-bg" data-setbg="{% static 'img/hero/hero-2.jpg' %}"></div>
+      <div class="hs-item set-bg" data-setbg="{% static 'img/hero/hero-3.jpg' %}"></div>
+  </div>
+</section>
+{% endblock content %}

@@ -119,23 +119,6 @@ def all_rooms(request):
     return render(request, "hotel/rooms.html", context)
 
 
-def room_detail(request, slug):
-    try:
-        room = Room.objects.get(slug=slug)
-        types = room.room_type
-        # if check_availability(room, checkin, checkout):
-        # availablity = True
-        # availablity = False
-    except Room.DoesNotExist:
-        pass
-    related_room = Room.objects.filter(room_type=types)[:4]
-    context = {
-        "room": room,
-        "related_room": related_room,
-    }
-    return render(request, "hotel/room-detail.html", context)
-
-
 def create_new_room(request):
     form = RoomForm()
     if request.method == "POST":
@@ -162,37 +145,36 @@ def update_room(request, slug):
     return render(request, "update_template.html", {"form": form})
 
 
-class RoomDetailView(View):
-    def get(self, request, slug):
-        try:
-            room = get_object_or_404(Room, self.slug)
-            types = room.type
-            # if check_availability(room, checkin, checkout):
-            #     availablity = True
-            # availablity = False
-        except Room.DoesNotExist:
-            pass
+def room_detail(request, slug):
+    room = Room.objects.get(slug=slug)
+    if request.method == "POST":
+        checkin = request.POST.get("checkin")
+        checkout = request.POST.get("checkout")
+        checkin_date = timezone.datetime.strptime(checkin, "%d %B, %Y").date()
+        formatted_checkin = checkin_date.strftime("%Y-%m-%d")
+        checkout_date = timezone.datetime.strptime(checkout, "%d %B, %Y").date()
+        formatted_checkout = checkout_date.strftime("%Y-%m-%d")
+        if availability_checker(room, formatted_checkin, formatted_checkout):
+            messages.success(
+                request,
+                f"Room is Available between {checkin} and {checkout}. You can book now",
+            )
+            return redirect("hotel:room-detail", slug)
+        else:
+            messages.error(request, f"Room is Booked between {checkin} and {checkout}")
+            return redirect("hotel:room-detail", slug)
+
+    else:
+        types = room.room_type
+        # if check_availability(room, checkin, checkout):
+        #     availablity = True
+        # availablity = False
         related_room = Room.objects.filter(room_type=types)[:4]
         context = {
             "room": room,
             "related_room": related_room,
         }
-        return render(request, "", context)
-
-    def post(self, request, slug):
-        room = Room.objects.get(slug=slug)
-        form = RoomDetailAvailabilityForm()
-        if request.method == "POST":
-            form = RoomDetailAvailabilityForm(request.POST)
-            if form.is_valid():
-                checkin = form.get("check_in", None)
-                checkout = form.get("check_out", None)
-                if check_availability(room, checkin, checkout):
-                    messages.success("Room is Available. You can book now")
-                else:
-                    messages.info("Room is Booked. Check back next time")
-        context = {}
-        return render(request, "", context)
+        return render(request, "hotel/room-detail.html", context)
 
 
 class CreateRoom(CreateView):
@@ -245,7 +227,7 @@ class BookingRoomView(FormView):
         return super().form_valid(form)
 
 
-class BookingEventView(FormView):
+class BookingEventView(SuccessMessageMixin, FormView):
     form_class = EventForm
     template_name = "hotel/booking.html"
 
@@ -310,11 +292,35 @@ def book_room(request, slug):
                 room.save()
                 messages.success(request, "Room has been Booked Successfully.")
                 return redirect("hotel:book-room")
-                # context = {
-                #     "booking": booking,
-                #     "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
-                # }
-                # return render(request, "hotel/initiate_payment.html", context)
+            else:
+                messages.error(
+                    request, "Sorry! Room has already been booked for selected date."
+                )
+                return redirect("hotel:book-room", slug)
+    return render(request, "hotel/book_room.html", {"room": room, "form": form})
+
+
+def book_and_pay_room(request, slug):
+    room = Room.objects.get(slug=slug)
+    form = BookingForm()
+    if request.method == "POST":
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            checkin = form.cleaned_data["check_in"]
+            checkout = form.cleaned_data["check_out"]
+            if availability_checker(room, checkin, checkout):
+                booking = form.save(commit=False)
+                booking.room = room
+                booking.customer = request.user
+                booking.save()
+                room.is_available = False
+                room.save()
+                context = {
+                    "booking": booking,
+                    "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
+                }
+                messages.success(request, "Room has been Booked Successfully.")
+                return render(request, "hotel/initiate_payment.html", context)
             else:
                 messages.error(
                     request, "Sorry! Room has already been booked for selected date."
