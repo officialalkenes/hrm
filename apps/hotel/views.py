@@ -308,12 +308,13 @@ def book_room(request, slug):
                 booking.save()
                 room.is_available = False
                 room.save()
-                context = {
-                    "booking": booking,
-                    "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
-                }
                 messages.success(request, "Room has been Booked Successfully.")
-                return render(request, "hotel/initiate_payment.html", context)
+                return redirect("hotel:book-room")
+                # context = {
+                #     "booking": booking,
+                #     "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
+                # }
+                # return render(request, "hotel/initiate_payment.html", context)
             else:
                 messages.error(
                     request, "Sorry! Room has already been booked for selected date."

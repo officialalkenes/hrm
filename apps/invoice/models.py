@@ -6,10 +6,11 @@ from django.db import models
 
 class Payment(models.Model):
     PAYMENT_TYPE = (
-        ("CASH PAYMENT", "CASH PAYMENT"),
-        ("Transfer", "Transfer"),
-        ("Online Payment", "Online Payment"),
-        ("Invoice", "Invoice"),
+        ("CASH", "Cash"),
+        ("CARD", "Credit/Debit Card"),
+        ("ONLINE", "Online Payment"),
+        ("BANK", "Bank Transfer"),
+        ("INVOICE", "Invoice"),
     )
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_type = models.CharField(max_length=100, choices=PAYMENT_TYPE)
