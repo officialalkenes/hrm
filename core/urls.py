@@ -13,9 +13,9 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
-admin.site.site_header = "Chase Crypto Admin"
-admin.site.index_title = "Welcome To Chase Crypto Admin Portal"
-admin.site.site_title = "Chase Crypto Admin Portal"
+admin.site.site_header = "FreshKom4t Admin"
+admin.site.index_title = "Welcome To FreshKom4t Admin Portal"
+admin.site.site_title = "FreshKom4t Admin Portal"
 
 handler404 = "apps.user.views.handler404"
 handler500 = "apps.user.views.handle_server_error"

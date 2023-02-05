@@ -133,6 +133,15 @@ def create_new_room(request):
     return render(request, "dashboard/", context)
 
 
+def check_bookings(request):
+    user = request.user
+    bookings = Booking.objects.filter(customer=user)
+    context = {
+        "bookings": bookings,
+    }
+    return render(request, "dashboard/booking-list.html", context)
+
+
 def update_room(request, slug):
     room = get_object_or_404(Room, slug=slug)
     if request.method == "POST":

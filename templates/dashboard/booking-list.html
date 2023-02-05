@@ -1,0 +1,51 @@
+{% extends 'hotel/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+{% include 'hotel/header.html' %}
+
+<div class="container mt-5 px-2">
+
+    <div class="mb-2 d-flex justify-content-between align-items-center">
+    </div>
+    <div class="table-responsive">
+    <table class="table table-responsive table-borderless">
+
+      <thead>
+        <tr class="bg-dark text-light">
+          <th scope="col" width="5%">Ref Id</th>
+          <th scope="col" width="20%">Room</th>
+          <th scope="col" width="20%">CheckIn</th>
+          <th scope="col" width="20%">Checkout</th>
+          <th scope="col" width="10%">Amount</th>
+          <th scope="col" width="10%">Status</th>
+        </tr>
+      </thead>
+  <tbody>
+      {% for booking in bookings %}
+    <tr>
+      <td>{{booking.reference_id}}</td>
+      <td>{{booking.room}}</td>
+      <td>{{booking.check_in}}</td>
+      <td>{{booking.check_out}}</td>
+      <td>₦{{booking.get_total_amount}}</td>
+      {% if booking.status == "Pending" %}
+        <td><i class="fa fa-check-circle-o green"></i><span class="ms-1 text-warning">Pending</span></td>
+      {% elif booking.status == "Cancelled" %}
+        <td><i class="fa fa-check-circle-o green"></i><span class="ms-1 text-danger">Cancelled</span></td>
+      {% else %}
+        <td><i class="fa fa-check-circle-o green"></i><span class="ms-1 text-success">Booked</span></td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+  </div>
+</div>
+
+{% include 'hotel/footer.html' %}
+
+{% endblock content %}

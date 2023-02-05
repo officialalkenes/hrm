@@ -16,6 +16,7 @@ urlpatterns = [
     path("book-pay-room/<slug>/", views.book_and_pay_room, name="book-pay-room"),
     path("dashboard/", views.hotel_dashboard, name="dashboard"),
     path("guest-list/", views.guest_list, name="guest-list"),
+    path("booking-list/", views.check_bookings, name="booking-list"),
     path("update-booking/<ref>/", views.update_booking, name="update-booking"),
     path("guest-detail/<ref>/", views.guest_detail, name="guest-detail"),
 ]
