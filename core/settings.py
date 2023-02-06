@@ -153,6 +153,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_ATTEMPTS_TIME_LIMIT = 3
 
+MAX_LOGIN_ATTEMPTS = 4
+
 MESSAGE_TAGS = {
     message_constants.DEBUG: "debug",
     message_constants.INFO: "info",
