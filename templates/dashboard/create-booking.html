@@ -14,7 +14,7 @@
           <div class="card-body">
             {% include 'messages.html' %}
             {% include 'errors.html' %}
-            <form action="" method="POST">
+            <form action="" method="POST" enctype="multipart/form-data">
                 {% include 'messages.html' %}
                 {% csrf_token %}
                 {{form|crispy}}

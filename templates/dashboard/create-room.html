@@ -14,7 +14,7 @@
           <div class="card-body">
             {% include 'messages.html' %}
             {% include 'errors.html' %}
-            <form action="" method="POST">
+            <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{form|crispy}}
                 <button type="submit" class="btn btn-primary">Add Room</button>
