@@ -21,6 +21,8 @@ from django.views.generic import (
     View,
 )
 
+from apps.invoice.models import Payment
+
 from .mixins import AdminRequiredMixin
 from apps.hotel.availability import availability_checker, check_availability
 
@@ -140,6 +142,15 @@ def check_bookings(request):
         "bookings": bookings,
     }
     return render(request, "dashboard/booking-list.html", context)
+
+
+def payment_records(request):
+    user = request.user
+    payments = Payment.objects.filter(booking__customer=user)
+    context = {
+        "payments": payments,
+    }
+    return render(request, "dashboard/payment-record.html", context)
 
 
 def update_room(request, slug):

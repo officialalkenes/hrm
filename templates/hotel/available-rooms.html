@@ -55,9 +55,9 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <a href="{% url 'hotel:book-pay-room' room.slug %}" class="btn btn-outline-success">Make Reservation</a>
-                            <a href="{% url 'hotel:book-room' room.slug %}" class="btn btn-outline-success">Book and Pay Online Room</a>
-                            <a href="{% url 'hotel:room-detail' room.slug %}" class="btn btn-outline-primary">More Details</a>
+                            <a href="{% url 'hotel:book-room' room.slug %}" class="btn btn-outline-success m-2">Make Reservation</a>
+                            <a href="{% url 'hotel:book-pay-room' room.slug %}" class="btn btn-outline-secondary m-2">Book and Pay Online Room</a>
+                            <a href="{% url 'hotel:room-detail' room.slug %}" class="btn btn-outline-primary m-2">More Details</a>
                         </div>
                     </div>
                 </div>

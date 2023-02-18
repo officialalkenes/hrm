@@ -3,6 +3,8 @@ from django.db import models
 
 from django.contrib.auth import get_user_model
 
+from apps.hotel.models import Booking
+
 
 User = get_user_model()
 
@@ -15,9 +17,9 @@ class Payment(models.Model):
         ("BANK", "Bank Transfer"),
         ("INVOICE", "Invoice"),
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_type = models.CharField(max_length=100, choices=PAYMENT_TYPE)
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    payment_type = models.CharField(max_length=100, choices=PAYMENT_TYPE, null=True)
     ref = models.CharField(max_length=200)
     email = models.EmailField()
     verified = models.BooleanField(default=False)

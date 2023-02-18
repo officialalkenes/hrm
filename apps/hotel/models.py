@@ -1,11 +1,11 @@
 import random
 import string
 
-
 from django.contrib.auth import get_user_model
 
 from django.db import models
 
+from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
@@ -71,7 +71,7 @@ class Booking(models.Model):
     has_paid = models.BooleanField(default=False)
     status = models.CharField(max_length=255, choices=STATUS, default="Pending")
     has_checked_out = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(default=timezone.now)
 
     def __str__(self) -> str:
         return f"{self.room} - {self.check_in} to {self.check_out}"
