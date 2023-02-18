@@ -51,17 +51,11 @@
                                 <ul>
                                     <li class="active"><a href="{% url 'hotel:homepage' %}">Home</a></li>
                                     <li><a href="{% url 'hotel:all-rooms' %}">Rooms</a></li>
-                                    <li><a href="{% url 'hotel:booking-list' %}">Reservation Lists</a></li>
                                     {% if request.user.is_authenticated %}
-                                    <li><a href="#">Rooms</a>
-                                        <ul class="dropdown">
-                                            <li><a href="./room-details.html">Room Details</a></li>
-                                            <li><a href="./blog-details.html">Blog Details</a></li>
-                                        </ul>
-                                    </li>
+                                        <li><a href="{% url 'hotel:booking-list' %}">Reservation Lists</a></li>
                                     {% endif %}
 
-                                    <li><a href="{% url 'hotel:contact-us' %}">Contact</a></li>
+                                    <li><a href="{% url 'hotel:contact-us' %}">Contact Us</a></li>
                                 {% if request.user.is_authenticated %}
                                     <li><a class='text-danger' href="{% url 'accounts:login' %}">My Dashboard</a></li>
                                 {% else %}
