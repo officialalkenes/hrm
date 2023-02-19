@@ -23,6 +23,7 @@ urlpatterns = [
         views.admin_payment_records,
         name="admin-payment-records",
     ),
+    path("admin-add-payment/", views.admin_payment, name="admin-add-payment"),
     path("update-booking/<ref>/", views.update_booking, name="update-booking"),
     path("guest-detail/<ref>/", views.guest_detail, name="guest-detail"),
 ]
