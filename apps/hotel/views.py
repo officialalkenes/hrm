@@ -416,6 +416,10 @@ def admin_payment(request):
     return render(request, "dashboard/create-payment.html", context)
 
 
+def admin_payment_records(request):
+    return render(request, "dashboard/admin-payment-records.html")
+
+
 def guest_detail(request, ref):
     guest = Booking.objects.get(reference_id=ref)
     room = guest.room

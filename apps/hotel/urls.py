@@ -18,6 +18,11 @@ urlpatterns = [
     path("guest-list/", views.guest_list, name="guest-list"),
     path("booking-list/", views.check_bookings, name="booking-list"),
     path("payment-records/", views.payment_records, name="payment-records"),
+    path(
+        "admin-payment-records/",
+        views.admin_payment_records,
+        name="admin-payment-records",
+    ),
     path("update-booking/<ref>/", views.update_booking, name="update-booking"),
     path("guest-detail/<ref>/", views.guest_detail, name="guest-detail"),
 ]
