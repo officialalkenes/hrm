@@ -160,10 +160,23 @@ def update_room(request, slug):
         form = RoomForm(request.POST, instance=room)
         if form.is_valid():
             form.save()
+            messages.success(request, "Room Updated Successfully")
             return redirect("success_url")
     else:
         form = RoomForm(instance=room)
     return render(request, "update_template.html", {"form": form})
+
+
+def update_payment(request, ref):
+    payment = get_object_or_404(Payment, ref=ref)
+    if request.method == "POST":
+        form = AdminPaymentForm(request.POST, instance=payment)
+        if form.is_valid():
+            form.save()
+            return redirect("success_url")
+    else:
+        form = AdminPaymentForm(instance=payment)
+    return render(request, "dashboard/update_payment.html", {"form": form})
 
 
 def room_detail(request, slug):

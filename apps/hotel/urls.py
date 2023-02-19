@@ -5,6 +5,7 @@ from . import views
 app_name = "hotel"
 
 urlpatterns = [
+    # Normal View
     path("", views.homepage, name="homepage"),
     path("contact/", views.contact, name="contact-us"),
     path("events/", views.events, name="events"),
@@ -14,10 +15,11 @@ urlpatterns = [
     path("create-room/", views.create_room, name="create-room"),
     path("book-room/<slug>/", views.book_room, name="book-room"),
     path("book-pay-room/<slug>/", views.book_and_pay_room, name="book-pay-room"),
+    path("payment-records/", views.payment_records, name="payment-records"),
+    path("booking-list/", views.check_bookings, name="booking-list"),
+    # Admin View
     path("dashboard/", views.hotel_dashboard, name="dashboard"),
     path("guest-list/", views.guest_list, name="guest-list"),
-    path("booking-list/", views.check_bookings, name="booking-list"),
-    path("payment-records/", views.payment_records, name="payment-records"),
     path(
         "admin-payment-records/",
         views.admin_payment_records,
@@ -25,5 +27,6 @@ urlpatterns = [
     ),
     path("admin-add-payment/", views.admin_payment, name="admin-add-payment"),
     path("update-booking/<ref>/", views.update_booking, name="update-booking"),
+    path("update-payment/<ref>/", views.update_payment, name="update-payment"),
     path("guest-detail/<ref>/", views.guest_detail, name="guest-detail"),
 ]
