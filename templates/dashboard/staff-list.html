@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+{% include 'dashboard/main-cards.html' %}
+<div class="card">
+    <h5 class="card-header">Guest List</h5>
+    <div class="table-responsive text-nowrap">
+      <table class="table">
+        <thead class="table-dark">
+          <tr>
+            <th>Staff Name</th>
+            <th>Date Joined</th>
+            <th>Role</th>
+            <th>Salary Expectation</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+            {% for staff in staffs %}
+          <tr>
+            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{staff.username}}</strong></td>
+            <td>{{staff.created}}</td>
+            <td>{{staff.check_in}}</td>
+            <td>{{staff.check_out}}</td>
+            <td>{{staff.room}}</td>
+            {% if staff.status == "Pending" %}
+                <td><span class="badge bg-label-primary me-1">Pending</span></td>
+            {% elif staff.status == "Booked" %}
+                <td><span class="badge bg-label-success me-1">Booked</span></td>
+            {% else %}
+                <td><span class="badge bg-label-danger me-1">Cancelled</span></td>
+            {% endif %}
+            <td>
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                  <i class="bx bx-dots-vertical-rounded"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{% url 'hotel:update-booking' guest.reference_id %}"
+                    ><i class="bx bx-edit-alt me-1"></i> Update Booking</a
+                  >
+                  <a class="dropdown-item" href="{% url 'hotel:guest-detail' guest.reference_id %}"
+                    ><i class="bx bx-trash me-1"></i> View Room Record</a
+                  >
+                </div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}

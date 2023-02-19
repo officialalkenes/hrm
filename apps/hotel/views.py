@@ -65,6 +65,28 @@ def contact(request):
     return render(request, "hotel/contact.html", context)
 
 
+def staff_list(request):
+    staffs = User.objects.filter(staff=True)
+    context = {"staffs": staffs}
+    return render(request, "dashboard/staff-list.html", context)
+
+
+# def update_staff_detail(request, pk):
+#     profile = Profile.objects.get(slug=pk)
+#     staff = User.objects.filter(profile=profile).first()
+#     form = UpdateStaffDetailForm()
+#     if request.method == 'POST':
+#         form = UpdateStaffDetailForm(request.POST, request.FILES, instance=staff)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, f'{staff} Information updated successfully')
+#             return redirect('hotel:dashboard')
+#     context = {
+#         'form': form
+#     }
+#     return render(request, 'dashboard/staff-update.html', context)
+
+
 def homepage(request):
     specials = Room.objects.all()[:4]
     room_cats = RoomType.objects.all()
@@ -324,7 +346,7 @@ def book_room(request, slug):
                 room.is_available = False
                 room.save()
                 messages.success(request, "Room has been Booked Successfully.")
-                return redirect("hotel:book-room")
+                return redirect("hotel:booking-list")
             else:
                 messages.error(
                     request, "Sorry! Room has already been booked for selected date."
