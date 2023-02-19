@@ -2,6 +2,8 @@ from django import forms
 
 from django.forms import inlineformset_factory
 
+from apps.invoice.models import Payment
+
 from .models import Contact, Room, Booking
 
 
@@ -112,3 +114,9 @@ class ContactForm(forms.ModelForm):
 
 class EventForm(forms.ModelForm):
     pass
+
+
+class AdminPaymentForm(forms.ModelForm):
+    class Meta:
+        model = Payment
+        fields = "__all__"

@@ -28,6 +28,7 @@ from apps.hotel.availability import availability_checker, check_availability
 
 from apps.hotel.forms import (
     AdminBookingForm,
+    AdminPaymentForm,
     AvailabilityForm,
     BookingForm,
     ContactForm,
@@ -294,7 +295,6 @@ class UpdateRoomView(AdminRequiredMixin, SuccessMessageMixin, UpdateView):
         return reverse("investicon:deposit-records")
 
 
-# views.py
 def book_room(request, slug):
     room = Room.objects.get(slug=slug)
     form = BookingForm()
@@ -400,6 +400,20 @@ def admin_booking(request):
     else:
         form = AdminBookingForm()
     return render(request, "dashboard/create-booking.html", {"form": form})
+
+
+def admin_payment(request):
+    form = AdminPaymentForm()
+    if request.method == "POST":
+        form = AdminPaymentForm(request.POST)
+        if form.is_valid():
+            room = form.cleaned_data.get("booking")
+            form.save()
+            messages.success(request, f"{room} has been paid for successfully")
+            return redirect("hotel:admin-payment-records")
+    form = AdminPaymentForm()
+    context = {"form": form}
+    return render(request, "dashboard/create-payment.html", context)
 
 
 def guest_detail(request, ref):
