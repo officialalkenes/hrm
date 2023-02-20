@@ -316,6 +316,7 @@ def book_room(request, slug):
         if form.is_valid():
             checkin = form.cleaned_data["check_in"]
             checkout = form.cleaned_data["check_out"]
+            # if room.is_available
             if availability_checker(room, checkin, checkout):
                 booking = form.save(commit=False)
                 booking.room = room
