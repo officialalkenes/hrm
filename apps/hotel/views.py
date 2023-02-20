@@ -240,37 +240,6 @@ def update_payment(request, ref):
     return render(request, "dashboard/update_payment.html", {"form": form})
 
 
-class CreateRoom(CreateView):
-    model = Room
-    fields = ""
-
-
-def room_categories(request):
-    room_cat = RoomType.objects.all()
-    context = {"cats": room_cat}
-    return render(request, "", context)
-
-
-def category_details(request, slug):
-    try:
-        room_cat = RoomType.objects.filter(slug=slug).first()
-    except RoomType.DoesNotExist:
-        pass
-    rooms = Room.objects.filter(room_type=room_cat)
-    available_rooms = []
-    booked_rooms = []
-    for room in rooms:
-        if check_availability(room, room.checkin, room.checkout):
-            available_rooms.append(room)
-        else:
-            booked_rooms.append(room)
-    context = {
-        "available_rooms": available_rooms,
-        "booked_rooms": booked_rooms,
-    }
-    return render(request, "", context)
-
-
 class BookingRoomView(FormView):
     form_class = AvailabilityForm
     template_name = ""
@@ -309,6 +278,7 @@ class BookingEventView(SuccessMessageMixin, FormView):
         return super().form_valid(form)
 
 
+@superuser_required
 def create_room(request):
     form = RoomForm()
     if request.method == "POST":
@@ -334,9 +304,10 @@ class UpdateRoomView(AdminRequiredMixin, SuccessMessageMixin, UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("investicon:deposit-records")
+        return reverse("dashboard:room-records")
 
 
+@login_required
 def book_room(request, slug):
     room = Room.objects.get(slug=slug)
     form = BookingForm()
@@ -362,6 +333,7 @@ def book_room(request, slug):
     return render(request, "hotel/book_room.html", {"room": room, "form": form})
 
 
+@login_required
 def book_and_pay_room(request, slug):
     room = Room.objects.get(slug=slug)
     form = BookingForm()
@@ -391,6 +363,7 @@ def book_and_pay_room(request, slug):
     return render(request, "hotel/book_room.html", {"room": room, "form": form})
 
 
+@active_staff_required
 def hotel_dashboard(request):
     rooms = Room.objects.all()
     bookings = Booking.objects.all()
@@ -406,6 +379,7 @@ def hotel_dashboard(request):
     return render(request, "dashboard/dashboard.html", context)
 
 
+@active_staff_required
 def guest_list(request):
     guests = Booking.objects.all()
     context = {
@@ -414,6 +388,7 @@ def guest_list(request):
     return render(request, "dashboard/guest-list.html", context)
 
 
+@active_staff_required
 def update_booking(request, ref):
     booking = Booking.objects.get(reference_id=ref)
     if request.method == "POST":
@@ -426,6 +401,7 @@ def update_booking(request, ref):
     return render(request, "dashboard/create-booking.html", {"form": form})
 
 
+@active_staff_required
 def admin_booking(request):
     form = AdminBookingForm()
     if request.method == "POST":
@@ -444,6 +420,7 @@ def admin_booking(request):
     return render(request, "dashboard/create-booking.html", {"form": form})
 
 
+@active_staff_required
 def admin_payment(request):
     form = AdminPaymentForm()
     if request.method == "POST":
@@ -458,10 +435,12 @@ def admin_payment(request):
     return render(request, "dashboard/create-payment.html", context)
 
 
+@active_staff_required
 def admin_payment_records(request):
     return render(request, "dashboard/admin-payment-records.html")
 
 
+@active_staff_required
 def guest_detail(request, ref):
     guest = Booking.objects.get(reference_id=ref)
     room = guest.room
