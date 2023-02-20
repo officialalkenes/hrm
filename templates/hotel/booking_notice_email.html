@@ -2,15 +2,15 @@
 
 Dear {{user.username}},
 
-Thank you for choosing FreshKom4tHotels for your upcoming stay. We are pleased to confirm your reservation for [{{total_nights}}] nights, beginning on {{checkin}} and ending on {{checkout}}.
+Thank you for choosing FreshKom4tHotels for your upcoming stay. We are pleased to confirm your reservation for {{booking.days_difference}} nights, beginning on {{booking.check_in}} and ending on {{booking.check_out}}.
 
 Your reservation details are as follows:
 
-Room Type: {{room}}
-Number of Guests: {{guests}}
-Special Requests: [Any special requests, if applicable]
+Room Type: {{booking.room}}
+Number of Guests: {{booking.room.guest}}
+Total Amount: #{{booking.get_total_amount}}
 
-We would like to remind you that check-in time is at {{checkin}}, and check-out time is at {{checkout}}. If you require an early check-in or late check-out, please let us know and we will do our best to accommodate your request.
+We would like to remind you that check-in time is at {{booking.checkin}}, and check-out time is at {{booking.checkout}}. If you require an early check-in or late check-out, please let us know and we will do our best to accommodate your request.
 
 If you have any questions or concerns regarding your reservation, please do not hesitate to contact us at [Hotel Contact Information]. We are always here to assist you.
 
