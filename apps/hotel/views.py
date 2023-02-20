@@ -40,7 +40,7 @@ from apps.hotel.forms import (
     RoomDetailAvailabilityForm,
     RoomForm,
 )
-from apps.hotel.utils import send_contact_email
+from apps.hotel.utils import notification_email, send_contact_email
 
 User = get_user_model()
 
@@ -323,6 +323,11 @@ def book_room(request, slug):
                 booking.save()
                 room.is_available = False
                 room.save()
+                subject = "Confirmation of Your Reservation at FreshKom4tHotel"
+                user = request.user
+                notification_email(
+                    user, subject, booking, template="hotel/booking_notice_email.html"
+                )
                 messages.success(request, "Room has been Booked Successfully.")
                 return redirect("hotel:booking-list")
             else:

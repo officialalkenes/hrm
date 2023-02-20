@@ -39,3 +39,15 @@ def send_contact_email(name, email, subject, content, template):
         return "success"
     except (ConnectionAbortedError, SMTPException, gaierror):
         return "error"
+
+
+def notification_email(user, subject, booking, template):
+    message = render_to_string(
+        template,
+        {"email": user.email, "user": user, "booking": booking},
+    )
+    try:
+        send_mail(subject, message, [settings.DEFAULT_FROM_EMAIL], user.email)
+        return "success"
+    except (ConnectionAbortedError, SMTPException, gaierror):
+        return "error"

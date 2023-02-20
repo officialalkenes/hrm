@@ -1,6 +1,19 @@
 {% autoescape off %}
-Hi {{ user.username }},
 
-Hi
-http://{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}
+Dear [{{user.username|title}}],
+
+Thank you for creating an account with our service. To activate your account, please click the following link:
+
+[http://{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}]
+
+If the above link does not work, please copy and paste the entire URL into your web browser's address bar.
+
+Once you have activated your account, you will be able to log in and begin using our service. If you have any questions or concerns, please do not hesitate to contact us at [Contact Information].
+
+Thank you for choosing our service.
+
+Sincerely,
+
+[FreshKom4t Hotel]
+
 {% endautoescape %}
