@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator
 
@@ -23,8 +24,10 @@ from django.views.generic import (
 
 from apps.invoice.models import Payment
 
+from .availability import availability_checker, check_availability
+from .decorators import active_staff_required, superuser_required
 from .mixins import AdminRequiredMixin
-from apps.hotel.availability import availability_checker, check_availability
+from .models import Event, Room, Booking, RoomType
 
 from apps.hotel.forms import (
     AdminBookingForm,
@@ -38,8 +41,6 @@ from apps.hotel.forms import (
     RoomForm,
 )
 from apps.hotel.utils import send_contact_email
-
-from .models import Event, Room, Booking, RoomType
 
 User = get_user_model()
 
@@ -65,6 +66,7 @@ def contact(request):
     return render(request, "hotel/contact.html", context)
 
 
+@superuser_required
 def staff_list(request):
     staffs = User.objects.filter(staff=True)
     context = {"staffs": staffs}
@@ -116,9 +118,9 @@ def available_rooms(request, rooms):
     return render(request, "hotel/available-rooms.html", context)
 
 
+@active_staff_required
 def dashboard(request):
     # rooms = Room.objects.all()
-
     context = {}
     return render(request, "", context)
 
@@ -142,63 +144,6 @@ def all_rooms(request):
         current_page = paginator.page(1)
     context = {"rooms": rooms, "page_obj": current_page}
     return render(request, "hotel/rooms.html", context)
-
-
-def create_new_room(request):
-    form = RoomForm()
-    if request.method == "POST":
-        form = RoomForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "New Room Created Successfully.")
-            return redirect("")
-    context = {
-        "form": form,
-    }
-    return render(request, "dashboard/", context)
-
-
-def check_bookings(request):
-    user = request.user
-    bookings = Booking.objects.filter(customer=user)
-    context = {
-        "bookings": bookings,
-    }
-    return render(request, "dashboard/booking-list.html", context)
-
-
-def payment_records(request):
-    user = request.user
-    payments = Payment.objects.filter(booking__customer=user)
-    context = {
-        "payments": payments,
-    }
-    return render(request, "dashboard/payment-record.html", context)
-
-
-def update_room(request, slug):
-    room = get_object_or_404(Room, slug=slug)
-    if request.method == "POST":
-        form = RoomForm(request.POST, instance=room)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Room Updated Successfully")
-            return redirect("success_url")
-    else:
-        form = RoomForm(instance=room)
-    return render(request, "update_template.html", {"form": form})
-
-
-def update_payment(request, ref):
-    payment = get_object_or_404(Payment, ref=ref)
-    if request.method == "POST":
-        form = AdminPaymentForm(request.POST, instance=payment)
-        if form.is_valid():
-            form.save()
-            return redirect("success_url")
-    else:
-        form = AdminPaymentForm(instance=payment)
-    return render(request, "dashboard/update_payment.html", {"form": form})
 
 
 def room_detail(request, slug):
@@ -231,6 +176,68 @@ def room_detail(request, slug):
             "related_room": related_room,
         }
         return render(request, "hotel/room-detail.html", context)
+
+
+@superuser_required
+def create_new_room(request):
+    form = RoomForm()
+    if request.method == "POST":
+        form = RoomForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "New Room Created Successfully.")
+            return redirect("")
+    context = {
+        "form": form,
+    }
+    return render(request, "dashboard/", context)
+
+
+@login_required
+def check_bookings(request):
+    user = request.user
+    bookings = Booking.objects.filter(customer=user)
+    context = {
+        "bookings": bookings,
+    }
+    return render(request, "dashboard/booking-list.html", context)
+
+
+@login_required
+def payment_records(request):
+    user = request.user
+    payments = Payment.objects.filter(booking__customer=user)
+    context = {
+        "payments": payments,
+    }
+    return render(request, "dashboard/payment-record.html", context)
+
+
+@superuser_required
+def update_room(request, slug):
+    room = get_object_or_404(Room, slug=slug)
+    if request.method == "POST":
+        form = RoomForm(request.POST, instance=room)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Room Updated Successfully")
+            return redirect("success_url")
+    else:
+        form = RoomForm(instance=room)
+    return render(request, "update_template.html", {"form": form})
+
+
+@active_staff_required
+def update_payment(request, ref):
+    payment = get_object_or_404(Payment, ref=ref)
+    if request.method == "POST":
+        form = AdminPaymentForm(request.POST, instance=payment)
+        if form.is_valid():
+            form.save()
+            return redirect("success_url")
+    else:
+        form = AdminPaymentForm(instance=payment)
+    return render(request, "dashboard/update_payment.html", {"form": form})
 
 
 class CreateRoom(CreateView):
