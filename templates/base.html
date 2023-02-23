@@ -180,81 +180,58 @@
             <!-- Dashboard -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Rooms</span></li>
             <!-- Cards -->
+            {% if request.user.is_superuser %}
             <li class="menu-item">
               <a href="{% url 'hotel:create-room' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-collection"></i>
                 <div data-i18n="Basic">Add New Room</div>
               </a>
             </li>
+            {% endif %}
+            <li class="menu-item">
+              <a href="{% url 'hotel:create-room' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <div data-i18n="Basic">All Rooms</div>
+              </a>
+            </li>
             <!-- User interface -->
             <li class="menu-item">
               <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-box"></i>
-                <div data-i18n="Deposits">Room Type</div>
+                <div data-i18n="Room Type">Room Type</div>
               </a>
               <ul class="menu-sub">
+                {% for room in room_types %}
+                <li class="menu-item">
+                  <a href="" class="menu-link">
+                    <div data-i18n="{{room.types}}">{{room.types}}</div>
+                  </a>
+                </li>
+                {% endfor %}
+
                 {% if request.user.is_superuser %}
-                <li class="menu-item">
-                  <a href="" class="menu-link">
-                    <div data-i18n="All Deposits">All Deposits</div>
-                  </a>
-                </li>
-                {% else %}
-                <li class="menu-item">
-                  <a href="" class="menu-link">
-                    <div data-i18n="Deposit Records">Deposit Records</div>
-                  </a>
-                </li>
+                  <li class="menu-item">
+                    <a href="" class="menu-link">
+                      <div data-i18n="Room Type">Create New Room Type</div>
+                    </a>
+                  </li>
                 {% endif %}
-                <li class="menu-item">
-                  <a href="" class="menu-link">
-                    <div data-i18n="Deposit Now">Deposit Now</div>
-                  </a>
-                </li>
               </ul>
             </li>
 
-            <!-- Extended components -->
-            <li class="menu-item">
-              <a href="javascript:void(0)" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-copy"></i>
-                <div data-i18n="Withdrawals">Withdrawals</div>
-              </a>
-              <ul class="menu-sub">
-                {% if request.user.is_superuser %}
-                <li class="menu-item">
-                  <a href="" class="menu-link">
-                    <div data-i18n="Perfect Scrollbar">All Withdrawals</div>
-                  </a>
-                </li>
-                {% else %}
-                <li class="menu-item">
-                  <a href="" class="menu-link">
-                    <div data-i18n="Perfect Scrollbar">Withdrawal Records</div>
-                  </a>
-                </li>
-                {% endif %}
-                <li class="menu-item">
-                  <a href="" class="menu-link">
-                    <div data-i18n="Withdraw Now">Withdraw Now</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <!-- Investments -->
 
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Investments</span></li>
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Staffs</span></li>
             <!-- Forms -->
             <li class="menu-item">
               <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div data-i18n="Investment Records">Investment Records</div>
+                <div data-i18n="Staffs and Records">Staffs and Records</div>
               </a>
               <ul class="menu-sub">
                 {% if request.user.is_superuser %}
                 <li class="menu-item">
                   <a href="" class="menu-link">
-                    <div data-i18n="All Investment">All Investments</div>
+                    <div data-i18n="All Investment">Add New Staff</div>
                   </a>
                 </li>
                 {% else %}
@@ -289,7 +266,7 @@
                 class="menu-link"
               >
                 <i class="menu-icon tf-icons bx bx-support"></i>
-                <div data-i18n="Support">Support</div>
+                <div data-i18n="Support">Contacts</div>
               </a>
             </li>
           </ul>
