@@ -44,27 +44,24 @@
         </div>
         <div class="header-configure-area">
 
-            <a href="#" class="bk-btn">Booking Now</a>
+            <a href="" class="bk-btn">Booking Now</a>
         </div>
         <nav class="mainmenu mobile-menu">
             <ul>
                 <li class="active"><a href="{% url 'hotel:homepage' %}">Home</a></li>
                 <li><a href="{% url 'hotel:all-rooms' %}">Rooms</a></li>
-                <li><a href="">About Us</a></li>
-                <li><a href="">Pages</a>
-                    <ul class="dropdown">
-                        <li><a href="./room-details.html">Room Details</a></li>
-                        <li><a href="#">Deluxe Room</a></li>
-                        <li><a href="#">Family Room</a></li>
-                        <li><a href="#">Premium Room</a></li>
-                    </ul>
-                </li>
                 {% if request.user.is_authenticated %}
-                    <li><a class='text-danger' href="{% url 'accounts:login' %}">My Dashboard</a></li>
-                {% else %}
-                    <li><a class='text-danger' href="{% url 'accounts:login' %}">Login</a></li>
-                    <li><a class='text-primary' href="{% url 'accounts:signup' %}">Signup</a></li>
+                    <li><a href="{% url 'hotel:booking-list' %}">Reservation Lists</a></li>
+                    <li><a href="{% url 'hotel:payment-records' %}">Payment Records</a></li>
                 {% endif %}
+
+                <li><a href="{% url 'hotel:contact-us' %}">Contact Us</a></li>
+            {% if request.user.is_superuser %}
+                <li><a class='text-danger' href="{% url 'hotel:dashboard' %}">My Dashboard</a></li>
+            {% else %}
+                <li><a class='text-danger' href="{% url 'accounts:login' %}">Login</a></li>
+                <li><a class='text-primary' href="{% url 'accounts:signup' %}">Signup</a></li>
+            {% endif %}
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>

@@ -17,8 +17,8 @@ class Payment(models.Model):
         ("BANK", "Bank Transfer"),
         ("INVOICE", "Invoice"),
     )
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     payment_type = models.CharField(max_length=100, choices=PAYMENT_TYPE, null=True)
     ref = models.CharField(max_length=200)
     email = models.EmailField()
@@ -32,6 +32,7 @@ class Payment(models.Model):
         return f"Payment Ref: {self.ref} - {self.amount}"
 
     def save(self, *args, **kwargs):
+        self.amount = self.booking.get_total_amount
         while not self.ref:
             ref = secrets.token_urlsafe(50)
             object_with_same_ref = Payment.objects.filter(ref=ref)

@@ -57,8 +57,8 @@
                                     {% endif %}
 
                                     <li><a href="{% url 'hotel:contact-us' %}">Contact Us</a></li>
-                                {% if request.user.is_authenticated %}
-                                    <li><a class='text-danger' href="{% url 'accounts:login' %}">My Dashboard</a></li>
+                                {% if request.user.is_superuser %}
+                                    <li><a class='text-danger' href="{% url 'hotel:dashboard' %}">My Dashboard</a></li>
                                 {% else %}
                                     <li><a class='text-danger' href="{% url 'accounts:login' %}">Login</a></li>
                                     <li><a class='text-primary' href="{% url 'accounts:signup' %}">Signup</a></li>

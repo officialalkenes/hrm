@@ -47,7 +47,7 @@ class UserAdmin(BaseUserAdmin):
                 "classes": ("wide",),
                 "fields": (
                     "email",
-                    "username",
+                    "phone_number",
                     "firstname",
                     "lastname",
                     "password1",
@@ -60,7 +60,7 @@ class UserAdmin(BaseUserAdmin):
     list_display = (
         "id",
         "email",
-        "username",
+        "phone_number",
         "firstname",
         "lastname",
         "is_staff",
@@ -69,7 +69,7 @@ class UserAdmin(BaseUserAdmin):
     list_display_links = (
         "id",
         "email",
-        "username",
+        "phone_number",
         "firstname",
         "lastname",
         "is_staff",

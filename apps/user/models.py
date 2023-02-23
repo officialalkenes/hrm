@@ -25,7 +25,9 @@ from .managers import Manager
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, verbose_name=_("Email Address"))
-    username = models.CharField(max_length=255, unique=True, verbose_name=_("Username"))
+    phone_number = models.CharField(
+        max_length=255, unique=True, verbose_name=_("phone_number")
+    )
     firstname = models.CharField(
         max_length=255, unique=True, verbose_name=_("First Name")
     )
@@ -40,7 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = Manager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username", "firstname", "lastname"]
+    REQUIRED_FIELDS = ["phone_number", "firstname", "lastname"]
 
     def __str__(self) -> str:
         return f"{self.email}"
@@ -53,7 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return f"{self.firstname.title()} {self.lastname.title()}"
 
     def get_shortname(self):
-        return f"{self.username}"
+        return f"{self.phone_number}"
 
     class Meta:
         verbose_name = "User"
@@ -105,19 +107,19 @@ def register_logout(sender, user, request, **kwargs):
 @receiver(user_logged_in)
 def log_user_login(sender, request, user, **kwargs):
     return "user {} logged in through page {}".format(
-        user.username, request.META.get("HTTP_REFERER")
+        user.phone_number, request.META.get("HTTP_REFERER")
     )
 
 
 @receiver(user_login_failed)
 def log_user_login_failed(sender, credentials, request, **kwargs):
     return "user {} logged in failed through page {}".format(
-        credentials.get("username"), request.META.get("HTTP_REFERER")
+        credentials.get("phone_number"), request.META.get("HTTP_REFERER")
     )
 
 
 @receiver(user_logged_out)
 def log_user_logout(sender, request, user, **kwargs):
     return "user {} logged out through page {}".format(
-        user.username, request.META.get("HTTP_REFERER")
+        user.phone_number, request.META.get("HTTP_REFERER")
     )
