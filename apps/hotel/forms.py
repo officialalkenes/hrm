@@ -4,7 +4,7 @@ from django.forms import inlineformset_factory
 
 from apps.invoice.models import Payment
 
-from .models import Contact, Room, Booking
+from .models import Contact, Room, Booking, RoomType
 
 
 class AvailabilityForm(forms.Form):
@@ -46,6 +46,12 @@ class RoomDetailAvailabilityForm(forms.Form):
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
+        exclude = ("slug",)
+
+
+class RoomTypeForm(forms.ModelForm):
+    class Meta:
+        model = RoomType
         exclude = ("slug",)
 
 

@@ -211,7 +211,7 @@
 
                 {% if request.user.is_superuser %}
                   <li class="menu-item">
-                    <a href="" class="menu-link">
+                    <a href="{% url 'hotel:room-type' %}" class="menu-link">
                       <div data-i18n="Room Type">Create New Room Type</div>
                     </a>
                   </li>
@@ -262,7 +262,7 @@
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
             <li class="menu-item">
               <a
-                href=""
+                href="{% url 'hotel:contacts' %}"
                 class="menu-link"
               >
                 <i class="menu-icon tf-icons bx bx-support"></i>

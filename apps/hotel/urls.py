@@ -21,6 +21,7 @@ urlpatterns = [
     path("dashboard/", views.hotel_dashboard, name="dashboard"),
     path("contacts/", views.contact_list, name="contacts"),
     path("guest-list/", views.guest_list, name="guest-list"),
+    path("room-type/", views.add_new_roomtype, name="room-type"),
     path(
         "admin-payment-records/",
         views.admin_payment_records,

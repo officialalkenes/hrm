@@ -39,6 +39,7 @@ from apps.hotel.forms import (
     RoomAvailabilityForm,
     RoomDetailAvailabilityForm,
     RoomForm,
+    RoomTypeForm,
 )
 from apps.hotel.utils import notification_email, send_contact_email
 
@@ -77,7 +78,7 @@ def staff_list(request):
 def contact_list(request):
     contacts = Contact.objects.all()
     context = {"contacts": contacts}
-    return render(request, "dashboard/contact_list", context)
+    return render(request, "dashboard/contact-list.html", context)
 
 
 # def update_staff_detail(request, pk):
@@ -190,7 +191,22 @@ def create_new_room(request):
     context = {
         "form": form,
     }
-    return render(request, "dashboard/", context)
+    return render(request, "dashboard/create-room.html", context)
+
+
+@superuser_required
+def add_new_roomtype(request):
+    form = RoomTypeForm()
+    if request.method == "POST":
+        form = RoomTypeForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "New Room Created Successfully.")
+            return redirect("hotel:dashboard")
+    context = {
+        "form": form,
+    }
+    return render(request, "dashboard/add-room-type.html", context)
 
 
 @login_required

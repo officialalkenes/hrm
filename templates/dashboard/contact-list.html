@@ -6,7 +6,8 @@
 {% include 'dashboard/main-cards.html' %}
 
 <div class="card">
-    <h5 class="card-header">Contacts</h5>
+    <h5 class="card-header text-center">Contacts</h5>
+    {% if contacts %}
     <div class="table-responsive text-nowrap">
       <table class="table">
         <thead class="table-dark">
@@ -16,6 +17,7 @@
             <th>Subject</th>
             <th>Message</th>
             <th>Created</th>
+            <th>Status</th>
             <th>Updated</th>
             <th></th>
           </tr>
@@ -27,13 +29,13 @@
             <td>{{contact.email}}</td>
             <td>{{contact.subject}}</td>
             <td>{{contact.message}}</td>
-            <td>{{guest.room}}</td>
-            {% if guest.status == "Pending" %}
+            <td>{{contact.created}}</td>
+            {% if contact.status == "PENDING" %}
                 <td><span class="badge bg-label-primary me-1">Pending</span></td>
-            {% elif guest.status == "Booked" %}
-                <td><span class="badge bg-label-success me-1">Booked</span></td>
+            {% elif contact.status == "REPLIED" %}
+                <td><span class="badge bg-label-success me-1">REPLIED</span></td>
             {% else %}
-                <td><span class="badge bg-label-danger me-1">Cancelled</span></td>
+                <td><span class="badge bg-label-danger me-1">SETTLED</span></td>
             {% endif %}
             <td>
               <div class="dropdown">
@@ -41,10 +43,10 @@
                   <i class="bx bx-dots-vertical-rounded"></i>
                 </button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="{% url 'hotel:update-booking' guest.reference_id %}"
-                    ><i class="bx bx-edit-alt me-1"></i> Update Booking</a
+                  <a class="dropdown-item" href=""
+                    ><i class="bx bx-edit-alt me-1"></i> Reply</a
                   >
-                  <a class="dropdown-item" href="{% url 'hotel:guest-detail' guest.reference_id %}"
+                  <a class="dropdown-item" href=""
                     ><i class="bx bx-trash me-1"></i> View Room Record</a
                   >
                 </div>
@@ -55,5 +57,19 @@
         </tbody>
       </table>
     </div>
+    {% else %}
+    <div class="card mb-4">
+      <div class="card-header text-center">
+        No Complaint Posted
+      </div>
+      <div class="card-body">
+        <h5 class="card-title text-center text-danger">There are presently no messages in your mail Dashboard!</h5>
+        <div  class=" row d-flex justify-content-center align-content-center ">
+          <a href="{% url 'hotel:dashboard' %}" class="btn btn-success">Back to Dashboard</a>
+        </div>
+      </div>
+    </div>
+    <br>
+    {% endif %}
   </div>
 {% endblock content %}
