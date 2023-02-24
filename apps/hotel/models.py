@@ -145,10 +145,16 @@ class RoomServices(models.Model):
 
 
 class Contact(models.Model):
+    STATUS = (
+        ("REPLIED", "REPLIED"),
+        ("PENDING", "PENDING"),
+        ("SETTLED", "SETTLED"),
+    )
     name = models.CharField(max_length=100)
     email = models.EmailField()
     subject = models.CharField(max_length=100)
     message = models.TextField()
+    status = models.CharField(max_length=100, choices=STATUS)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

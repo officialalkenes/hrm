@@ -27,7 +27,7 @@ from apps.invoice.models import Payment
 from .availability import availability_checker, check_availability
 from .decorators import active_staff_required, superuser_required
 from .mixins import AdminRequiredMixin
-from .models import Event, Room, Booking, RoomType
+from .models import Contact, Event, Room, Booking, RoomType
 
 from apps.hotel.forms import (
     AdminBookingForm,
@@ -73,6 +73,13 @@ def staff_list(request):
     return render(request, "dashboard/staff-list.html", context)
 
 
+@active_staff_required
+def contact_list(request):
+    contacts = Contact.objects.all()
+    context = {"contacts": contacts}
+    return render(request, "dashboard/contact_list", context)
+
+
 # def update_staff_detail(request, pk):
 #     profile = Profile.objects.get(slug=pk)
 #     staff = User.objects.filter(profile=profile).first()
@@ -116,13 +123,6 @@ def available_rooms(request, rooms):
     available = Room.objects.filter(is_available=True)
     context = {"available": available}
     return render(request, "hotel/available-rooms.html", context)
-
-
-@active_staff_required
-def dashboard(request):
-    # rooms = Room.objects.all()
-    context = {}
-    return render(request, "", context)
 
 
 def events(request):
@@ -186,7 +186,7 @@ def create_new_room(request):
         if form.is_valid():
             form.save()
             messages.success(request, "New Room Created Successfully.")
-            return redirect("")
+            return redirect("hotel:room")
     context = {
         "form": form,
     }

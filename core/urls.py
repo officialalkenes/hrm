@@ -10,8 +10,7 @@ urlpatterns = [
     path("accounts/", include("apps.user.urls", namespace="accounts")),
     path("", include("apps.hotel.urls", namespace="hotel")),
     path("invoice/", include("apps.invoice.urls", namespace="invoice")),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+]
 
 admin.site.site_header = "FreshKom4t Admin"
 admin.site.index_title = "Welcome To FreshKom4t Admin Portal"
