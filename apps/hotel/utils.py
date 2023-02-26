@@ -47,7 +47,14 @@ def notification_email(user, subject, booking, template):
         {"email": user.email, "user": user, "booking": booking},
     )
     try:
-        send_mail(subject, message, [settings.DEFAULT_FROM_EMAIL], user.email)
+        send_mail(
+            subject,
+            message,
+            [settings.DEFAULT_FROM_EMAIL],
+            [
+                user.email,
+            ],
+        )
         return "success"
     except (ConnectionAbortedError, SMTPException, gaierror):
         return "error"

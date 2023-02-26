@@ -14,12 +14,11 @@ from django.contrib.auth.forms import (
 
 from django.core.exceptions import ValidationError
 
-
 from .models import UserActivity, User
 
 
-# from django_countries.widgets import CountrySelectWidget
-
+from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.widgets import PhoneNumberPrefixWidget
 
 GENDER = (
     ("MALE", "Male"),
@@ -160,9 +159,86 @@ class RegistrationForm(UserCreationForm):
         help_text="Required",
         error_messages={"required": "Sorry, you will need an email"},
     )
+    phone_number = PhoneNumberField(widget=PhoneNumberPrefixWidget())
 
-    username = forms.CharField(
-        label="Enter Username", min_length=4, max_length=50, help_text="Required"
+    firstname = forms.CharField(
+        label="Enter Your First Name", min_length=4, max_length=50, help_text="Required"
+    )
+    lastname = forms.CharField(
+        label="Enter Your Other Name/Names",
+        min_length=4,
+        max_length=50,
+        help_text="Required",
+    )
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Repeat password", widget=forms.PasswordInput)
+
+    class Meta:
+        model = get_user_model()
+        fields = (
+            "email",
+            "phone_number",
+            "firstname",
+            "lastname",
+            "password1",
+            "password2",
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # self.fields["phone_number"].widget.attrs.update(
+        #     {"class": "form-control mb-3", "placeholder": "Phone Number"}
+        # )
+        self.fields["email"].widget.attrs.update(
+            {
+                "class": "form-control mb-3",
+                "placeholder": "E-mail",
+                "name": "email",
+                "id": "id_email",
+            }
+        )
+        self.fields["firstname"].widget.attrs.update(
+            {
+                "class": "form-control mb-3",
+                "placeholder": "Your First Name",
+                "name": "firstname",
+                "id": "id_firstname",
+            }
+        )
+        self.fields["lastname"].widget.attrs.update(
+            {
+                "class": "form-control mb-3",
+                "placeholder": "Other Names",
+                "name": "lastname",
+                "id": "id_lastname",
+            }
+        )
+
+        self.fields["password1"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Password"}
+        )
+        self.fields["password2"].widget.attrs.update(
+            {"class": "form-control", "placeholder": "Repeat Password"}
+        )
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
+
+
+class StaffForm(UserCreationForm):
+    email = forms.EmailField(
+        max_length=100,
+        help_text="Required",
+        error_messages={"required": "Sorry, you will need an email"},
+    )
+    phone_number = PhoneNumberField(
+        widget=PhoneNumberPrefixWidget(
+            attrs={"class": "form-control", "placeholder": "Phone Number"}
+        )
     )
     firstname = forms.CharField(
         label="Enter Your First Name", min_length=4, max_length=50, help_text="Required"
@@ -180,18 +256,17 @@ class RegistrationForm(UserCreationForm):
         model = get_user_model()
         fields = (
             "email",
-            "username",
+            "phone_number",
             "firstname",
             "lastname",
             "password1",
             "password2",
+            "is_staff",
+            "is_active",
         )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["username"].widget.attrs.update(
-            {"class": "form-control mb-3", "placeholder": "Username"}
-        )
         self.fields["email"].widget.attrs.update(
             {
                 "class": "form-control mb-3",

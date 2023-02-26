@@ -23,6 +23,7 @@ from django.views.generic import (
 )
 
 from apps.invoice.models import Payment
+from apps.user.forms import StaffForm
 
 from .availability import availability_checker, check_availability
 from .decorators import active_staff_required, superuser_required
@@ -187,7 +188,7 @@ def create_new_room(request):
         if form.is_valid():
             form.save()
             messages.success(request, "New Room Created Successfully.")
-            return redirect("hotel:room")
+            return redirect("hotel:dashboard")
     context = {
         "form": form,
     }
@@ -201,7 +202,7 @@ def add_new_roomtype(request):
         form = RoomTypeForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, "New Room Created Successfully.")
+            messages.success(request, "New Room Type Added Successfully.")
             return redirect("hotel:dashboard")
     context = {
         "form": form,
@@ -301,7 +302,8 @@ def create_room(request):
         form = RoomForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect("hotel:homepage")
+            messages.success(request, "New Room Created Successfully.")
+            return redirect("hotel:dashboard")
     context = {"form": form}
     return render(request, "dashboard/create-room.html", context)
 
@@ -473,3 +475,23 @@ def guest_detail(request, ref):
         "records": records,
     }
     return render(request, "dashboard/guest-detail.html", context)
+
+
+@superuser_required
+def add_new_staff(request):
+    form = StaffForm()
+    if request.method == "POST":
+        form = StaffForm(request.POST)
+        if form.is_valid():
+            messages.success(request, "New Staff has been Added Successfully")
+            form.save()
+            return redirect("hotel:staff-list")
+    context = {"form": form}
+    return render(request, "dashboard/create-staff.html", context)
+
+
+# @active_staff_required
+# def staff_list(request):
+#     staffs = User.objects.filter(is_staff=True)
+#     context = {"staffs": staffs}
+#     return render(request, "dashboard/staff-list.html", context)

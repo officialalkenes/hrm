@@ -27,6 +27,7 @@ LOCAL_APPS = [
     "django.contrib.staticfiles",
     "cloudinary_storage",
     "cloudinary",
+    "phonenumber_field",
 ]
 
 CUSTOM_APPS = [

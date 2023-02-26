@@ -1,5 +1,7 @@
 {% extends 'reg.html' %}
 
+{% load crispy_forms_tags %}
+
 {% load static %}
 
 {% block content %}
@@ -62,7 +64,7 @@
             </g>
           </svg>
         </span>
-        <span class="app-brand-text demo text-body fw-bolder">My Hotel</span>
+        <span class="app-brand-text demo text-body fw-bolder">FreshKom4tHotel</span>
       </a>
     </div>
     <!-- /Logo -->
@@ -74,40 +76,7 @@
 
       {% include 'messages.html' %}
 
-      <div class="mb-3">
-        <label class="form-label" for="email">Email Address</label>
-        {{form.email}}
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="username">Username</label>
-        {{form.username}}
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="name">First Name</label>
-        {{form.firstname}}
-      </div>
-      <div class="mb-3">
-        <label class="form-label" for="name">Last Name</label>
-        {{form.lastname}}
-      </div>
-      <div class="mb-3 form-password-toggle">
-        <div class="d-flex justify-content-between">
-          <label class="form-label" for="password">Password</label>
-        </div>
-        <div class="input-group input-group-merge">
-          {{form.password1}}
-          <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-        </div>
-      </div>
-      <div class="mb-3 form-password-toggle">
-        <div class="d-flex justify-content-between">
-          <label class="form-label" for="password">Confirm Password</label>
-        </div>
-        <div class="input-group input-group-merge">
-          {{form.password2}}
-          <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-        </div>
-      </div>
+      {{form|crispy}}
 
       <div class="mb-3">
         <div class="form-check">

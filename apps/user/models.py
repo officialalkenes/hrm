@@ -19,21 +19,17 @@ from django.dispatch import receiver
 
 from .managers import Manager
 
-# from investment.models import Portfolio
-# from profiles.models import Profile
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, verbose_name=_("Email Address"))
-    phone_number = models.CharField(
-        max_length=255, unique=True, verbose_name=_("phone_number")
-    )
-    firstname = models.CharField(
-        max_length=255, unique=True, verbose_name=_("First Name")
-    )
-    lastname = models.CharField(
-        max_length=255, unique=True, verbose_name=_("Last Name")
-    )
+    # phone_number = models.CharField(
+    #     max_length=255, unique=True, verbose_name=_("phone_number")
+    # )
+    phone_number = PhoneNumberField(blank=True)
+    firstname = models.CharField(max_length=255, verbose_name=_("First Name"))
+    lastname = models.CharField(max_length=255, verbose_name=_("Last Name"))
     is_active = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)

@@ -78,7 +78,9 @@ class Booking(models.Model):
 
     @property
     def days_difference(self):
-        return (self.check_out - self.check_in).days + 1
+        if self.check_out == self.check_in:
+            return 1
+        return (self.check_out - self.check_in).days
 
     @property
     def get_total_amount(self):

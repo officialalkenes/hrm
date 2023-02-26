@@ -50,18 +50,20 @@
             <ul>
                 <li class="active"><a href="{% url 'hotel:homepage' %}">Home</a></li>
                 <li><a href="{% url 'hotel:all-rooms' %}">Rooms</a></li>
-                {% if request.user.is_authenticated %}
+                {% if request.user.is_superuser %}
+                    <li><a class='text-danger' href="{% url 'hotel:dashboard' %}">My Dashboard</a></li>
+                {% elif request.user.is_authenticated %}
                     <li><a href="{% url 'hotel:booking-list' %}">Reservation Lists</a></li>
                     <li><a href="{% url 'hotel:payment-records' %}">Payment Records</a></li>
+                    <li><a class='text-danger' href="{% url 'accounts:logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a class='text-success' href="{% url 'accounts:login' %}">Login</a></li>
+                    <li><a class='text-primary' href="{% url 'accounts:signup' %}">Signup</a></li>
                 {% endif %}
-
-                <li><a href="{% url 'hotel:contact-us' %}">Contact Us</a></li>
-            {% if request.user.is_superuser %}
-                <li><a class='text-danger' href="{% url 'hotel:dashboard' %}">My Dashboard</a></li>
-            {% else %}
-                <li><a class='text-danger' href="{% url 'accounts:login' %}">Login</a></li>
-                <li><a class='text-primary' href="{% url 'accounts:signup' %}">Signup</a></li>
-            {% endif %}
+                    <li><a href="{% url 'hotel:contact-us' %}">Contact Us</a></li>
+                {% if request.user.is_superuser %}
+                    <li><a class='text-danger' href="{% url 'accounts:logout' %}">Logout</a></li>
+                {% endif %}
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>

@@ -22,6 +22,8 @@ urlpatterns = [
     path("contacts/", views.contact_list, name="contacts"),
     path("guest-list/", views.guest_list, name="guest-list"),
     path("room-type/", views.add_new_roomtype, name="room-type"),
+    path("add-staff/", views.add_new_staff, name="add-staff"),
+    path("staff-list/", views.staff_list, name="staff-list"),
     path(
         "admin-payment-records/",
         views.admin_payment_records,

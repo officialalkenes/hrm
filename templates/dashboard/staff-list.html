@@ -5,14 +5,15 @@
 {% block content %}
 {% include 'dashboard/main-cards.html' %}
 <div class="card">
-    <h5 class="card-header">Guest List</h5>
+  {% if staffs %}
+    <h5 class="card-header">Staff List</h5>
     <div class="table-responsive text-nowrap">
       <table class="table">
         <thead class="table-dark">
           <tr>
             <th>Staff Name</th>
             <th>Date Joined</th>
-            <th>Role</th>
+            <th>Phone Number</th>
             <th>Salary Expectation</th>
             <th>Status</th>
             <th></th>
@@ -21,17 +22,15 @@
         <tbody class="table-border-bottom-0">
             {% for staff in staffs %}
           <tr>
-            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{staff.username}}</strong></td>
-            <td>{{staff.created}}</td>
-            <td>{{staff.check_in}}</td>
+            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{staff.firstname|title}} {{staff.lastname|title}} </strong></td>
+            <td>{{staff.date_joined}}</td>
+            <td>{{staff.phone_number}}</td>
             <td>{{staff.check_out}}</td>
             <td>{{staff.room}}</td>
-            {% if staff.status == "Pending" %}
-                <td><span class="badge bg-label-primary me-1">Pending</span></td>
-            {% elif staff.status == "Booked" %}
-                <td><span class="badge bg-label-success me-1">Booked</span></td>
+            {% if staff.is_active %}
+                <td><span class="badge bg-label-success me-1">Active</span></td>
             {% else %}
-                <td><span class="badge bg-label-danger me-1">Cancelled</span></td>
+                <td><span class="badge bg-label-danger me-1">In Active</span></td>
             {% endif %}
             <td>
               <div class="dropdown">
@@ -39,11 +38,11 @@
                   <i class="bx bx-dots-vertical-rounded"></i>
                 </button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="{% url 'hotel:update-booking' guest.reference_id %}"
-                    ><i class="bx bx-edit-alt me-1"></i> Update Booking</a
+                  <a class="dropdown-item" href="{{staff.get_absolute_url}}"
+                    ><i class="bx bx-edit-alt me-1"></i> Update Staff Profile</a
                   >
-                  <a class="dropdown-item" href="{% url 'hotel:guest-detail' guest.reference_id %}"
-                    ><i class="bx bx-trash me-1"></i> View Room Record</a
+                  <a class="dropdown-item" href=""
+                    ><i class="bx bx-trash me-1"></i> Remove Staff</a
                   >
                 </div>
               </div>
@@ -53,5 +52,20 @@
         </tbody>
       </table>
     </div>
+    {% else %}
+    <div class="card mb-4">
+      <div class="card-header text-center">
+        No Room Booked
+      </div>
+      <div class="card-body">
+        <h5 class="card-title text-center text-danger">Unfortunately, You have no room booked!</h5>
+        <p class="card-text text-center">You can Proceed to Check Available rooms for booking.</p>
+        <div  class=" row d-flex justify-content-center align-content-center ">
+          <a href="#" class="btn btn-success">Check Rooms</a>
+        </div>
+      </div>
+    </div>
+    <br>
+    {% endif %}
   </div>
 {% endblock content %}
