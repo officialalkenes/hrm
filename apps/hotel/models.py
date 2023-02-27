@@ -36,7 +36,7 @@ class RoomType(models.Model):
 
 
 class Room(models.Model):
-    room_number = models.CharField(max_length=255, unique=True)
+    room_number = models.CharField(max_length=255)
     room_type = models.ForeignKey(
         RoomType, on_delete=models.CASCADE, related_name=_("+")
     )

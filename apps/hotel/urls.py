@@ -21,6 +21,7 @@ urlpatterns = [
     path("dashboard/", views.hotel_dashboard, name="dashboard"),
     path("contacts/", views.contact_list, name="contacts"),
     path("guest-list/", views.guest_list, name="guest-list"),
+    path("admin-all-rooms/", views.admin_all_rooms, name="admin-all-rooms"),
     path("room-type/", views.add_new_roomtype, name="room-type"),
     path("add-staff/", views.add_new_staff, name="add-staff"),
     path("staff-list/", views.staff_list, name="staff-list"),
@@ -31,6 +32,7 @@ urlpatterns = [
     ),
     path("admin-add-payment/", views.admin_payment, name="admin-add-payment"),
     path("update-booking/<ref>/", views.update_booking, name="update-booking"),
+    path("update-room/<slug>/", views.update_room, name="update-room"),
     path("update-payment/<ref>/", views.update_payment, name="update-payment"),
     path("guest-detail/<ref>/", views.guest_detail, name="guest-detail"),
 ]

@@ -189,7 +189,7 @@
             </li>
             {% endif %}
             <li class="menu-item">
-              <a href="{% url 'hotel:create-room' %}" class="menu-link">
+              <a href="{% url 'hotel:admin-all-rooms' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-collection"></i>
                 <div data-i18n="Basic">All Rooms</div>
               </a>
@@ -212,7 +212,7 @@
                 {% if request.user.is_superuser %}
                   <li class="menu-item">
                     <a href="{% url 'hotel:room-type' %}" class="menu-link">
-                      <div data-i18n="Room Type">Create New Room Type</div>
+                      <div class='text-danger' data-i18n="Room Type">Create New Room Type</div>
                     </a>
                   </li>
                 {% endif %}

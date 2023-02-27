@@ -16,13 +16,13 @@
             <th>Check Out</th>
             <th>Room</th>
             <th>Status</th>
-            <th></th>
+            <th>Update</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
             {% for guest in guests %}
           <tr>
-            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{guest.customer.username}}</strong></td>
+            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{guest.customer}}</strong></td>
             <td>{{guest.created}}</td>
             <td>{{guest.check_in}}</td>
             <td>{{guest.check_out}}</td>

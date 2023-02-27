@@ -148,6 +148,19 @@ def all_rooms(request):
     return render(request, "hotel/rooms.html", context)
 
 
+def admin_all_rooms(request):
+    rooms = Room.objects.all()
+    paginator = Paginator(rooms, 6)
+    page_number = request.GET.get("page")
+    page_number = page_number if page_number else 1
+    try:
+        current_page = paginator.page(page_number)
+    except page_number.DoesNotExist:
+        current_page = paginator.page(1)
+    context = {"rooms": rooms, "page_obj": current_page}
+    return render(request, "dashboard/rooms.html", context)
+
+
 def room_detail(request, slug):
     room = Room.objects.get(slug=slug)
     if request.method == "POST":
@@ -227,7 +240,7 @@ def payment_records(request):
     context = {
         "payments": payments,
     }
-    return render(request, "dashboard/payment-record.html", context)
+    return render(request, "hotel/payments-record.html", context)
 
 
 @superuser_required
@@ -238,10 +251,10 @@ def update_room(request, slug):
         if form.is_valid():
             form.save()
             messages.success(request, "Room Updated Successfully")
-            return redirect("success_url")
+            return redirect("hotel:dashboard")
     else:
         form = RoomForm(instance=room)
-    return render(request, "update_template.html", {"form": form})
+    return render(request, "dashboard/create-room.html", {"form": form})
 
 
 @active_staff_required
@@ -251,7 +264,7 @@ def update_payment(request, ref):
         form = AdminPaymentForm(request.POST, instance=payment)
         if form.is_valid():
             form.save()
-            return redirect("success_url")
+            return redirect("hotel:payment-records")
     else:
         form = AdminPaymentForm(instance=payment)
     return render(request, "dashboard/update_payment.html", {"form": form})
@@ -380,8 +393,10 @@ def book_and_pay_room(request, slug):
                 messages.success(request, "Room has been Booked Successfully.")
                 return render(request, "hotel/initiate_payment.html", context)
             else:
+                extra = "Book another room or Choose another date"
                 messages.error(
-                    request, "Sorry! Room has already been booked for selected date."
+                    request,
+                    f"Sorry! Room has already been booked for selected date. {extra}",
                 )
                 return redirect("hotel:book-room", slug)
     return render(request, "hotel/book_room.html", {"room": room, "form": form})
@@ -461,6 +476,7 @@ def admin_payment(request):
 
 @active_staff_required
 def admin_payment_records(request):
+
     return render(request, "dashboard/admin-payment-records.html")
 
 

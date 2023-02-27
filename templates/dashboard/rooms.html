@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block content %}
 
 {% include 'dashboard/main-cards.html' %}
 {% include 'messages.html' %}
-<h5 class="pb-1 mb-4">Rooms</h5>
+
+<h5 class="pb-1 mb-4">All Rooms</h5>
 <div class="row mb-5">
   {% for room in rooms %}
   <div class="col-md-6 col-xl-4 my-2">
@@ -27,9 +27,20 @@
         </p>
       </div>
     </div>
-  </div>
-  {% endfor %}
+</div>
+{% endfor %}
 </div>
 
+<!-- Breadcrumb Section Begin -->
+    <div class="col-lg-12">
+        <div class="room-pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Previous Page</a>
+            {% endif %}
 
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Next Page</a>
+            {% endif %}
+        </div>
+    </div>
 {% endblock content %}

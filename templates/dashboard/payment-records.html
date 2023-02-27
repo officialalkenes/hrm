@@ -3,7 +3,10 @@
 {% load static %}
 
 {% block content %}
+{% include 'dashboard/payment-cards.html' %}
+{% include 'messages.html' %}
 <div class="card">
+  {% if payments %}
     <h5 class="card-header text-center">Payment Records</h5>
     <div class="table-responsive text-nowrap">
       <table class="table">
@@ -48,6 +51,21 @@
           {% endfor %}
         </tbody>
       </table>
+      {% else %}
+      <div class="card mb-4">
+        <div class="card-header text-center">
+          No Payment Record Found
+        </div>
+        <div class="card-body">
+          <h5 class="card-title text-center text-danger">Payment Record not found..</h5>
+          <p class="card-text text-center">Explore Booked Rooms.</p>
+          <div  class=" row d-flex justify-content-center align-content-center ">
+            <a href="{% url 'hotel:guest-list' %}" class="btn btn-success">All Booked Rooms</a>
+          </div>
+        </div>
+      </div>
+      <br>
     </div>
+    {% endif %}
   </div>
 {% endblock content %}
