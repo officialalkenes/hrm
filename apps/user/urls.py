@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as views
-from django.contrib.auth.decorators import user_passes_test
+# from django.contrib.auth.decorators import user_passes_test
 from django.views.generic import TemplateView
 from django.contrib.auth.views import (
     PasswordResetDoneView,
