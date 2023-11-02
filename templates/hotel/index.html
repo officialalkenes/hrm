@@ -178,32 +178,11 @@
                                     <span>4.89</span>
                                 </div>
                             </div>
-                            <div class="hp-room-duration">Nov 26 - Dec 1</div>
-                            <span style="color: #000;">₦{{room.price}}</span>
+                            <span class="hp-room-duration">{{room.room_type.types}} {{room.room_number}}</span>
+                            <span style="color: #000;">₦{{room.price}} per night</span>
                             <div class="hr-text">
-                                <h3>{{room.room_type.types}} {{room.room_number}}</h3>
-                                <h2>₦{{room.price}}<span>/Per Night</span></h2>
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td class="r-o">Size:</td>
-                                            <td>30 ft</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Capacity:</td>
-                                            <td>Max persion {{room.capacity}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Bed:</td>
-                                            <td>King Beds</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Services:</td>
-                                            <td>Wifi, Television, Bathroom,...</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <a href="{% url 'hotel:room-detail' room.slug %}" class="primary-btn text-danger">More Details</a>
+                                {% comment %} make entire card clickable {% endcomment %}
+                                <a href="{% url 'hotel:room-detail' room.slug %}" class="primary-btn text-danger"></a>
                             </div>
                         </div>
                     </div>
