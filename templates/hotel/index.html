@@ -1,406 +1,339 @@
-{% extends 'hotel/base.html' %} {% load static %} {% block content %} {% include
-'hotel/header.html' %}
+{% extends 'hotel/base.html' %}
 
-<!-- Hero Section Begin -->
-<section class="hero-section">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6">
-        <div class="hero-text">
-          <h1 class="home-hero-text">Fresh kom4t Hotel</h1>
-          <p>
-            Our hotel offers a blend of modern amenities and traditional
-            hospitality to ensure that your stay with us is comfortable,
-            memorable, and truly special..
-          </p>
-          <a href="#" class="primary-btn">Discover Now</a>
-        </div>
-      </div>
-      <div class="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
-        <div class="booking-form">
-          <h3>Booking Your Hotel</h3>
-          <form action="" method="POST">
-            {% include 'messages.html' %} {% csrf_token %}
-            <div class="check-date">
-              <label for="date-in">Check In:</label>
-              {% comment %}
-              <input type="text" class="date-input" id="date-in" /> {%
-              endcomment %} {{form.check_in}}
-              <i class="icon_calendar"></i>
-            </div>
-            <div class="check-date">
-              <label for="date-out">Check Out:</label>
-              {{form.check_out}}
-              <i class="icon_calendar"></i>
-            </div>
-            <div class="select-option">
-              <label for="guest">Guests:</label>
-              {{form.people}}
-            </div>
-            <div class="select-option" id="id_room_number">
-              <label for="id_room_number">Beds:</label>
-              {{form.beds}}
-            </div>
-            <button type="submit">Check Availability</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="hero-slider owl-carousel">
-    <div
-      class="hs-item set-bg"
-      data-setbg="{% static 'img/rooms/room7.jpeg' %}"
-    ></div>
-    <div
-      class="hs-item set-bg"
-      data-setbg="{% static 'img/rooms/room2.jpeg' %}"
-    ></div>
-    <div
-      class="hs-item set-bg"
-      data-setbg="{% static 'img/rooms/room3.jpeg' %}"
-    ></div>
-  </div>
-</section>
-<!-- Hero Section End -->
+{% load static %}
 
-<!-- About Us Section Begin -->
-<section class="aboutus-section spad">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6">
-        <div class="about-text">
-          <div class="section-title">
-            <span>About Us</span>
-            <h2>Fresh kom4t Hotel</h2>
-          </div>
-          <p class="f-para">
-            The ultimate hotel management solution, seamlessly blending
-            technology and hospitality for unparalleled efficiency and guest
-            satisfaction. Simplifying operations, optimizing bookings, and
-            ensuring data security, Fresh Kom4t sets a new industry standard
-            with its intuitive interface and customizable features, catering to
-            hotels of all sizes.
-          </p>
-          <p class="s-para">
-            So when it comes to booking the perfect hotel for relaxation and
-            exploration, we’ve got you covered.
-          </p>
-          <a href="#" class="primary-btn about-btn">Read More</a>
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="about-pic">
-          <div class="row gap gallery">
-            <div class="col-sm-6">
-              <img
-                src="{% static 'img/rooms/bar.jpeg' %}"
-                height="100%"
-                alt=""
-              />
-            </div>
-            <div class="col-sm-6">
-              <img
-                src="{% static 'img/rooms/vip-bar.jpeg' %}"
-                height="100%"
-                alt=""
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- About Us Section End -->
+{% block content %}
+    {% include 'hotel/header.html' %}
 
-<!-- Services Section End -->
-<section class="services-section spad">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="section-title">
-          <span>What We Do</span>
-          <h2>Discover Our Services</h2>
+    <!-- Hero Section Begin -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="hero-text">
+                        <h1 class="hero-title">Fresh kom4t Hotel</h1>
+                        <p>Our hotel offers a blend of modern amenities and traditional hospitality to
+                             ensure that your stay with us is comfortable, memorable, and truly special..</p>
+                        <a href="#" class="primary-btn">Discover Now</a>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
+                    <div class="booking-form">
+                        <h3>Booking Your Hotel</h3>
+                        <form action="" method="POST">
+                            {% include 'messages.html' %}
+                            {% csrf_token %}
+                            <div class="check-date">
+                                <label for="date-in">Check In:</label>
+                                {% comment %} <input type="text" class="date-input" id="date-in"> {% endcomment %}
+                                {{form.check_in}}
+                                <i class="icon_calendar"></i>
+                            </div>
+                            <div class="check-date">
+                                <label for="date-out">Check Out:</label>
+                                {{form.check_out}}
+                                <i class="icon_calendar"></i>
+                            </div>
+                            <div class="select-option">
+                                <label for="guest">Guests:</label>
+                                {{form.people}}
+                            </div>
+                            <div class="select-option" id="id_room_number" >
+                                <label for="id_room_number">Beds:</label>
+                                {{form.beds}}
+                            </div>
+                            <button type="submit">Check Availability</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-4 col-sm-6">
-        <div class="service-item">
-          <i class="flaticon-036-parking"></i>
-          <h4>Room Service</h4>
-          <p>
-            Our hotel offers room service for guests who prefer to dine in the
-            comfort of their own room. Our menu features a variety of delicious
-            options for breakfast, lunch, and dinner.
-          </p>
+        <div class="hero-slider owl-carousel">
+            <div class="hs-item set-bg" data-setbg="{% static 'img/rooms/room7.jpeg' %}"></div>
+            <div class="hs-item set-bg" data-setbg="{% static 'img/rooms/room2.jpeg' %}"></div>
+            <div class="hs-item set-bg" data-setbg="{% static 'img/rooms/room3.jpeg' %}"></div>
         </div>
-      </div>
-      <div class="col-lg-4 col-sm-6">
-        <div class="service-item">
-          <i class="flaticon-033-dinner"></i>
-          <h4>Restaurant & Bar</h4>
-          <p>
-            Our hotel features a restaurant and bar where guests can enjoy
-            delicious meals and refreshing drinks.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6">
-        <div class="service-item">
-          <i class="flaticon-026-bed"></i>
-          <h4>Parking</h4>
-          <p>Our hotel offers on-site parking for guests with cars..</p>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6">
-        <div class="service-item">
-          <i class="flaticon-024-towel"></i>
-          <h4>Concierge Service</h4>
-          <p>
-            Our concierge team is available to assist you with any requests you
-            may have during your stay. Whether you need help making
-            reservations, arranging transportation, or recommending local
-            attractions, our team is here to help.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6">
-        <div class="service-item">
-          <i class="flaticon-029-wifi"></i>
-          <h4>Wi-Fi</h4>
-          <p>
-            Our hotel offers complimentary high-speed Wi-Fi throughout the
-            property for guests to stay connected.
-          </p>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6">
-        <div class="service-item">
-          <i class="flaticon-038-five-stars"></i>
-          <h4>Event Hosting</h4>
-          <p>
-            Our Hotel also provides the best event anchoring ranging from
-            Birthday Parties, Bachelors Party, Hangouts and many more
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Services Section End -->
+    </section>
+    <!-- Hero Section End -->
 
-<!-- Home Room Section Begin -->
-<section class="hp-room-section">
-  <div class="container-fluid">
-    <div class="hp-room-items">
-      <div class="row">
-        {% for room in specials %}
-        <div class="col-lg-3 col-md-6">
-          <div class="hp-room-item set-bg" data-setbg="{{ room.image.url }}">
-            <div class="hr-text">
-              <h3>{{room.room_type.types}} {{room.room_number}}</h3>
-              <h2>₦{{room.price}}<span>/Per Night</span></h2>
-              <table>
-                <tbody>
-                  <tr>
-                    <td class="r-o">Size:</td>
-                    <td>30 ft</td>
-                  </tr>
-                  <tr>
-                    <td class="r-o">Capacity:</td>
-                    <td>Max persion {{room.capacity}}</td>
-                  </tr>
-                  <tr>
-                    <td class="r-o">Bed:</td>
-                    <td>King Beds</td>
-                  </tr>
-                  <tr>
-                    <td class="r-o">Services:</td>
-                    <td>Wifi, Television, Bathroom,...</td>
-                  </tr>
-                </tbody>
-              </table>
-              <a
-                href="{% url 'hotel:room-detail' room.slug %}"
-                class="primary-btn text-danger"
-                >More Details</a
-              >
+    <!-- About Us Section Begin -->
+    <section class="aboutus-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="about-text">
+                        <div class="section-title">
+                            <span>About Us</span>
+                            <h2>Fresh <br />kom4t Hotel</h2>
+                        </div>
+                        <p class="f-para">Fresh kom4t features spacious and well-appointed guest rooms, each of which is designed to provide you with the ultimate in comfort and relaxation.
+                            Our rooms are equipped with a wide range of amenities including
+                            [amenities such as high-speed internet, flat-screen TVs, plush bedding, etc.].
+                            Guests can choose from a variety of room types including [room types such as standard, deluxe, and suite].
+                            In addition to our guest rooms, we also offer a variety of on-site amenities to ensure that your stay with us is enjoyable and convenient. Our amenities include [amenities such as a fitness center, an indoor swimming pool, a restaurant and bar, etc.].
+                            .</p>
+                        <p class="s-para">So when it comes to booking the perfect hotel for relaxation and exploration, we’ve got you covered.</p>
+                        <a href="#" class="primary-btn about-btn">Read More</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-pic">
+                        <div class="gallery">
+                            <div class="col-sm-6">
+                                <img src="{% static 'img/rooms/bar.jpeg' %}" height="100%" alt="">
+                            </div>
+                            <div class="col-sm-6">
+                                <img src="{% static 'img/rooms/vip-bar.jpeg' %}" height="100%" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Home Room Section End -->
+    </section>
+    <!-- About Us Section End -->
 
-<!-- Testimonial Section Begin -->
-<section class="testimonial-section spad">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="section-title">
-          <span>Testimonials</span>
-          <h2>What Customers Say?</h2>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-8 offset-lg-2">
-        <div class="testimonial-slider owl-carousel">
-          <div class="ts-item">
-            <p>
-              "I recently stayed at this hotel and I was extremely impressed
-              with the level of service and the quality of the accommodations.
-              The room was spacious, clean, and well-appointed, and the staff
-              was incredibly friendly and helpful. I would highly recommend this
-              hotel to anyone looking for a comfortable and enjoyable stay."
-            </p>
-            <div class="ti-author">
-              <div class="rating">
-                <i class="icon_star"></i>
-                <i class="icon_star"></i>
-                <i class="icon_star"></i>
-                <i class="icon_star"></i>
-                <i class="icon_star-half_alt"></i>
-              </div>
-              <h5>- Bello AbdulHakeem</h5>
+    <!-- Services Section End -->
+    <section class="services-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <span>What We Do</span>
+                        <h2>Discover Our Services</h2>
+                    </div>
+                </div>
             </div>
-            <img src="{% static 'img/testimonial-logo.png' %}" alt="" />
-          </div>
-          <div class="ts-item">
-            <p>
-              "I have stayed at many hotels over the years and I have to say
-              that this one truly exceeded my expectations. The room was
-              beautifully decorated and the bed was incredibly comfortable. I
-              also appreciated the many amenities, such as the fitness center
-              and the pool, which made my stay even more enjoyable. I would
-              definitely stay here again."
-            </p>
-            <div class="ti-author">
-              <div class="rating">
-                <i class="icon_star"></i>
-                <i class="icon_star"></i>
-                <i class="icon_star"></i>
-                <i class="icon_star"></i>
-                <i class="icon_star-half_alt"></i>
-              </div>
-              <h5>- Master Dee</h5>
+            <div class="row">
+                <div class="col-lg-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="flaticon-036-parking"></i>
+                        <h4>Room Service</h4>
+                        <p>Our hotel offers room service for guests who prefer to dine in the comfort of their own room.
+                            Our menu features a variety of delicious options for breakfast, lunch, and dinner.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="flaticon-033-dinner"></i>
+                        <h4>Restaurant & Bar</h4>
+                        <p>
+                            Our hotel features a restaurant and bar where guests can enjoy delicious meals and refreshing drinks.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="flaticon-026-bed"></i>
+                        <h4>Parking</h4>
+                        <p>Our hotel offers on-site parking for guests with cars..</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="flaticon-024-towel"></i>
+                        <h4>Concierge Service</h4>
+                        <p>Our concierge team is available to assist you with any requests you may have during your stay. Whether
+                            you need help making reservations, arranging transportation, or recommending local attractions, our team is here to help.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="flaticon-029-wifi"></i>
+                        <h4>Wi-Fi</h4>
+                        <p>Our hotel offers complimentary high-speed Wi-Fi throughout the property for guests to stay connected.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <div class="service-item">
+                        <i class="flaticon-038-five-stars"></i>
+                        <h4>Event Hosting</h4>
+                        <p>Our Hotel also provides the best event anchoring ranging from Birthday Parties, Bachelors Party,
+                            Hangouts and many more
+                        </p>
+                    </div>
+                </div>
             </div>
-            <img src="{% static 'img/testimonial-logo.png' %}" alt="" />
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- Testimonial Section End -->
+    </section>
+    <!-- Services Section End -->
 
-<!-- Blog Section Begin -->
-{% comment %}
-<section class="blog-section spad">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="section-title">
-          <span>Hotel News</span>
-          <h2>Our Blog & Event</h2>
+    <!-- Home Room Section Begin -->
+    <section class="hp-room-section">
+        <div class="container-fluid">
+            <div class="hp-room-items">
+                <div class="row">
+                    {% for room in specials %}
+                    <div class="col-lg-3 col-md-6">
+                        <div class="hp-room-item set-bg" data-setbg="{{ room.image.url }}">
+                            <div class="hr-text">
+                                <h3>{{room.room_type.types}} {{room.room_number}}</h3>
+                                <h2>₦{{room.price}}<span>/Per Night</span></h2>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="r-o">Size:</td>
+                                            <td>30 ft</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="r-o">Capacity:</td>
+                                            <td>Max persion {{room.capacity}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="r-o">Bed:</td>
+                                            <td>King Beds</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="r-o">Services:</td>
+                                            <td>Wifi, Television, Bathroom,...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <a href="{% url 'hotel:room-detail' room.slug %}" class="primary-btn text-danger">More Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-      </div>
+    </section>
+    <!-- Home Room Section End -->
+
+    <!-- Testimonial Section Begin -->
+    <section class="testimonial-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <span>Testimonials</span>
+                        <h2>What Customers Say?</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="testimonial-slider owl-carousel">
+                        <div class="ts-item">
+                            <p>"I recently stayed at this hotel and I was extremely impressed with the level of service
+                                 and the quality of the accommodations. The room was spacious, clean, and well-appointed,
+                                 and the staff was incredibly friendly and helpful.
+                                I would highly recommend this hotel to anyone looking for a comfortable and enjoyable stay."
+                            </p>
+                            <div class="ti-author">
+                                <div class="rating">
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star-half_alt"></i>
+                                </div>
+                                <h5> - Bello AbdulHakeem</h5>
+                            </div>
+                            <img src="{% static 'img/testimonial-logo.png' %}" alt="">
+                        </div>
+                        <div class="ts-item">
+                            <p>"I have stayed at many hotels over the years and I have to say that this one truly
+                                exceeded my expectations. The room was beautifully decorated and the bed was
+                                incredibly comfortable. I also appreciated the many amenities,
+                                 such as the fitness center and the pool,
+                                  which made my stay even more enjoyable. I would definitely stay here again."
+                            </p>
+                            <div class="ti-author">
+                                <div class="rating">
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star-half_alt"></i>
+                                </div>
+                                <h5> - Master Dee</h5>
+                            </div>
+                            <img src="{% static 'img/testimonial-logo.png' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Testimonial Section End -->
+
+    <!-- Blog Section Begin -->
+    {% comment %} <section class="blog-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <span>Hotel News</span>
+                        <h2>Our Blog & Event</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="blog-item set-bg" data-setbg="{% static 'img/blog/blog-1.jpg' %}">
+                        <div class="bi-text">
+                            <span class="b-tag">Travel Trip</span>
+                            <h4><a href="#">Tremblant In Canada</a></h4>
+                            <div class="b-time"><i class="icon_clock_alt"></i> 15th April, 2019</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="blog-item set-bg" data-setbg="{% static 'img/blog/blog-2.jpg' %}">
+                        <div class="bi-text">
+                            <span class="b-tag">Camping</span>
+                            <h4><a href="#">Choosing A Static Caravan</a></h4>
+                            <div class="b-time"><i class="icon_clock_alt"></i> 15th April, 2019</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="blog-item set-bg" data-setbg="{% static 'img/blog/blog-3.jpg' %}">
+                        <div class="bi-text">
+                            <span class="b-tag">Event</span>
+                            <h4><a href="#">Copper Canyon</a></h4>
+                            <div class="b-time"><i class="icon_clock_alt"></i> 21th April, 2019</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="blog-item small-size set-bg" data-setbg="{% static 'img/blog/blog-wide.jpg' %}">
+                        <div class="bi-text">
+                            <span class="b-tag">Event</span>
+                            <h4><a href="#">Trip To Iqaluit In Nunavut A Canadian Arctic City</a></h4>
+                            <div class="b-time"><i class="icon_clock_alt"></i> 08th April, 2019</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="blog-item small-size set-bg" data-setbg="{% static 'img/blog/blog-10.jpg' %}">
+                        <div class="bi-text">
+                            <span class="b-tag">Travel</span>
+                            <h4><a href="#">Traveling To Barcelona</a></h4>
+                            <div class="b-time"><i class="icon_clock_alt"></i> 12th April, 2019</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> {% endcomment %}
+    <!-- Blog Section End -->
+
+    <!-- Footer Section Begin -->
+
+    <!-- Search model Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch"><i class="icon_close"></i></div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here.....">
+            </form>
+        </div>
     </div>
-    <div class="row">
-      <div class="col-lg-4">
-        <div
-          class="blog-item set-bg"
-          data-setbg="{% static 'img/blog/blog-1.jpg' %}"
-        >
-          <div class="bi-text">
-            <span class="b-tag">Travel Trip</span>
-            <h4><a href="#">Tremblant In Canada</a></h4>
-            <div class="b-time">
-              <i class="icon_clock_alt"></i> 15th April, 2019
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div
-          class="blog-item set-bg"
-          data-setbg="{% static 'img/blog/blog-2.jpg' %}"
-        >
-          <div class="bi-text">
-            <span class="b-tag">Camping</span>
-            <h4><a href="#">Choosing A Static Caravan</a></h4>
-            <div class="b-time">
-              <i class="icon_clock_alt"></i> 15th April, 2019
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div
-          class="blog-item set-bg"
-          data-setbg="{% static 'img/blog/blog-3.jpg' %}"
-        >
-          <div class="bi-text">
-            <span class="b-tag">Event</span>
-            <h4><a href="#">Copper Canyon</a></h4>
-            <div class="b-time">
-              <i class="icon_clock_alt"></i> 21th April, 2019
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-8">
-        <div
-          class="blog-item small-size set-bg"
-          data-setbg="{% static 'img/blog/blog-wide.jpg' %}"
-        >
-          <div class="bi-text">
-            <span class="b-tag">Event</span>
-            <h4>
-              <a href="#">Trip To Iqaluit In Nunavut A Canadian Arctic City</a>
-            </h4>
-            <div class="b-time">
-              <i class="icon_clock_alt"></i> 08th April, 2019
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div
-          class="blog-item small-size set-bg"
-          data-setbg="{% static 'img/blog/blog-10.jpg' %}"
-        >
-          <div class="bi-text">
-            <span class="b-tag">Travel</span>
-            <h4><a href="#">Traveling To Barcelona</a></h4>
-            <div class="b-time">
-              <i class="icon_clock_alt"></i> 12th April, 2019
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-{% endcomment %}
-<!-- Blog Section End -->
+    <!-- Search model end -->
 
-<!-- Footer Section Begin -->
-
-<!-- Search model Begin -->
-<div class="search-model">
-  <div class="h-100 d-flex align-items-center justify-content-center">
-    <div class="search-close-switch"><i class="icon_close"></i></div>
-    <form class="search-model-form">
-      <input type="text" id="search-input" placeholder="Search here....." />
-    </form>
-  </div>
-</div>
-<!-- Search model end -->
-
-{% include 'hotel/footer.html' %} {% endblock content %}
+    {% include 'hotel/footer.html' %}
+{% endblock content %}
