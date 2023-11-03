@@ -29,14 +29,15 @@
 <script src="https://js.paystack.co/v2/inline.js"></script>
 
 <script>
+    
     const paymentForm = document.getElementById('paymentForm');
     paymentForm.addEventListener("submit", payWithPaystack, false);
     function payWithPaystack(e) {
     e.preventDefault();
 
     let handler = PaystackPop.setup({
-        key: '{{paystack_public_key}}', // Replace with your public key
-        email: "{{request.user.email}}",
+        key: {{paystack_public_key}}, // Replace with your public key
+        email: {{request.user.email}},
         amount: {{booking.get_total_amount}} * 100,
         ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
         // label: "Optional string that replaces customer email"

@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator
-
+from django.db import transaction
 from django.forms import inlineformset_factory
 
 from django.utils import timezone
@@ -376,30 +376,36 @@ def book_and_pay_room(request, slug):
     form = BookingForm()
     if request.method == "POST":
         form = BookingForm(request.POST)
+
         if form.is_valid():
             checkin = form.cleaned_data["check_in"]
             checkout = form.cleaned_data["check_out"]
+
             if availability_checker(room, checkin, checkout):
-                booking = form.save(commit=False)
-                booking.room = room
-                booking.customer = request.user
-                booking.save()
-                room.is_available = False
-                room.save()
-                context = {
-                    "booking": booking,
-                    "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
-                }
-                messages.success(request, "Room has been Booked Successfully.")
-                return render(request, "hotel/initiate_payment.html", context)
+                try:
+                    # Use a try-except block to handle potential database errors
+                    with transaction.atomic():
+                        booking = form.save(commit=False)
+                        booking.room = room
+                        booking.customer = request.user
+                        booking.save()
+                        room.is_available = False
+                        room.save()
+
+                    context = {
+                        "booking": booking,
+                        "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
+                    }
+                    messages.success(request, "Room has been booked successfully.")
+                    return render(request, "hotel/initiate_payment.html", context)
+                except Exception as e:
+                    messages.error(request, "An error occurred while booking the room. Please try again later.")
             else:
-                extra = "Book another room or Choose another date"
-                messages.error(
-                    request,
-                    f"Sorry! Room has already been booked for selected date. {extra}",
-                )
+                extra = "Book another room or choose another date."
+                messages.error(request, f"Sorry! Room has already been booked for the selected date. {extra}")
                 return redirect("hotel:book-room", slug)
-    return render(request, "hotel/book_room.html", {"room": room, "form": form})
+    
+    return render(request, "hotel/book-pay-room.html", {"room": room, "form": form})
 
 
 @active_staff_required
