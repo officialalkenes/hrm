@@ -164,9 +164,14 @@
     <section class="hp-room-section">
         <div class="container-fluid">
             <div class="hp-room-items">
+                <div class="hp-rooms-all">
+                    <h2>Room</h2>
+                    <a>View more</a>
+                </div>
                 <div class="row">
                     {% for room in specials %}
                     <div class="col-lg-3 col-md-6">
+                       <a href="{% url 'hotel:room-detail' room.slug %}" >
                         <div class="hp-room-item set-bg" >
                             <div>
                                 <img src="{{ room.image.url }} " alt="" class="hp-room-img"/>
@@ -182,9 +187,10 @@
                             <div style="color: #000;">₦{{room.price}} <span style="color: #777;">/ Night</span> </div>
                             <div class="hr-text">
                                 {% comment %} make entire card clickable {% endcomment %}
-                                <a href="{% url 'hotel:room-detail' room.slug %}" class="primary-btn text-danger"></a>
+                               
                             </div>
                         </div>
+                    </a>
                     </div>
                     {% endfor %}
                 </div>
