@@ -153,7 +153,7 @@ DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_ATTEMPTS_TIME_LIMIT = 0
+LOGIN_ATTEMPTS_TIME_LIMIT = 3
 
 MAX_LOGIN_ATTEMPTS = 4
 
