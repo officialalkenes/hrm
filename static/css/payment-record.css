@@ -1,12 +1,12 @@
 .payment-btn-add{
-    background-color:rgb(202, 225, 230);
-    color: rgb(0, 167, 245);
+    color:rgb(182, 218, 226);
+    background-color: rgb(0, 167, 245);
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 12px;
-    max-width: 30rem;
+    max-width: 25rem;
     margin-inline: auto;
     padding: .5rem 1rem;
 }
