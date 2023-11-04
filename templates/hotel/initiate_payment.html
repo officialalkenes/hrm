@@ -22,17 +22,51 @@
         min-height: 100vh;
         place-items: center;
         background-color: #fff;
+        width: 100vw;
+    }
+    .payment-details{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #888;
+        font-size: min(2rem,10vw);
+    }
+    .payment-amount{
+        color: #444;
+        font-size: min(2.8rem,20vw);
+
     }
 </style>
     <div class="container">
+        <div style="max-width: 400px; margin-inline: auto;">
+             <div>
+                <div class="payment-details">
+                    <span>Room No:</span>
+                    <span>302</span>
+                </div>
+                <div class="payment-details">
+                    <span>Check In:</span>
+                    <span>18 NOVEMBER 2023</span>
+                </div>
+                <div class="payment-details">
+                    <span>Check Out:</span>
+                    <span>18 NOVEMBER 2023</span>
 
-        <button class="paystack-btn" onclick="payWithPaystack()">
-            <div style="max-height: 2rem; ">
-                
-                <img src='{% static "img/paystack.svg"  %}' style="max-width: 3rem; object-fit: contain;" />
-            </div>
-            <span>Pay with paystack</span>
-        </button>
+                </div>
+                <hr />
+                <div class="payment-details">
+                    <span>Amount:</span>
+                    <span class="payment-amount">₦100,200.00</span>
+                </div>
+             </div>
+            <button class="paystack-btn" onclick="payWithPaystack()">
+                <div style="max-height: 2rem; ">
+                    
+                    <img src='{% static "img/paystack.svg"  %}' style="max-width: 3rem; object-fit: contain;" />
+                </div>
+                <span>Pay with paystack</span>
+            </button>
+        </div>
     </div>
   <!-- <div class="container d-flex justify-content-center">
    
