@@ -3,6 +3,8 @@
 {% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/payment-record.css' %}" type="text/css">
+
 {% include 'dashboard/payment-cards.html' %}
 {% include 'messages.html' %}
 <div class="card">
@@ -60,7 +62,7 @@
           <h5 class="card-title text-center text-danger">Payment Record not found..</h5>
           <p class="card-text text-center">Explore Booked Rooms.</p>
           <div  class=" row d-flex justify-content-center align-content-center ">
-            <a href="{% url 'hotel:guest-list' %}" class="btn btn-success">All Booked Rooms</a>
+            <a href="{% url 'hotel:guest-list' %}" class="payment-btn-add">All Booked Rooms</a>
           </div>
         </div>
       </div>
