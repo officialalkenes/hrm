@@ -1,23 +1,17 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
-<style>
-  #img-tt {
-    object-fit: fill;    
-  }
-
-</style>
 {% block content %}
 
 {% include 'dashboard/main-cards.html' %}
 {% include 'messages.html' %}
-<h5 class="pb-1 mb-4">Rooms</h5>
+
+<h5 class="pb-1 mb-4">{{type.types|title}} Rooms</h5>
 <div class="row mb-5">
   {% for room in rooms %}
   <div class="col-md-6 col-xl-4 my-2">
     <div class="card mb-3">
-      <img class="card-img-top" id="img-tt" src="{{room.image.url}}" height="300px" alt="Card image cap" />
+      <img class="card-img-top" src="{{room.image.url}}" height="300px" alt="Card image cap" />
       <div class="card-body">
         <h5 class="card-title text-primary">{{room.room_type.types}} {{room.room_number}}</h5>
         <p class="card-text">
@@ -25,17 +19,28 @@
         </p>
         <p class="card-text text-right">
           {% if room.is_available %}
-            <a href="" class="ml-2 text-left btn btn-sm btn-outline-primary">Available</a>
+            <a href="#" class="ml-2 text-left btn btn-sm btn-outline-primary">Available</a>
           {% else %}
-            <a href="" class="ml-2 text-left btn btn-sm btn-outline-danger">Booked</a>
+            <a href="#" class="ml-2 text-left btn btn-sm btn-outline-danger">Booked</a>
           {% endif %}
             <a href="{% url 'hotel:update-room' room.slug %}" class="ml-2 text-right btn btn-sm btn-outline-primary">Update Room</a>
         </p>
       </div>
     </div>
-  </div>
-  {% endfor %}
+</div>
+{% endfor %}
 </div>
 
+<!-- Breadcrumb Section Begin -->
+    <div class="col-lg-12">
+        <div class="room-pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Previous Page</a>
+            {% endif %}
 
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Next Page</a>
+            {% endif %}
+        </div>
+    </div>
 {% endblock content %}

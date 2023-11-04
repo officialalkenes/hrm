@@ -243,7 +243,7 @@ def payment_records(request):
     return render(request, "hotel/payments-record.html", context)
 
 
-@superuser_required
+@active_staff_required
 def update_room(request, slug):
     room = get_object_or_404(Room, slug=slug)
     if request.method == "POST":
@@ -515,8 +515,12 @@ def add_new_staff(request):
     return render(request, "dashboard/create-staff.html", context)
 
 
-# @active_staff_required
-# def staff_list(request):
-#     staffs = User.objects.filter(is_staff=True)
-#     context = {"staffs": staffs}
-#     return render(request, "dashboard/staff-list.html", context)
+def room_type(request, slug):
+    types = RoomType.objects.get(slug=slug)
+    rooms = Room.objects.filter(room_type=types)
+
+    context = {
+        'rooms': rooms,
+        'type': types
+    }
+    return render(request, 'dashboard/room-type.html', context)    

@@ -35,4 +35,5 @@ urlpatterns = [
     path("update-room/<slug>/", views.update_room, name="update-room"),
     path("update-payment/<ref>/", views.update_payment, name="update-payment"),
     path("guest-detail/<ref>/", views.guest_detail, name="guest-detail"),
+    path("room-type/<slug:slug>/", views.room_type, name="room-types"),    
 ]
