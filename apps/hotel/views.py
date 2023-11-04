@@ -264,7 +264,7 @@ def update_payment(request, ref):
         form = AdminPaymentForm(request.POST, instance=payment)
         if form.is_valid():
             form.save()
-            return redirect("hotel:payment-records")
+            return redirect("hotel:admin-payment-records")
     else:
         form = AdminPaymentForm(instance=payment)
     return render(request, "dashboard/update_payment.html", {"form": form})
@@ -423,7 +423,6 @@ def hotel_dashboard(request):
     }
     return render(request, "dashboard/dashboard.html", context)
 
-
 @active_staff_required
 def guest_list(request):
     guests = Booking.objects.all()
@@ -482,8 +481,12 @@ def admin_payment(request):
 
 @active_staff_required
 def admin_payment_records(request):
+    payments = Payment.objects.all()
 
-    return render(request, "dashboard/admin-payment-records.html")
+    context = {
+        "payments": payments,
+    }
+    return render(request, "dashboard/admin-payment-records.html", context)
 
 
 @active_staff_required
