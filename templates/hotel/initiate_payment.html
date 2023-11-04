@@ -4,6 +4,10 @@
 
 {% block content %}
 <style>
+    img{
+        max-width: 100%;
+        object-fit: cover;
+    }
     .paystack-btn{
         color: rgb(255,255,255);
         background-color: rgb(0, 183, 255);
@@ -14,7 +18,8 @@
         max-width: 30rem;
         margin-inline: auto;
         border-radius: 15px;
-       font-size: min(1.5rem,10vh);
+       font-size: min(1rem,5vw);
+       font-weight: 600;
        border: none;
       
     }
@@ -30,14 +35,14 @@
         align-items: center;
         justify-content: space-between;
         color: #888;
-        font-size: min(1rem,10vw);
+        font-size: min(1rem,3vw);
         gap: 3rem;
-        white-space: no-wrap;
+       white-space: nowrap;
         margin-bottom: .5rem;
     }
     .payment-amount{
         color: #444;
-        font-size: min(1.8rem,20vw);
+        font-size: min(1.8rem,6vw);
 
     }
 </style>
