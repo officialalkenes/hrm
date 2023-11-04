@@ -10,6 +10,19 @@
   .gallery > * {
     flex-grow: 1;
   }
+    
+  .hp-rooms-all{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Cabin", sans-serif;
+  }
+  .hp-rooms-all > h2{
+    font-size: min(3rem, 20vw);
+  }
+  .hp-rooms-all > a {
+    color: rgb(12, 101, 173);
+  }
   .hp-room-items{
     max-width: 1170px;
     margin-inline:auto ;
