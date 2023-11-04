@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}" type="text/css">
 {% include 'dashboard/main-cards.html' %}
 <div class="card">
     <h5 class="card-header">Guest List</h5>
@@ -35,7 +36,7 @@
                 <td><span class="badge bg-label-danger me-1">Cancelled</span></td>
             {% endif %}
             <td>
-              <div>
+              <div class="guest-list-actions">
                 <a class="dropdown-item" href="{% url 'hotel:update-booking' guest.reference_id %}"><svg xmlns="http://www.w3.org/2000/svg" height="1em"
                   viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                   <path
