@@ -16,10 +16,11 @@
         border-radius: 15px;
        font-size: min(1.5rem,10vh);
        border: none;
+       height: fit-content;
     }
     .container{
         display: grid;
-        min-height: 100vh;
+        /* min-height: 100vh; */
         place-items: center;
         background-color: #fff;
        
@@ -30,8 +31,9 @@
         justify-content: space-between;
         color: #888;
         font-size: min(1rem,10vw);
-        gap: 2rem;
+        gap: 3rem;
         white-space: no-wrap;
+        margin-bottom: .5rem;
     }
     .payment-amount{
         color: #444;
@@ -42,7 +44,7 @@
 {% comment %}
 <section > {% endcomment %}
     <div class="container">
-        <div style="max-width: 400px; margin-inline: auto;">
+        <div style="max-width: 400px; margin-inline: auto; ">
              <div>
                 <div class="payment-details">
                     <span>Room No:</span>
