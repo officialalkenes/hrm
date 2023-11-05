@@ -96,7 +96,7 @@ jQuery.noConflict();
 
     /*------------------
 		Date Picker
-	--------------------*/
+	--------    ------------*/
     $(".date-input").datepicker({
         minDate: 0,
         dateFormat: 'dd MM, yy'
