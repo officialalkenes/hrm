@@ -20,16 +20,6 @@
                                 <a href="#"><i class="fa fa-instagram"></i></a>
                             </div>
                             <a href="#" class="bk-btn">Booking Now</a>
-                            {% comment %} <div class="language-option">
-                                <img src="{% static 'img/flag.jpg' %}" alt="">
-                                <span>EN <i class="fa fa-angle-down"></i></span>
-                                <div class="flag-dropdown">
-                                    <ul>
-                                        <li><a href="#">Zi</a></li>
-                                        <li><a href="#">Fr</a></li>
-                                    </ul>
-                                </div>
-                            </div> {% endcomment %}
                         </div>
                     </div>
                 </div>
@@ -51,7 +41,7 @@
                                 <ul>
                                     <li class="active"><a href="{% url 'hotel:homepage' %}">Home</a></li>
                                     <li><a href="{% url 'hotel:all-rooms' %}">Rooms</a></li>
-                                    {% if request.user.is_superuser %}
+                                    {% if request.user.is_superuser or request.user.is_staff %}
                                         <li><a class='text-danger' href="{% url 'hotel:dashboard' %}">My Dashboard</a></li>
                                     {% elif request.user.is_authenticated %}
                                         <li><a href="{% url 'hotel:booking-list' %}">Reservation Lists</a></li>

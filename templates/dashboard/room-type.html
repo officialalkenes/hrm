@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+<style>
+  .room-none{
+    text-align: center;
+  }
+  .room-none h2{
+    font-size: min(4rem,20vw);
+  }
+  .room-none a {
+    padding: .5rem 1rem;
+    max-width: 15rem;
+    border-radius: 15px;
+     color:rgb(182, 218, 226);
+    background-color: rgb(0, 167, 245);
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-inline: auto;
+  }
+</style>
+{% block content %}
+
+{% include 'dashboard/main-cards.html' %}
+{% include 'messages.html' %}
+
+<h5 class="pb-1 mb-4">{{type.types|title}} Rooms</h5>
+<div class="row mb-5">
+  {% for room in rooms %}
+  <div class="col-md-6 col-xl-4 my-2">
+    <div class="card mb-3">
+      <img class="card-img-top" src="{{room.image.url}}" height="300px" alt="Card image cap" />
+      <div class="card-body">
+        <h5 class="card-title text-primary">{{room.room_type.types}} {{room.room_number}}</h5>
+        <p class="card-text">
+            {{room.description|truncatewords:30}}
+        </p>
+        <p class="card-text text-right">
+          {% if room.is_available %}
+            <a href="#" class="ml-2 text-left btn btn-sm btn-outline-primary">Available</a>
+          {% else %}
+            <a href="#" class="ml-2 text-left btn btn-sm btn-outline-danger">Booked</a>
+          {% endif %}
+            <a href="{% url 'hotel:update-room' room.slug %}" class="ml-2 text-right btn btn-sm btn-outline-primary">Update Room</a>
+        </p>
+      </div>
+    </div>
+</div>
+{% endfor %}
+<div class="room-none">
+  <h2>No Room Found</h2>
+  <a>
+    Add Room
+  </a>
+</div>
+</div>
+
+<!-- Breadcrumb Section Begin -->
+    <div class="col-lg-12">
+        <div class="room-pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Previous Page</a>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Next Page</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

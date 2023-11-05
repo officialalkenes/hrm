@@ -26,35 +26,8 @@
     <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
-    <style>
-      .hero-title{
-        font-size:4rem  !important;
-        font-family: "Cabin", sans-serif;
 
-      }
-      .gallery{
-        display: flex;
-        gap: 2rem;
-      }
-      .gallery > * {
-        flex-grow: 1;
-      }
-      @media (max-width: 768px){
-      .hero-title{
-        font-size: 2rem !important;
-        text-align: center;
-        font-family: "Cabin", sans-serif;
-      }
-      .gallery{
-        gap: 1rem;
-      }
-      }
- @media (max-width: 400px){
-  .gallery{
-    flex-direction: column;
-  }
- }
-    </style>
+   
 </head>
 
 <body>
@@ -73,13 +46,13 @@
         </div>
         <div class="header-configure-area">
 
-            <a href="" class="bk-btn">Booking Now</a>
+            <a href="#" class="bk-btn">Booking Now</a>
         </div>
         <nav class="mainmenu mobile-menu">
             <ul>
                 <li class="active"><a href="{% url 'hotel:homepage' %}">Home</a></li>
                 <li><a href="{% url 'hotel:all-rooms' %}">Rooms</a></li>
-                {% if request.user.is_superuser %}
+                {% if request.user.is_superuser or request.user.is_staff %}
                     <li><a class='text-danger' href="{% url 'hotel:dashboard' %}">My Dashboard</a></li>
                 {% elif request.user.is_authenticated %}
                     <li><a href="{% url 'hotel:booking-list' %}">Reservation Lists</a></li>
@@ -121,7 +94,8 @@
     <script src="{% static 'js/jquery-ui.min.js' %}"></script>
     <script src="{% static 'js/jquery.slicknav.js' %}"></script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static "jquery.js" %}"> </script>
+
 </body>
 
 </html>

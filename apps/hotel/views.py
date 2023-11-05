@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from datetime import datetime
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -7,7 +8,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator
-
+from django.db import transaction
 from django.forms import inlineformset_factory
 
 from django.utils import timezone
@@ -240,10 +241,9 @@ def payment_records(request):
     context = {
         "payments": payments,
     }
-    return render(request, "hotel/payments-record.html", context)
+    return render(request, "hotel/payment-record.html", context)
 
-
-@superuser_required
+@active_staff_required
 def update_room(request, slug):
     room = get_object_or_404(Room, slug=slug)
     if request.method == "POST":
@@ -264,7 +264,7 @@ def update_payment(request, ref):
         form = AdminPaymentForm(request.POST, instance=payment)
         if form.is_valid():
             form.save()
-            return redirect("hotel:payment-records")
+            return redirect("hotel:admin-payment-records")
     else:
         form = AdminPaymentForm(instance=payment)
     return render(request, "dashboard/update_payment.html", {"form": form})
@@ -374,33 +374,76 @@ def book_room(request, slug):
 def book_and_pay_room(request, slug):
     room = Room.objects.get(slug=slug)
     form = BookingForm()
+
     if request.method == "POST":
         form = BookingForm(request.POST)
+
         if form.is_valid():
             checkin = form.cleaned_data["check_in"]
             checkout = form.cleaned_data["check_out"]
-            if availability_checker(room, checkin, checkout):
-                booking = form.save(commit=False)
-                booking.room = room
-                booking.customer = request.user
-                booking.save()
-                room.is_available = False
-                room.save()
-                context = {
-                    "booking": booking,
-                    "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
-                }
-                messages.success(request, "Room has been Booked Successfully.")
-                return render(request, "hotel/initiate_payment.html", context)
-            else:
-                extra = "Book another room or Choose another date"
-                messages.error(
-                    request,
-                    f"Sorry! Room has already been booked for selected date. {extra}",
-                )
-                return redirect("hotel:book-room", slug)
-    return render(request, "hotel/book_room.html", {"room": room, "form": form})
 
+            if availability_checker(room, checkin, checkout):
+                try:
+                    with transaction.atomic():
+                        booking = form.save(commit=False)
+                        booking.room = room
+                        booking.customer = request.user
+                        booking.save()
+                        room.is_available = False
+                        room.save()
+
+                    # Pass the booking ID to the payment view using URL parameters
+                    return redirect("hotel:paystack_payment", booking_id=booking.id)
+
+                except Exception as e:
+                    messages.error(request, f"An error occurred while booking the room. Please try again later.")
+            else:
+                extra = "Book another room or choose another date."
+                messages.error(request, f"Sorry! Room has already been booked for the selected date. {extra}")
+
+    return render(request, "hotel/book-pay-room.html", {"room": room, "form": form})
+
+@login_required
+def paystack_payment(request, booking_id):
+    try:
+        booking = Booking.objects.get(id=booking_id, customer=request.user)
+        context = {
+            "booking": booking,
+            'reference_id': booking.reference_id,
+            "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
+        }
+        return render(request, "hotel/initiate_payment.html", context)
+    except Booking.DoesNotExist:
+        # Handle the case where the booking doesn't exist or doesn't belong to the current user
+        messages.error(request, "Booking not found.")
+        return redirect("hotel:book_and_pay_room", slug=booking.room.slug)
+
+@login_required
+def save_payment(request, booking_ref):
+    if request.method == 'POST':
+        payment_reference = request.POST.get('payment_reference')
+        
+        # Assuming you have retrieved the related booking object
+        try:
+            booking = Booking.objects.get(reference_id=booking_ref, customer=request.user)
+            payment = Payment.objects.create(
+                booking=booking,
+                amount=booking.get_total_amount,
+                payment_type="ONLINE",  # You can customize this based on your requirements
+                ref=payment_reference,
+                email=request.user.email,
+                verified=True
+            )
+            booking.has_paid = True
+            booking.status = "Booked"
+            booking.save()
+            payment.save()
+            messages.success(request, f"{booking.room} has been booked successfully.")
+            return JsonResponse({'success': f'{booking.room} booked and paid successfully'}, status=201)
+        except Booking.DoesNotExist:
+            return JsonResponse({'error': 'Booking not found'}, status=400)
+    
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 @active_staff_required
 def hotel_dashboard(request):
@@ -416,7 +459,6 @@ def hotel_dashboard(request):
         "visitors": len(users),
     }
     return render(request, "dashboard/dashboard.html", context)
-
 
 @active_staff_required
 def guest_list(request):
@@ -476,8 +518,12 @@ def admin_payment(request):
 
 @active_staff_required
 def admin_payment_records(request):
+    payments = Payment.objects.all()
 
-    return render(request, "dashboard/admin-payment-records.html")
+    context = {
+        "payments": payments,
+    }
+    return render(request, "dashboard/admin-payment-records.html", context)
 
 
 @active_staff_required
@@ -506,8 +552,12 @@ def add_new_staff(request):
     return render(request, "dashboard/create-staff.html", context)
 
 
-# @active_staff_required
-# def staff_list(request):
-#     staffs = User.objects.filter(is_staff=True)
-#     context = {"staffs": staffs}
-#     return render(request, "dashboard/staff-list.html", context)
+def room_type(request, slug):
+    types = RoomType.objects.get(slug=slug)
+    rooms = Room.objects.filter(room_type=types)
+
+    context = {
+        'rooms': rooms,
+        'type': types
+    }
+    return render(request, 'dashboard/room-type.html', context)    

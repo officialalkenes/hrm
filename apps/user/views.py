@@ -233,6 +233,7 @@ def signup_page(request):
                 current_site,
                 "users/email_verification.html",
             )
+            
             if response == "success":
                 messages.success(
                     request,

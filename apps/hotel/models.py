@@ -23,7 +23,7 @@ def room_image_path(instance, filename):
 
 
 class RoomType(models.Model):
-    types = models.CharField(max_length=100)
+    types = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, blank=True)
     image_repr = models.ImageField(upload_to=room_type_image_path)
 
