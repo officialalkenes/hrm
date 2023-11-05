@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from datetime import datetime
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -374,6 +375,7 @@ def book_room(request, slug):
 def book_and_pay_room(request, slug):
     room = Room.objects.get(slug=slug)
     form = BookingForm()
+
     if request.method == "POST":
         form = BookingForm(request.POST)
 
@@ -383,7 +385,6 @@ def book_and_pay_room(request, slug):
 
             if availability_checker(room, checkin, checkout):
                 try:
-                    # Use a try-except block to handle potential database errors
                     with transaction.atomic():
                         booking = form.save(commit=False)
                         booking.room = room
@@ -392,21 +393,55 @@ def book_and_pay_room(request, slug):
                         room.is_available = False
                         room.save()
 
-                    context = {
-                        "booking": booking,
-                        "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
-                    }
-                    messages.success(request, "Room has been booked successfully.")
-                    return render(request, "hotel/initiate_payment.html", context)
+                    # Pass the booking ID to the payment view using URL parameters
+                    return redirect("hotel:paystack_payment", booking_id=booking.id)
+
                 except Exception as e:
-                    messages.error(request, "An error occurred while booking the room. Please try again later.")
+                    messages.error(request, f"An error occurred while booking the room. Please try again later.")
             else:
                 extra = "Book another room or choose another date."
                 messages.error(request, f"Sorry! Room has already been booked for the selected date. {extra}")
-                return redirect("hotel:book-room", slug)
-    
+
     return render(request, "hotel/book-pay-room.html", {"room": room, "form": form})
 
+@login_required
+def paystack_payment(request, booking_id):
+    try:
+        booking = Booking.objects.get(id=booking_id, customer=request.user)
+        context = {
+            "booking": booking,
+            'reference_id': booking.reference_id,
+            "paystack_public_key": settings.PAYSTACK_PUBLIC_KEY,
+        }
+        return render(request, "hotel/initiate_payment.html", context)
+    except Booking.DoesNotExist:
+        # Handle the case where the booking doesn't exist or doesn't belong to the current user
+        messages.error(request, "Booking not found.")
+        return redirect("hotel:book_and_pay_room", slug=booking.room.slug)
+
+@login_required
+def save_payment(request, booking_ref):
+    if request.method == 'POST':
+        payment_reference = request.POST.get('payment_reference')
+        
+        # Assuming you have retrieved the related booking object
+        try:
+            booking = Booking.objects.get(reference_id=booking_ref, customer=request.user)
+            payment = Payment.objects.create(
+                booking=booking,
+                amount=booking.get_total_amount,
+                payment_type="ONLINE",  # You can customize this based on your requirements
+                ref=payment_reference,
+                email=request.user.email,
+                verified=True
+            )
+            payment.save()
+            
+            return JsonResponse({'success': 'Payment saved successfully'})
+        except Booking.DoesNotExist:
+            return JsonResponse({'error': 'Booking not found'}, status=400)
+    
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 @active_staff_required
 def hotel_dashboard(request):
