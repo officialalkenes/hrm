@@ -10,8 +10,8 @@ from .models import Room, Booking
 def availability_checker(room, checkin, checkout):
     bookings = Booking.objects.filter(room=room)
     unavailable_bookings = bookings.filter(
-        Q(check_in__gte=checkin, check_in__lt=checkout)
-        | Q(check_out__gt=checkin, check_out__lte=checkout)
+        Q(check_in__gte=checkin, check_in__lt=checkout, status="Booked")
+        | Q(check_out__gt=checkin, check_out__lte=checkout, status="Booked")
     )
     return not unavailable_bookings.exists()
 

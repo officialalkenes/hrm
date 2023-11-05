@@ -241,8 +241,7 @@ def payment_records(request):
     context = {
         "payments": payments,
     }
-    return render(request, "hotel/payments-record.html", context)
-
+    return render(request, "hotel/payment-record.html", context)
 
 @active_staff_required
 def update_room(request, slug):
@@ -435,9 +434,12 @@ def save_payment(request, booking_ref):
                 email=request.user.email,
                 verified=True
             )
+            booking.has_paid = True
+            booking.status = "Booked"
+            booking.save()
             payment.save()
-            
-            return JsonResponse({'success': 'Payment saved successfully'})
+            messages.success(request, f"{booking.room} has been booked successfully.")
+            return JsonResponse({'success': f'{booking.room} booked and paid successfully'}, status=201)
         except Booking.DoesNotExist:
             return JsonResponse({'error': 'Booking not found'}, status=400)
     
