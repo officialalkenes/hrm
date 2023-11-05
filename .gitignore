@@ -5,7 +5,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-
 *$py.class
 *profile_pics*
 # C extensions
@@ -166,3 +165,5 @@ cython_debug/
 #.idea/
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+
+staticfiles
