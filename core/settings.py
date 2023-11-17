@@ -167,7 +167,7 @@ MESSAGE_TAGS = {
 
 CLOUDINARY_STORAGE = {
     "CLOUD_NAME": config("CLOUD_NAME"),
-    "API_KEY": config("API_KEY"),
+    "API_KEY": config("API_KEY"),   
     "API_SECRET": config("API_SECRET"),
 }
 
@@ -175,4 +175,3 @@ if DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
     EMAIL_HOST_USER = "support@freshkom4thotels.com"
     EMAIL_HOST_PASSWORD = "your-email account-password"
-    
