@@ -88,7 +88,7 @@ class LoginForm(forms.Form):
         label="Password",
         widget=forms.PasswordInput(
             attrs={
-                "class": "form-control mb-3",
+                "class": "form-control",
                 "placeholder": "Your Password",
                 "id": "form-newpass",
             }

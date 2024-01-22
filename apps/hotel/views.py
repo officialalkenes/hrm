@@ -247,7 +247,7 @@ def payment_records(request):
 def update_room(request, slug):
     room = get_object_or_404(Room, slug=slug)
     if request.method == "POST":
-        form = RoomForm(request.POST, instance=room)
+        form = RoomForm(request.POST, request.FILES, instance=room)
         if form.is_valid():
             form.save()
             messages.success(request, "Room Updated Successfully")
