@@ -55,6 +55,9 @@ class Room(models.Model):
         self.slug = slugify(f"{self.room_type.types}-{self.room_number}")
         return super().save(*args, **kwargs)
 
+    class Meta:
+        unique_together = ("room_number", "room_type")
+
 
 class Booking(models.Model):
     STATUS = (
@@ -162,3 +165,5 @@ class Contact(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name} - {self.subject}"
+
+

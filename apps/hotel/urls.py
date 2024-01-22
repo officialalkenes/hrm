@@ -31,9 +31,11 @@ urlpatterns = [
         name="admin-payment-records",
     ),
     path("admin-add-payment/", views.admin_payment, name="admin-add-payment"),
+    path('save-payment/<booking_ref>/', views.save_payment, name='save_payment'),
     path("update-booking/<ref>/", views.update_booking, name="update-booking"),
     path("update-room/<slug>/", views.update_room, name="update-room"),
     path("update-payment/<ref>/", views.update_payment, name="update-payment"),
     path("guest-detail/<ref>/", views.guest_detail, name="guest-detail"),
-    path("room-type/<slug:slug>/", views.room_type, name="room-types"),    
+    path("room-type/<slug:slug>/", views.room_type, name="room-types"),
+    path("paystack_payment/<booking_id>/", views.paystack_payment, name="paystack_payment"),
 ]

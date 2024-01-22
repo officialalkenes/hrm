@@ -50,7 +50,7 @@ def notification_email(user, subject, booking, template):
         send_mail(
             subject,
             message,
-            [settings.DEFAULT_FROM_EMAIL],
+            settings.DEFAULT_FROM_EMAIL,
             [
                 user.email,
             ],

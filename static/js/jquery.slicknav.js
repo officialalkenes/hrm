@@ -1,4 +1,4 @@
-;(function ($, document, window) {
+(function ($, document, window) {
     var
     // default settings object.
         defaults = {
