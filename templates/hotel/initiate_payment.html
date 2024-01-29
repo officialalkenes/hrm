@@ -48,83 +48,82 @@
 </style>
     <div class="container">
         <div style="max-width: 400px; margin-inline: auto; ">
-             <div>
+             <div id="payment-form">
                 <div class="payment-details">
                     <span>Room Type:</span>
-                    <span>Standard</span>
+                    <span>{{booking.room.room_type}}</span>
                 </div>
                 <div class="payment-details">
                     <span>Check In:</span>
-                    <span>18 NOVEMBER 2023</span>
+                    <span>{{booking.check_in}}</span>
                 </div>
                 <div class="payment-details">
                     <span>Check Out:</span>
-                    <span>18 NOVEMBER 2023</span>
+                    <span>{{booking.check_out}}</span>
 
+                </div>
+                <div class="payment-details">
+                    <span>Reference:</span>
+                    <span>{{booking.reference_id}}</span>
                 </div>
                 <hr />
                 <div class="payment-details">
                     <span>Amount:</span>
-                    <span class="payment-amount">₦100,200.00</span>
+                    <span class="payment-amount">₦{{booking.get_total_amount}}</span>
                 </div>
              </div>
-            <button class="paystack-btn" onclick="payWithPaystack()">
+            {% comment %} <button class="paystack-btn" onclick="payWithPaystack()"> {% endcomment %}
                 <div style="max-height: 2rem; ">
                     
-                    <img src='{% static "img/paystack.svg"  %}' style="max-width: 3rem; object-fit: contain;" />
+                    <img src='{% static "img/paystack.jpg"  %}' style="max-width: 3rem; object-fit: contain;" />
                 </div>
-                <span>Pay with paystack</span>
-            </button>
+                <span>
+                    <button type="button" onclick="payWithPaystack()">Pay with Paystack</button>
+                </span>              
         </div>
     </div>
-  <!-- <div class="container d-flex justify-content-center">
-   
-      <div class="row">
-          <div class="col-lg-6">
-        </div>
-          <div class="col-xl-4 col-lg-4 offset-xl-4 offset-lg-1">
-              <div class="booking-form">
-                  <h3 class="">Make Payment for </h3>
-                  <form id="paymentForm">
-                    <div class="form-submit">
-                        <button type="submit" onclick="payWithPaystack()"> Pay ₦{{booking.get_total_amount}}
-                            <i class="bi-credit-card"></i>
-                        </button>
-                    </div>
-                </form>
-          </div>
-          </div>
-      </div>
-  </div> -->
 
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://js.paystack.co/v2/inline.js"></script>
 
 <script>
-    
-    const paymentForm = document.getElementById('paymentForm');
-    paymentForm.addEventListener("submit", payWithPaystack, false);
-    function payWithPaystack(e) {
-    e.preventDefault();
+    function payWithPaystack() {
+        let handler = PaystackPop.setup({
+            key: '{{paystack_public_key}}',
+            email: "{{request.user.email}}",
+            amount: {{booking.get_total_amount}} * 100,
+            ref: '' + Math.floor((Math.random() * 1000000000) + 1),
+            onClose: function () {
+                alert('Window closed.');
+            },
+            callback: function (response) {
+                let message = 'Payment complete! Reference: ' + response.reference;
+                alert(message);
 
-    let handler = PaystackPop.setup({
-        key: {{paystack_public_key}}, // Replace with your public key
-        email: {{request.user.email}},
-        amount: {{booking.get_total_amount}} * 100,
-        ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
-        // label: "Optional string that replaces customer email"
-        onClose: function(){
-        alert('Window closed.');
-        },
-        callback: function(response){
-        let message = 'Payment complete! Reference: ' + response.reference;
-        alert(message);
-        }
-    });
+                // Make an AJAX request to save the payment data
+                savePaymentToDatabase(response.reference);
+            }
+        });
 
-    handler.openIframe();
+        handler.openIframe();
     }
-
+{% comment %} Ajax Payment To Save to DB {% endcomment %}
+    function savePaymentToDatabase(paymentReference) {
+        $.ajax({
+            type: "POST",
+            url: "{% url 'hotel:save_payment' reference_id %}",
+            data: {
+                'payment_reference': paymentReference,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (data) {
+                // Handle the response if needed
+            },
+            error: function () {
+                // Handle errors if the request fails
+            }
+        });
+    }
 </script>
 
 {% endblock content %}
